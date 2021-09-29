@@ -1,0 +1,10 @@
+@charset "ISO-8859-1";
+
+.box-login{
+	width: 42em;
+}
+
+.container-login{
+	background-image: url("../img/25101.jpg");
+	background-size: cover;
+}
