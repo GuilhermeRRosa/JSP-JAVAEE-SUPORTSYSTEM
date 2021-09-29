@@ -92,8 +92,6 @@ public class ServletUserController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-		
-			String msg = "Operação realizada com sucesso";
 			
 			//dados vindos do front
 			String id = request.getParameter("id");
