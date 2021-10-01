@@ -45,7 +45,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "INSERT INTO model_login (nome, email, username, password, isadmin, genero) " + " VALUES (?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO model_login (nome, email, username, password, isadmin, genero, user_image) " + " VALUES (?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model.getNome());
 			statement.setString(2, model.getEmail());
@@ -53,6 +53,7 @@ public class DAOLoginRepository {
 			statement.setString(4, model.getPassword());
 			statement.setBoolean(5, model.isAdmin());
 			statement.setString(6, model.getGenero());
+			statement.setString(7, model.getUserImage());
 			statement.execute();
 			connection.commit();
 
@@ -70,7 +71,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT id, nome, email, username, password, isadmin, genero FROM model_login WHERE username = ? AND isadmin = false";
+			String sql = "SELECT id, nome, email, username, password, isadmin, genero, user_image FROM model_login WHERE username = ? AND isadmin = false";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, username);
 			ResultSet set = statement.executeQuery();
@@ -83,6 +84,7 @@ public class DAOLoginRepository {
 				user.setPassword(set.getString("password"));
 				user.setAdmin(set.getBoolean("isadmin"));
 				user.setGenero(set.getString("genero"));
+				user.setUserImage(set.getString("user_image"));
 			}
 
 			return user;
@@ -130,7 +132,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT id, nome, email, username, password, genero FROM model_login WHERE id = ? AND isadmin = false";
+			String sql = "SELECT id, nome, email, username, password, genero, user_image FROM model_login WHERE id = ? AND isadmin = false";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setLong(1, id);
 			ResultSet set = statement.executeQuery();
@@ -142,6 +144,7 @@ public class DAOLoginRepository {
 				user.setUser(set.getString("username"));
 				user.setPassword(set.getString("password"));
 				user.setGenero(set.getString("genero"));
+				user.setUserImage(set.getString("user_image"));
 			}
 
 			return user;
@@ -156,7 +159,7 @@ public class DAOLoginRepository {
 	public ModelLogin update(ModelLogin model) {
 		try {
 
-			String sql = "UPDATE model_login SET username=?, password=?, nome=?, email=?, isadmin=?, genero=? WHERE id = ? AND isadmin = false;";
+			String sql = "UPDATE model_login SET username=?, password=?, nome=?, email=?, isadmin=?, genero=?, user_image=? WHERE id = ? AND isadmin = false;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model.getUser());
 			statement.setString(2, model.getPassword());
@@ -164,7 +167,8 @@ public class DAOLoginRepository {
 			statement.setString(4, model.getEmail());
 			statement.setBoolean(5, model.isAdmin());
 			statement.setString(6, model.getGenero());
-			statement.setLong(7, model.getId());
+			statement.setString(7, model.getUserImage());
+			statement.setLong(8, model.getId());
 			statement.executeUpdate();
 			connection.commit();
 

@@ -53,7 +53,7 @@
 														</span>
 													</div>
                                         			<div class="card-block">
-                                        				<form action="<%= request.getContextPath() %>/ServletUserController" method="post" class="form-material" id="form-user">
+                                        				<form enctype="multipart/form-data" action="<%= request.getContextPath() %>/ServletUserController" method="post" class="form-material" id="form-user">
                                         					<!-- INPUT DE DELEÇÃO -->
                                         					<input type="hidden" name="acao" value="" id="acao" />
                                         					<div class="form-group form-default form-static-label">
@@ -89,12 +89,19 @@
                                                                  <span class="form-bar"></span>
                                         						<label class="float-label">Perfil</label>
                                         					</div>
-                                        					<!-- <div class="form-group form-default form-static-label">
-                                        						<img alt="img perfil" id="img64" src="" width="70px" class="my-2 img-fluid">
-                                        						<input type="file" name="userImage" id="fileImg" accept="image/*" onchange="vizualizaImg('img64', 'fileImg')" class="form-control my-2" required="required">
+                                        					<div class="form-group form-default form-static-label">
+                                        						<c:choose>
+                                       								<c:when test="${userDto.userImage != null}">
+		                                        						<img alt="img perfil" id="img64" src="${userDto.userImage}" width="70px" class="my-2 img-fluid">                                    						                                       								
+                                       								</c:when>
+                                       								<c:otherwise>
+                                       								    <img alt="img perfil" id="img64" src="<%=request.getContextPath()%>/principal/files-upload/default/profile.png" width="70px" class="my-2 img-fluid"> 								
+                                       								</c:otherwise>
+                                        						</c:choose>
+                                        						<input type="file" name="userImage" id="fileImg" accept="image/*" onchange="vizualizaImg('img64', 'fileImg')" class="form-control my-2">
                                         						<span class="form-bar"></span>
                                         						<label class="float-label">Foto de perfil</label>
-                                        					</div> -->
+                                        					</div>
                                         					<div class="form-group form-default form-static-label">
                                         						<input type="text" name="user" id="user" class="form-control" value="${userDto.user}" placeholder="Digite o seu nick" required="required">
                                         						<span class="form-bar"></span>

@@ -1,22 +1,32 @@
 package servlet;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
+
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.DAOLoginRepository;
 import dto.ModelLoginDTO;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import models.ModelLogin;
 
 /**
  * Classe controladora do cadstro de usuário
  */
+
+@MultipartConfig // anotação para receber dados FILE do form
 @WebServlet(urlPatterns = {"/ServletUserController", "/principal/ver-usuarios"})
 public class ServletUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -111,25 +121,66 @@ public class ServletUserController extends HttpServlet {
 			model.setPassword(password);
 			model.setAdmin(admin != null && !admin.isEmpty() ? Boolean.parseBoolean(admin) : null);
 			model.setGenero(genero);
-			
+			final Part part = request.getPart("userImage");
+			 		
 			//Ações POST
-			if(model.getId()==null) {
+			if(model.getId()==null) {		
+				try {  
+	
+					String realPath = request.getServletContext().getRealPath("/principal/files-upload/");
+					
+					//Se a imagem foi enviada
+				    if(part != null && part.getSize() > 0) {
+				    	
+				    	//Setting do caminho para salvar 	
+				    	File path = new File(realPath+model.getUser());
+				    	//Se a pasta nao existir, cria uma nova
+				    	if(!path.exists()) {
+				    		path.mkdirs();
+				    	}
+				    	//Salta a imagem no server e seta o caminho do banco;
+				    	String fileName = path+"\\"+"user_image."+part.getContentType().split("\\/")[1];
+				    	part.write(fileName);
+					    model.setUserImage(request.getContextPath()+"/principal/files-upload/"+model.getUser()+"/user_image."+part.getContentType().split("\\/")[1]);
+				    }else {
+				    	//Caso não for carregada a imagem, uma imagem default é salva no perfil
+				    	model.setUserImage(realPath+"default\\profile.png");
+				    }
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				model = userRepo.save(model);
 				request.setAttribute("msg", "Usuário cadastrado com sucesso");
 			}else{
+				try {  
+					
+					String realPath = request.getServletContext().getRealPath("/principal/files-upload/");
+					
+					//Se a imagem foi enviada
+				    if(part != null && part.getSize() > 0) {
+				    	
+				    	//Setting do caminho para salvar 	
+				    	File path = new File(realPath+model.getUser());
+				    	//Se a pasta nao existir, cria uma nova
+				    	if(!path.exists()) {
+				    		path.mkdirs();
+				    	}
+				    	//Salva a imagem no server e seta o caminho do banco;
+				    	String fileName = path+"/"+"user_image."+part.getContentType().split("\\/")[1];
+				    	part.write(fileName);
+				    	
+				    	//Salva o caminho da imagem com contexto do projeto no servidor
+					    model.setUserImage(request.getContextPath()+"/principal/files-upload/"+model.getUser()+part.getContentType().split("\\/")[1]);
+				    }
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				model = userRepo.update(model);
 				request.setAttribute("msg", "Usuário atualizado com sucesso");
 			}
 			
 			//Ação Pós Operação
-			ModelLoginDTO userDto = new ModelLoginDTO();
-			
-			userDto.setId(model.getId());
-			userDto.setNome(model.getNome());
-			userDto.setEmail(model.getEmail());
-			userDto.setUser(model.getUser());
-			userDto.setAdmin(model.isAdmin());
-			userDto.setGenero(model.getGenero());
+			ModelLoginDTO userDto = new ModelLoginDTO(model);
 			
 			request.setAttribute("userDto", userDto);
 			request.getRequestDispatcher("/principal/cadastrar-usuario.jsp").forward(request, response);			

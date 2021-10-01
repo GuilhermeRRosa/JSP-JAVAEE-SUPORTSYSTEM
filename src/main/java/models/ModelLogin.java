@@ -16,7 +16,6 @@ public class ModelLogin implements Serializable {
 	private String password;
 	private String genero;
 	private String userImage;
-	private String extUserImage;
 	private boolean admin;
 
 	public ModelLogin() {}
@@ -33,14 +32,6 @@ public class ModelLogin implements Serializable {
 
 	public void setUserImage(String userImage) {
 		this.userImage = userImage;
-	}
-
-	public String getExtUserImage() {
-		return extUserImage;
-	}
-
-	public void setExtUserImage(String extUserImage) {
-		this.extUserImage = extUserImage;
 	}
 
 	public boolean isAdmin() {

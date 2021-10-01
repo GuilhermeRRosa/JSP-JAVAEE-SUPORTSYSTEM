@@ -16,6 +16,7 @@ public class ModelLoginDTO implements Serializable {
 	private String email;
 	private String username;
 	private String genero;
+	private String userImage;
 	private boolean admin;
 
 	public ModelLoginDTO(ModelLogin model) {
@@ -25,9 +26,18 @@ public class ModelLoginDTO implements Serializable {
 		this.setEmail(model.getEmail());
 		this.setAdmin(model.isAdmin());
 		this.setGenero(model.getGenero());
+		this.setUserImage(model.getUserImage());
 	}
 
 	public ModelLoginDTO() {
+	}
+	
+	public String getUserImage() {
+		return userImage;
+	}
+
+	public void setUserImage(String userImage) {
+		this.userImage = userImage;
 	}
 
 	public String getGenero() {
