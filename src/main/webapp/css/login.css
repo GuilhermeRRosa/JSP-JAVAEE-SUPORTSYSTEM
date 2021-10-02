@@ -1,10 +1,62 @@
 @charset "ISO-8859-1";
 
 .box-login{
-	width: 42em;
+	background: RGBA(255,255,255,0.89);
+	width: 70vw;
+	min-height: 50vh;
+}
+
+.login{
+	background-color: #000;
+	color: #fff;
+}
+
+.logo{
+	width: 15em;
+}
+
+.box-login > div{
+	width: 50%;
+}
+
+.btn-block{
+	width: 100%;
+}
+
+.login-input::placeholder {
+	opacity: 0.40; /* Firefox */	
+}
+
+.login-input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+ 	opacity: 0.40;
+}
+
+.login-input::-ms-input-placeholder { /* Microsoft Edge */
+ 	opacity: 0.40;
 }
 
 .container-login{
 	background-image: url("../img/25101.jpg");
 	background-size: cover;
+}
+
+@media only screen and (max-width: 768px) {
+	.box-login{
+		background: RGBA(255,255,255,0.89);
+		width: 100%;
+		min-height: 100%;
+	}
+	.box-login > div{
+		width: 100%;
+		min-height: 100vh;
+	}
+	
+	.box-login > div:first-child{
+		display: none;
+	}
+	.logo-alt{
+		width: 70px;
+		padding-right: 5px;
+		content:url(/projetojsp/img/logo-re.png);
+	}
 }

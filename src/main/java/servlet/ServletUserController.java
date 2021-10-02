@@ -2,12 +2,7 @@ package servlet;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
-
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.IOUtils;
-import org.apache.tomcat.util.codec.binary.Base64;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,14 +39,13 @@ public class ServletUserController extends HttpServlet {
 			//Se a URL de requisição for igual a /ver-susuarios, retorna a lista de usuarios e direciona a pagina
 			if(request.getRequestURI().contains("/principal/ver-usuarios")) {
 				
-				List<ModelLoginDTO> allUsers = userRepo.findAll();
-				
-				request.setAttribute("allUsers", allUsers);
+				request.setAttribute("totalPaginas", userRepo.countPaginas());
+				request.setAttribute("totalUsers", userRepo.countUsers());
 				request.getRequestDispatcher("/principal/ver-usuarios.jsp").forward(request, response);
 				
 			}
 			
-			//Ações GET - procedural1
+			//Ações GET - procedural
 			if(acao != null && !acao.isEmpty() && acao.equals("buscarComAjax")) {
 				
 				String nomeP = request.getParameter("nomeP");
@@ -88,6 +82,20 @@ public class ServletUserController extends HttpServlet {
 					request.setAttribute("msg", "Editando usuário "+user.getNome());					
 					request.getRequestDispatcher("/principal/cadastrar-usuario.jsp").forward(request, response);
 				}	
+			}else if(acao != null && !acao.isEmpty() && acao.equals("listarComAjax")){
+				String pagina = request.getParameter("pag");
+				
+				Integer nPagina = pagina != null && !pagina.isEmpty() ? Integer.parseInt(pagina) : 1;
+				
+				List<ModelLoginDTO> allUsers = userRepo.findAllPagination(nPagina);
+				
+				ObjectMapper mapper = new ObjectMapper();
+				try {
+					String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(allUsers);
+					response.getWriter().write(json);
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			
 			
@@ -111,6 +119,11 @@ public class ServletUserController extends HttpServlet {
 			String password = request.getParameter("password");
 			String admin = request.getParameter("admin");
 			String genero = request.getParameter("genero");
+			String cep = request.getParameter("cep");
+			String logradouro = request.getParameter("logradouro");
+			String bairro = request.getParameter("bairro");
+			String cidade = request.getParameter("cidade");
+			String uf = request.getParameter("uf");
 			
 			ModelLogin model = new ModelLogin();
 			//Settando tipo de dados corretos para o modelo
@@ -121,6 +134,11 @@ public class ServletUserController extends HttpServlet {
 			model.setPassword(password);
 			model.setAdmin(admin != null && !admin.isEmpty() ? Boolean.parseBoolean(admin) : null);
 			model.setGenero(genero);
+			model.setCep(cep);
+			model.setLogradouro(logradouro);
+			model.setBairro(bairro);
+			model.setCidade(cidade);
+			model.setUf(uf);
 			final Part part = request.getPart("userImage");
 			 		
 			//Ações POST
@@ -152,28 +170,30 @@ public class ServletUserController extends HttpServlet {
 				model = userRepo.save(model);
 				request.setAttribute("msg", "Usuário cadastrado com sucesso");
 			}else{
-				try {  
-					
+				
+				if(part != null && part.getSize() > 0) {
 					String realPath = request.getServletContext().getRealPath("/principal/files-upload/");
-					
-					//Se a imagem foi enviada
-				    if(part != null && part.getSize() > 0) {
-				    	
-				    	//Setting do caminho para salvar 	
-				    	File path = new File(realPath+model.getUser());
-				    	//Se a pasta nao existir, cria uma nova
-				    	if(!path.exists()) {
-				    		path.mkdirs();
-				    	}
-				    	//Salva a imagem no server e seta o caminho do banco;
-				    	String fileName = path+"/"+"user_image."+part.getContentType().split("\\/")[1];
-				    	part.write(fileName);
-				    	
-				    	//Salva o caminho da imagem com contexto do projeto no servidor
-					    model.setUserImage(request.getContextPath()+"/principal/files-upload/"+model.getUser()+part.getContentType().split("\\/")[1]);
-				    }
-				} catch (Exception e) {
-					e.printStackTrace();
+					//Setting do caminho para salvar 	
+			    	File path = new File(realPath+model.getUser());
+			    	//Se a pasta nao existir, cria uma nova
+			    	if(!path.exists()) {
+			    		path.mkdirs();
+			    	}
+			    	
+			    	//Deleta o conteúdo da pasta
+			    	if (path.isDirectory()) {
+			    		File[] sun = path.listFiles();
+			    		for (File toDelete : sun) {
+			    			toDelete.delete();
+			    		}
+			    	}
+			    	
+			    	//Salta a imagem no server e seta o caminho do banco;
+			    	String fileName = path+"\\"+"user_image."+part.getContentType().split("\\/")[1];
+			    	part.write(fileName);
+				    model.setUserImage(request.getContextPath()+"/principal/files-upload/"+model.getUser()+"/user_image."+part.getContentType().split("\\/")[1]);
+				}else {
+					model.setUserImage(userRepo.searchById(model.getId()).getUserImage());
 				}
 				model = userRepo.update(model);
 				request.setAttribute("msg", "Usuário atualizado com sucesso");

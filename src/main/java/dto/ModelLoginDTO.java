@@ -17,6 +17,11 @@ public class ModelLoginDTO implements Serializable {
 	private String username;
 	private String genero;
 	private String userImage;
+	private String cep;
+	private String logradouro;
+	private String bairro;
+	private String cidade;
+	private String uf;
 	private boolean admin;
 
 	public ModelLoginDTO(ModelLogin model) {
@@ -27,11 +32,56 @@ public class ModelLoginDTO implements Serializable {
 		this.setAdmin(model.isAdmin());
 		this.setGenero(model.getGenero());
 		this.setUserImage(model.getUserImage());
+		this.setCep(model.getCep());
+		this.setLogradouro(model.getLogradouro());
+		this.setBairro(model.getBairro());
+		this.setCidade(model.getCidade());
+		this.setUf(model.getUf());
 	}
 
 	public ModelLoginDTO() {
 	}
-	
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+
 	public String getUserImage() {
 		return userImage;
 	}

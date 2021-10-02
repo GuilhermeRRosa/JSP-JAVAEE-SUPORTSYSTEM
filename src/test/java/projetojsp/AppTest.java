@@ -15,6 +15,14 @@ public class AppTest
     @Test
     public void shouldAnswerWithTrue()
     {
-
+    	double total = 24;
+    	
+    	double paginas = total / 10;
+    	
+    	if((total % 10) > 0 ) {
+    		paginas += 1;
+    	}
+    	
+    	System.out.println((int) paginas);
     }
 }

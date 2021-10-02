@@ -54,27 +54,17 @@
 											      <th scope="col">ações</th>
 											    </tr>
 											  </thead>
-											  <tbody>
-											  <c:forEach var="u" items="${allUsers}">
+											  <tbody>								  
 											  	<tr>
-											      <th scope="row">${u.id}</th>
-											      <td>${u.nome}</td>
-											      <td>${u.email}</td>
-											      <td>${u.user}</td>
-											      <td>${u.genero}</td>
-											      <td>
-											      	<i class="ti-trash mx-3" onclick="deletar(${u.id})" style="cursor: pointer;"></i>
-											      	<i class="ti-pencil" onclick="editar(${u.id})" style="cursor: pointer;"></i>
-											      </td>
-											    </tr>
-											  </c:forEach>
-											  	<tr>
-											  		<td colspan="6"><strong>Total: <c:out value="${allUsers.size()}"></c:out></strong></td>
+											  		<td colspan="6"><strong>Total: <c:out value="${totalUsers}"></c:out></strong></td>
 											  	</tr>    
 											  </tbody>
 											</table>
-                                        	
-                                        </div>
+											<nav aria-label="..." class="mx-auto">
+												<ul class="pagination">
+												</ul>
+											</nav>
+										</div>
                                     </div>
                                     <!-- Page-body end -->
                                 </div>
@@ -93,6 +83,50 @@
     <!-- Js -->
     <jsp:include page="fragments/main-javascript.jsp"></jsp:include>
     <script type="text/javascript">
+    
+    $(document).ready(function(){
+    	paginationAjax(0);	   	
+    });
+    
+    function paginationAjax(pag){
+    	$.ajax({	
+    		method: "get",
+    		url: "<%= request.getContextPath() %>/ServletUserController",
+    		data: "pag="+pag+"&acao=listarComAjax",
+    		success: function (response){
+
+    			var jsonResult = JSON.parse(response);
+				
+				$(".table-sm > tbody > tr").remove();
+				
+				for(var i = 0; i < jsonResult.length; i++){
+					
+					var txt = '<tr>';
+					txt += '<td>'+jsonResult[i].id+'</td>';
+					txt += '<td>'+jsonResult[i].nome+'</td>';
+					txt += '<td>'+jsonResult[i].email+'</td>';
+					txt += '<td>'+jsonResult[i].user+'</td>';
+					txt += '<td>'+jsonResult[i].genero+'</td>';
+					txt += '<td>';
+					txt += "<i class='ti-pencil' onclick='editar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
+					txt += "<i class='ti-trash mx-3' onclick='deletar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
+					txt += '</td>';
+					txt += '</tr>';
+					
+					$(".table-sm > tbody").append(txt);	
+				}
+				var lastLine = '<tr><td colspan="6"><strong>Total: <c:out value="${totalUsers}"></c:out></strong></td>';
+				
+				$(".table-sm > tbody").append(lastLine);
+    		}	        		
+    	}).fail(function(xhr, status, errorThrown){
+    		$.alert({
+    		    title: 'ERRO!',
+    		    content: 'erro ao listar usuários: '+xhr.textResponse
+    		});
+    	});
+    }
+    
     function deletar(id){
 		$.confirm({
 		    title: 'Confirmação!',
@@ -143,6 +177,12 @@
     		    }
     		});	
     	}
+    	
+		var nPaginas = ${totalPaginas};
+    	
+    	for(p = 0; p < nPaginas; p++){
+    		$('.pagination').append('<li class="page-item"><a class="page-link" onclick="paginationAjax('+p+')" style="cursor: pointer;">'+(p+1)+'</a></li>');
+    	} 
     </script>
 </body>
 </html>

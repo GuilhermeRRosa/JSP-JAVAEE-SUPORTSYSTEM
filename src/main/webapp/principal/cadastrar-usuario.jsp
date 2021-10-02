@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <title>Projeto JSP</title>
@@ -12,7 +12,7 @@
 </head>
 
   <body>
-  <!-- Loading da p·gina -->
+  <!-- Loading da p√°gina -->
   <jsp:include page="fragments/pre-loader.jsp"></jsp:include>
   
   <!-- Containers Wrappers -->
@@ -45,7 +45,7 @@
                                         	<div class="col-md-12 shadow">
                                         		<div class="card">
                                         			<div class="card-header">
-                                                        <h5>Formul·rio de usu·rios</h5>
+                                                        <h5>Formul√°rio de usu√°rios</h5>
                                                     </div>
                                                     <div class="alert alert-info text-center" role="alert">
 														<span id="msg">
@@ -54,7 +54,7 @@
 													</div>
                                         			<div class="card-block">
                                         				<form enctype="multipart/form-data" action="<%= request.getContextPath() %>/ServletUserController" method="post" class="form-material" id="form-user">
-                                        					<!-- INPUT DE DELE«√O -->
+                                        					<!-- INPUT DE DELE√á√ÉO -->
                                         					<input type="hidden" name="acao" value="" id="acao" />
                                         					<div class="form-group form-default form-static-label">
                                         						<input type="text" name="id" id="id" class="form-control" value="${userDto.id}" placeholder="Aqui vai o id" required="required" readonly="readonly">
@@ -67,7 +67,7 @@
                                         						<label class="float-label">Nome completo</label>
                                         					</div>
                                         					<div class="form-group">
-                                        						<label class="form-label">GÍnero: </label>
+                                        						<label class="form-label">G√™nero: </label>
                                         						<br>
                                         						<input type="radio" name="genero" id="sexo-m" value="masculino" required="required" ${userDto.genero=='masculino' ? 'checked' : ''}> Masculino
                                         						<input type="radio" name="genero" id="sexo-f" value="feminino" required="required" <c:if test="${userDto.genero=='feminino'}">checked</c:if>> Feminino
@@ -82,12 +82,41 @@
                                         					</div>
                                         					<div class="form-group form-default form-static-label">
                                                                  <select name="admin" id="isadmin" class="form-control" required>
-                                                                     <option value="" ${userDto.admin == null ? 'disabled selected hidden' : ''}>Selecione o perfil de usu·rio</option>
+                                                                     <option value="" ${userDto.admin == null ? 'disabled selected hidden' : ''}>Selecione o perfil de usu√°rio</option>
                                                                      <option value="true" ${userDto.admin == true ? 'selected' : ''}>Admin</option>
                                                                      <option value="false" ${userDto.admin == false ? 'selected' : ''}>Auxiliar</option>
                                                                  </select>
                                                                  <span class="form-bar"></span>
                                         						<label class="float-label">Perfil</label>
+                                        					</div>
+                                        					<div class="form-group form-default form-static-label row">
+                                        						<div class="col-md-4">
+	                                        						<input type="text" name="cep" id="cep" class="form-control" value="${userDto.cep}" placeholder="Digite o seu CEP">
+	                                        						<span class="form-bar"></span>
+	                                        						<label class="float-label">CEP</label>
+	                                        					</div>
+	                                        					<div class="col-md-8">
+	                                        						<input type="text" name="logradouro" id="logradouro" class="form-control" value="${userDto.logradouro}" placeholder="Logradouro">
+                                        							<span class="form-bar"></span>
+                                        							<label class="float-label">Logradouro</label>
+	                                        					</div>
+                                        					</div>
+                                        					<div class="form-group form-default form-static-label row">
+                                        						<div class="col-md-4">
+                                        							<input type="text" name="bairro" id="bairro" class="form-control" value="${userDto.bairro}" placeholder="Bairro">
+	                                        						<span class="form-bar"></span>
+	                                        						<label class="float-label">Bairro</label>
+                                        						</div>
+                                        						<div class="col-md-4">
+                                        							<input type="text" name="cidade" id="cidade" class="form-control" value="${userDto.cidade}" placeholder="Cidade">
+	                                        						<span class="form-bar"></span>
+	                                        						<label class="float-label">Cidade</label>
+                                        						</div>
+                                        						<div class="col-md-4">
+                                        							<input type="text" name="uf" id="uf" class="form-control" value="${userDto.uf}" placeholder="UF">
+	                                        						<span class="form-bar"></span>
+	                                        						<label class="float-label">UF</label>
+                                        						</div>
                                         					</div>
                                         					<div class="form-group form-default form-static-label">
                                         						<c:choose>
@@ -105,7 +134,7 @@
                                         					<div class="form-group form-default form-static-label">
                                         						<input type="text" name="user" id="user" class="form-control" value="${userDto.user}" placeholder="Digite o seu nick" required="required">
                                         						<span class="form-bar"></span>
-                                        						<label class="float-label">Nome de usu·rio</label>
+                                        						<label class="float-label">Nome de usu√°rio</label>
                                         					</div>
                                         					<div class="form-group form-default form-static-label">
                                         						<input type="password" name="password" id="password" class="form-control" required="required">
@@ -147,14 +176,14 @@
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Pesquisar usu·rio</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">Pesquisar usu√°rio</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
 	      <div class="modal-body">
 	      	<div class="input-group mb-3">
-			  <input type="text" class="form-control" id="usernamePesquisa" name="username" placeholder="Nome" aria-label="nome de usu·rio" aria-describedby="basic-addon2">
+			  <input type="text" class="form-control" id="usernamePesquisa" name="username" placeholder="Nome" aria-label="nome de usu√°rio" aria-describedby="basic-addon2">
 			  <div class="input-group-append">
 			    <button class="btn btn-outline-secondary" type="button" onclick="pesquisaUser()">Pesquisar</button>
 			  </div>
@@ -165,9 +194,9 @@
 				    <tr>
 				      <th scope="col">id</th>
 				      <th scope="col">Nome</th>
-				      <th scope="col">Usu·rio</th>
+				      <th scope="col">Usu√°rio</th>
 				      <th scope="col">Email</th>
-				      <th scope="col">aÁıes</th>
+				      <th scope="col">a√ß√µes</th>
 				    </tr>
 				  </thead>
 				  <tbody>
@@ -183,7 +212,7 @@
 	  </div>
 	</div>
     
-    <!-- Funcıes -->
+    <!-- Func√µes -->
     <script type="text/javascript">
     	
     	/* function deletar(){
@@ -207,8 +236,8 @@
     	
     	function limpaForm(){
     		$.confirm({
-    		    title: 'ConfirmaÁ„o!',
-    		    content: 'Deseja limpar os campos do formul·rio?',
+    		    title: 'Confirma√ß√£o!',
+    		    content: 'Deseja limpar os campos do formul√°rio?',
     		    buttons: {
     		        sim: function () {
     		        	  $("#id").attr('value', "");
@@ -217,10 +246,18 @@
     		    		  $("#user").attr('value', "");
     		    		  $("#password").attr('value', "");
     		    		  $("#isadmin").attr('value', "");
-    		    		  showMsg('Formul·rio limpo!');
+    		    		  $("#cep").attr('value', "");
+    		    		  $("#logradouro").attr('value', "");
+    		    		  $("#cidade").attr('value', "");
+    		    		  $("#bairro").attr('value', "");
+    		    		  $("#uf").attr('value', "");
+    		    		  $("#genero").attr('value', "");
+    		    		  $("#userImage").attr('value', "");
+    		    		  $("#img64").attr('src', "<%=request.getContextPath()%>/principal/files-upload/default/profile.png");
+    		    		  showMsg('Formul√°rio limpo!');
     		        },
-    		        n„o: function () {
-    		            $.alert('AÁ„o cancelada!');
+    		        n√£o: function () {
+    		            $.alert('A√ß√£o cancelada!');
     		        },   
     		    }
     		});	
@@ -234,6 +271,13 @@
     		  $("#email").attr('value', element.email);
     		  $("#user").attr('value', element.user);  
     		  $("#isadmin").attr('value', element.admin);
+    		  $("#cep").attr('value', element.cep);
+    		  $("#logradouro").attr('value', element.logradouro);
+    		  $("#cidade").attr('value', element.cidade);
+    		  $("#bairro").attr('value', element.bairro);
+    		  $("#uf").attr('value', element.uf);
+    		  $("#userImage").attr('value', "");
+    		  $("#img64").attr('src', element.userImage);
     		  switch(element.genero){
     		  	case 'masculino': $("#sexo-m").prop('checked', true);
     		  		break;
@@ -299,7 +343,7 @@
     	
    		function deletar(){
     		$.confirm({
-    		    title: 'ConfirmaÁ„o!',
+    		    title: 'Confirma√ß√£o!',
     		    content: 'Deseja excluir o cadastro atual?',
     		    buttons: {
     		        sim: function () {
@@ -307,8 +351,8 @@
     	    			$("#acao").attr("value", "excluirUser");
     	    			$("#form-user").submit();
     		        },
-    		        n„o: function () {
-    		            $.alert('AÁ„o cancelada!');
+    		        n√£o: function () {
+    		            $.alert('A√ß√£o cancelada!');
     		        },   
     		    }
     		});	
@@ -322,7 +366,7 @@
     			showMsg("Nenhum dado informado!");
     		}else{
     			$.confirm({
-        		    title: 'ConfirmaÁ„o!',
+        		    title: 'Confirma√ß√£o!',
         		    content: 'Deseja excluir o cadastro atual?',
         		    buttons: {
         		        sim: function () {
@@ -352,8 +396,8 @@
         		        	});
         		        	
         		        },
-        		        n„o: function () {
-        		            $.alert('AÁ„o cancelada!');
+        		        n√£o: function () {
+        		            $.alert('A√ß√£o cancelada!');
         		        },   
         		    }
         		});	
@@ -377,6 +421,56 @@
     			preview.src = '';
     		}
     	}
+    	
+    	//Quando o campo cep perde o foco.
+    	$("#cep").blur(function() {
+
+    	    //Nova vari√°vel "cep" somente com d√≠gitos.
+    	    var cep = $(this).val().replace(/\D/g, '');
+
+    	    //Verifica se campo cep possui valor informado.
+    	    if (cep != "") {
+
+    	        //Express√£o regular para validar o CEP.
+    	        var validacep = /^[0-9]{8}$/;
+
+    	        //Valida o formato do CEP.
+    	        if(validacep.test(cep)) {
+
+    	            //Preenche os campos com "..." enquanto consulta webservice.
+    	            $("#rua").val("...");
+    	            $("#bairro").val("...");
+    	            $("#cidade").val("...");
+    	            $("#uf").val("...");
+    	            $("#ibge").val("...");
+
+    	            //Consulta o webservice viacep.com.br/
+    	            $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
+
+    	                if (!("erro" in dados)) {
+    	                    //Atualiza os campos com os valores da consulta.
+    	                    $("#logradouro").val(dados.logradouro);
+    	                    $("#bairro").val(dados.bairro);
+    	                    $("#cidade").val(dados.localidade);
+    	                    $("#uf").val(dados.uf);
+    	                } //end if.
+    	                else {
+    	                    //CEP pesquisado n√£o foi encontrado.
+    	                    limpa_formul√°rio_cep();
+    	                    alert("CEP n√£o encontrado.");
+    	                }
+    	            });
+    	        } //end if.
+    	        else {
+    	            //cep √© inv√°lido.
+    	            alert("Formato de CEP inv√°lido.");
+    	        }
+    	    } //end if.
+    	    else {
+    	        //cep sem valor, limpa formul√°rio.
+    	        limpa_formul√°rio_cep();
+    	    }
+    	});
     
     </script>
 </body>

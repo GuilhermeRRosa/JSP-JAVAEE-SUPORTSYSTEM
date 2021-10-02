@@ -45,7 +45,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "INSERT INTO model_login (nome, email, username, password, isadmin, genero, user_image) " + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO model_login (nome, email, username, password, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf) " + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model.getNome());
 			statement.setString(2, model.getEmail());
@@ -54,6 +54,11 @@ public class DAOLoginRepository {
 			statement.setBoolean(5, model.isAdmin());
 			statement.setString(6, model.getGenero());
 			statement.setString(7, model.getUserImage());
+			statement.setString(8, model.getCep());
+			statement.setString(9, model.getLogradouro());
+			statement.setString(10, model.getBairro());
+			statement.setString(11, model.getCidade());
+			statement.setString(12, model.getUf());
 			statement.execute();
 			connection.commit();
 
@@ -71,7 +76,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT id, nome, email, username, password, isadmin, genero, user_image FROM model_login WHERE username = ? AND isadmin = false";
+			String sql = "SELECT id, nome, email, username, password, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE username = ? AND isadmin = false";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, username);
 			ResultSet set = statement.executeQuery();
@@ -85,6 +90,11 @@ public class DAOLoginRepository {
 				user.setAdmin(set.getBoolean("isadmin"));
 				user.setGenero(set.getString("genero"));
 				user.setUserImage(set.getString("user_image"));
+				user.setCep(set.getString("cep"));
+				user.setLogradouro(set.getString("logradouro"));
+				user.setBairro(set.getString("bairro"));
+				user.setCidade(set.getString("cidade"));
+				user.setUf(set.getString("uf"));
 			}
 
 			return user;
@@ -102,7 +112,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT id, nome, email, username, password, isadmin, genero FROM model_login WHERE username = ?";
+			String sql = "SELECT id, nome, email, username, password, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE username = ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, username);
 			ResultSet set = statement.executeQuery();
@@ -115,6 +125,12 @@ public class DAOLoginRepository {
 				user.setPassword(set.getString("password"));
 				user.setAdmin(set.getBoolean("isadmin"));
 				user.setGenero(set.getString("genero"));
+				user.setUserImage(set.getString("user_image"));
+				user.setCep(set.getString("cep"));
+				user.setLogradouro(set.getString("logradouro"));
+				user.setBairro(set.getString("bairro"));
+				user.setCidade(set.getString("cidade"));
+				user.setUf(set.getString("uf"));
 			}
 
 			return user;
@@ -132,7 +148,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT id, nome, email, username, password, genero, user_image FROM model_login WHERE id = ? AND isadmin = false";
+			String sql = "SELECT id, nome, email, username, password, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE id = ? AND isadmin = false";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setLong(1, id);
 			ResultSet set = statement.executeQuery();
@@ -145,6 +161,11 @@ public class DAOLoginRepository {
 				user.setPassword(set.getString("password"));
 				user.setGenero(set.getString("genero"));
 				user.setUserImage(set.getString("user_image"));
+				user.setCep(set.getString("cep"));
+				user.setLogradouro(set.getString("logradouro"));
+				user.setBairro(set.getString("bairro"));
+				user.setCidade(set.getString("cidade"));
+				user.setUf(set.getString("uf"));
 			}
 
 			return user;
@@ -159,7 +180,7 @@ public class DAOLoginRepository {
 	public ModelLogin update(ModelLogin model) {
 		try {
 
-			String sql = "UPDATE model_login SET username=?, password=?, nome=?, email=?, isadmin=?, genero=?, user_image=? WHERE id = ? AND isadmin = false;";
+			String sql = "UPDATE model_login SET username=?, password=?, nome=?, email=?, isadmin=?, genero=?, user_image=?, cep=?, logradouro=?, bairro=?, cidade=?, uf=? WHERE id = ? AND isadmin = false;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model.getUser());
 			statement.setString(2, model.getPassword());
@@ -168,7 +189,12 @@ public class DAOLoginRepository {
 			statement.setBoolean(5, model.isAdmin());
 			statement.setString(6, model.getGenero());
 			statement.setString(7, model.getUserImage());
-			statement.setLong(8, model.getId());
+			statement.setString(8, model.getCep());
+			statement.setString(9, model.getLogradouro());
+			statement.setString(10, model.getBairro());
+			statement.setString(11, model.getCidade());
+			statement.setString(12, model.getUf());	
+			statement.setLong(13, model.getId());
 			statement.executeUpdate();
 			connection.commit();
 
@@ -224,7 +250,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT username, id, nome, email, isadmin, genero FROM public.model_login WHERE UPPER(nome) like UPPER(?) AND isadmin = false;";
+			String sql = "SELECT username, id, nome, email, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf FROM public.model_login WHERE UPPER(nome) like UPPER(?) AND isadmin = false;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, "%" + nomeP + "%");
 			ResultSet set = statement.executeQuery();
@@ -237,6 +263,12 @@ public class DAOLoginRepository {
 				dados.setEmail(set.getString("email"));
 				dados.setAdmin(set.getBoolean("isadmin"));
 				dados.setGenero(set.getString("genero"));
+				dados.setUserImage(set.getString("user_image"));
+				dados.setCep(set.getString("cep"));
+				dados.setLogradouro(set.getString("logradouro"));
+				dados.setBairro(set.getString("bairro"));
+				dados.setCidade(set.getString("cidade"));
+				dados.setUf(set.getString("uf"));
 				resultUsers.add(dados);
 			}
 
@@ -255,7 +287,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT username, id, nome, email, isadmin, genero FROM model_login WHERE isadmin = false";
+			String sql = "SELECT username, id, nome, email, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE isadmin = false";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet set = statement.executeQuery();
 
@@ -267,6 +299,12 @@ public class DAOLoginRepository {
 				dados.setEmail(set.getString("email"));
 				dados.setAdmin(set.getBoolean("isadmin"));
 				dados.setGenero(set.getString("genero"));
+				dados.setUserImage(set.getString("user_image"));
+				dados.setCep(set.getString("cep"));
+				dados.setLogradouro(set.getString("logradouro"));
+				dados.setBairro(set.getString("bairro"));
+				dados.setCidade(set.getString("cidade"));
+				dados.setUf(set.getString("uf"));
 				resultUsers.add(dados);
 			}
 
@@ -277,5 +315,79 @@ public class DAOLoginRepository {
 			return resultUsers;
 		}
 
+	}
+	public List<ModelLoginDTO> findAllPagination(Integer pagina) {
+		
+		List<ModelLoginDTO> resultUsers = new ArrayList<>();
+		
+		int offset = 10;
+		
+		if(pagina == null) {
+			pagina = 1;
+		}
+			
+		try {
+			
+			String sql = "SELECT username, id, nome, email, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE isadmin = false offset "+(offset*pagina)+" limit 10";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet set = statement.executeQuery();
+			
+			while (set.next()) {
+				ModelLoginDTO dados = new ModelLoginDTO();
+				dados.setId(set.getLong("id"));
+				dados.setNome(set.getString("nome"));
+				dados.setUser(set.getString("username"));
+				dados.setEmail(set.getString("email"));
+				dados.setAdmin(set.getBoolean("isadmin"));
+				dados.setGenero(set.getString("genero"));
+				dados.setUserImage(set.getString("user_image"));
+				dados.setCep(set.getString("cep"));
+				dados.setLogradouro(set.getString("logradouro"));
+				dados.setBairro(set.getString("bairro"));
+				dados.setCidade(set.getString("cidade"));
+				dados.setUf(set.getString("uf"));
+				resultUsers.add(dados);
+			}
+			
+			return resultUsers;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return resultUsers;
+		}
+		
+	}
+	
+	public int countPaginas() {
+		
+		Double totalPaginas = (double) countUsers() / 10;
+
+		if (((double) countUsers() % 10) > 0) {
+			totalPaginas += 1;
+		}
+		
+		return totalPaginas.intValue();
+	}
+	
+	public int countUsers() {
+		
+		Integer result = 0;
+		
+		try {
+			
+		String sql = "select count(1) as conta from model_login where isadmin=false";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		ResultSet set = statement.executeQuery();
+		
+		set.next();
+		
+		result = set.getInt("conta");
+		
+		return result;
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return result;
+		}
 	}
 }

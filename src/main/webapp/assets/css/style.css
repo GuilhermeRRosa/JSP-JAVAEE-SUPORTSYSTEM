@@ -10405,7 +10405,6 @@ body.menu-bottom #collapse-menu {
   pointer-events: none;
   position: absolute;
   top: 12px;
-  left: 0;
   font-size: 14px;
   font-weight: 400;
   transition: 0.2s ease all;

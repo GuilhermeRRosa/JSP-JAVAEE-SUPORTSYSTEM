@@ -18,43 +18,53 @@
 <title>Project Jsp</title>
 </head>
 <body>
-	<div class="d-flex justify-content-center d-column align-items-center vh-100 container-login">
-		<div class="box-login p-3 border rounded-1 shadow">
-			<c:if test = "${msg != null}">
-				<div class="alert alert-warning text-center" role="alert">
-					<span>
-						${msg}
-					</span>
-				</div>
-			</c:if>
-			<h4 class="text-center">Projeto JSP - Bem-vindo(a)</h4>
-			<form action="<%= request.getContextPath() %>/ServletLogin" method="post" class="m-3 needs-validation" novalidate>
-				<!-- Input que contém o Url da pagina que tentou ser acessada, veja no filter de autenticação -->
-				<input type="hidden" value="${url}" name="url">
-				<div class="mb-2">
-					<label for="nome" class="form-label">User:</label>
-					<input type="text" name="user" class="form-control" required/>
-					<div class="valid-feedback">
-						Ok
+	<div class="d-md-flex justify-content-center align-items-center vh-100 container-login">
+		
+		<div class="d-md-flex align-items-stretch box-login rounded">
+			<div class="d-md-flex justify-content-center align-items-center">
+				<img alt="logo" src="<%= request.getContextPath() %>/img/logo.png" class="logo">		
+			</div>
+			<div class="p-3 rounded-1 shadow login d-flex flex-column justify-content-center">
+				<c:if test = "${msg != null}">
+					<div class="alert alert-warning text-center" role="alert">
+						<span>
+							${msg}
+						</span>
 					</div>
-					<div class="invalid-feedback">
-						Digite o nome de usuário.
+				</c:if>
+				<h4 class="m-3 text-center">
+					<img alt="login" src="<%= request.getContextPath() %>/img/in.png" width="70px" class="logo-alt">
+					Acesso ao sistema
+				</h4>
+				<form action="<%= request.getContextPath() %>/ServletLogin" method="post" class="m-3 needs-validation" novalidate>
+					<!-- Input que contém o Url da pagina que tentou ser acessada, veja no filter de autenticação -->
+					<input type="hidden" value="${url}" name="url">
+					<div class="mb-2">
+						<label for="user" class="form-label">Usuário:</label>
+						<input type="text" name="user" class="form-control login-input" placeholder="Digite seu usuário" required/>
+						<div class="valid-feedback">
+							Ok
+						</div>
+						<div class="invalid-feedback">
+							Digite o nome de usuário.
+						</div>
 					</div>
-				</div>
-				<div class="mb-2">
-					<label for="idade" class="form-label">Password:</label>
-					<input type="password" name="password" class="form-control" required/>
-					<div class="valid-feedback">
-						Ok
+					<div class="mb-2">
+						<label for="password" class="form-label">Senha:</label>
+						<input type="password" name="password" class="form-control login-input" placeholder="Digite sua senha" required/>
+						<div class="valid-feedback">
+							Ok
+						</div>
+						<div class="invalid-feedback">
+							Campo senha não pode ficar em branco.
+						</div>
 					</div>
-					<div class="invalid-feedback">
-						Senha não pode ser em branco.
+					<button type="submit" class="btn btn-secondary btn-block mt-4">Entrar</button>
+					<div class="text-center mt-4">
+						<a href="#">Esqueci minha conta</a>
 					</div>
-				</div>
-				<div class="d-flex justify-content-end">
-					<button type="submit" class="btn btn-secondary align-self-end">Enviar</button>
-				</div>	
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
  <!-- Option 1: Bootstrap Bundle with Popper -->
