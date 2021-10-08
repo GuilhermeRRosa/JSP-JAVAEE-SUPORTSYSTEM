@@ -6,7 +6,9 @@
                       <div class="pcoded-inner-navbar main-menu">
                           <div class="">
                               <div class="main-menu-header">
-                                  <img class="img-80 img-radius" src="<%= request.getContextPath() %>/assets/images/avatar-4.jpg" alt="User-Profile-Image">
+                              	<div class="box-img-custom-user">
+                                  <img class="img-80 img-radius" src="${userImg}" alt="User-Profile-Image">                              	
+                              	</div>
                                   <div class="user-details">
                                       <span id="more-details">${usuario}<i class="fa fa-caret-down"></i></span>
                                   </div>
@@ -31,7 +33,7 @@
                                   </div>
                               </form>
                           </div>
-                          <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Layout</div>
+                          <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Dados</div>
                           <ul class="pcoded-item pcoded-left-item">
                               <li class="active">
                                   <a href="<%= request.getContextPath() %>/principal/inicio.jsp" class="waves-effect waves-dark">
@@ -39,7 +41,7 @@
                                       <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
                                       <span class="pcoded-mcaret"></span>
                                   </a>
-                              </li>
+                              </li> 
                               <li class="pcoded-hasmenu">
                                   <a href="javascript:void(0)" class="waves-effect waves-dark">
                                       <span class="pcoded-micon"><i class="ti-user"></i></span>
@@ -47,7 +49,7 @@
                                       <span class="pcoded-mcaret"></span>
                                   </a>
                                   <ul class="pcoded-submenu">
-                                  	<c:if test="${isAdmin==true}">
+                                  	<c:if test="${perfilUser=='admin'}">
                                       <li class=" ">
                                           <a href="<%= request.getContextPath() %>/principal/cadastrar-usuario.jsp" class="waves-effect waves-dark">
                                               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -64,6 +66,13 @@
                                           </a>
                                       </li>             
                                   </ul>
+                              </li>
+                              <li>
+                                  <a href="<%= request.getContextPath() %>/principal/ver-contatos" class="waves-effect waves-dark">
+                                      <span class="pcoded-micon"><i class="ti-mobile"></i><b>D</b></span>
+                                      <span class="pcoded-mtext" data-i18n="nav.dash.main">Contatos</span>
+                                      <span class="pcoded-mcaret"></span>
+                                  </a>
                               </li>
                           </ul>
                           <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Forms &amp; Tables</div>

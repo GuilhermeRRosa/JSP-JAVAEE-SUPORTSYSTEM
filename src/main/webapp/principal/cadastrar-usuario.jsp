@@ -56,11 +56,13 @@
                                         				<form enctype="multipart/form-data" action="<%= request.getContextPath() %>/ServletUserController" method="post" class="form-material" id="form-user">
                                         					<!-- INPUT DE DELEÇÃO -->
                                         					<input type="hidden" name="acao" value="" id="acao" />
-                                        					<div class="form-group form-default form-static-label">
-                                        						<input type="text" name="id" id="id" class="form-control" value="${userDto.id}" placeholder="Aqui vai o id" required="required" readonly="readonly">
-                                        						<span class="form-bar"></span>
-                                        						<label class="float-label">Id</label>
-                                        					</div>
+                                        					<c:if test="${userDto.id != null}">
+	                                        					<div class="form-group form-default form-static-label">
+	                                        						<input type="text" name="id" id="id" class="form-control" value="${userDto.id}" placeholder="Aqui vai o id" required="required" readonly="readonly">
+	                                        						<span class="form-bar"></span>
+	                                        						<label class="float-label">Id</label>
+	                                        					</div>
+                                        					</c:if>
                                         					<div class="form-group form-default form-static-label">
                                         						<input type="text" name="nome" id="nome" class="form-control" value="${userDto.nome}" placeholder="Digite o seu nome" required="required">
                                         						<span class="form-bar"></span>
@@ -81,10 +83,11 @@
                                         						<label class="float-label">email</label>
                                         					</div>
                                         					<div class="form-group form-default form-static-label">
-                                                                 <select name="admin" id="isadmin" class="form-control" required>
-                                                                     <option value="" ${userDto.admin == null ? 'disabled selected hidden' : ''}>Selecione o perfil de usuário</option>
-                                                                     <option value="true" ${userDto.admin == true ? 'selected' : ''}>Admin</option>
-                                                                     <option value="false" ${userDto.admin == false ? 'selected' : ''}>Auxiliar</option>
+                                                                 <select name="perfil" id="perfil" class="form-control" required>
+                                                                     <option value="" ${userDto.perfil == null ? 'disabled selected hidden' : ''}>Selecione o perfil de usuário</option>
+                                                                     <option value="administrador" ${userDto.perfil == "administrador" ? 'selected' : ''}>Administrador</option>
+                                                                     <option value="colaborador" ${userDto.perfil == "colaborador" ? 'selected' : ''}>Colaborador</option>
+                                                                     <option value="cliente" ${userDto.perfil == "cliente" ? 'selected' : ''}>Cliente</option>
                                                                  </select>
                                                                  <span class="form-bar"></span>
                                         						<label class="float-label">Perfil</label>
@@ -189,7 +192,7 @@
 			  </div>
 			</div>
 			<div class="scrollable">
-				<table class="table table-sm">
+				<table class="table table-sm table-striped">
 				  <thead>
 				    <tr>
 				      <th scope="col">id</th>
@@ -234,6 +237,32 @@
     		$("#msg").text(msg);
     	}
     	
+    	function acaoForm(){
+    		if($("#id").val != null){
+	    		event.preventDefault();
+	    		$.confirm({
+	    		    title: 'Cadastro de telefones.',
+	    		    content: 'Deseja cadastrar os telefones para este usuário agora?',
+	    		    buttons: {
+	    		        sim: function () {
+	    		        	$("#form-user").removeAttr("onsubmit");
+	    		        	
+	    		        	$("#acao").val("cadastraTelefones")
+	    		        	
+	    		        	$("#form-user").trigger( "submit" );
+	    		        },
+	    		        não: function () {
+	    		        	$("#form-user").removeAttr("onsubmit");
+	    		            $("#form-user").trigger( "submit" );
+	    		        },   
+	    		    }
+	    		});
+    		}else{
+    			$("#form-user").removeAttr("onsubmit");
+	            $("#form-user").trigger( "submit" );
+    		}
+    	}
+    	
     	function limpaForm(){
     		$.confirm({
     		    title: 'Confirmação!',
@@ -245,7 +274,7 @@
     		    		  $("#email").attr('value', "");
     		    		  $("#user").attr('value', "");
     		    		  $("#password").attr('value', "");
-    		    		  $("#isadmin").attr('value', "");
+    		    		  $("#perfil").attr('value', "");
     		    		  $("#cep").attr('value', "");
     		    		  $("#logradouro").attr('value', "");
     		    		  $("#cidade").attr('value', "");
@@ -270,7 +299,7 @@
     		  $("#nome").attr('value', element.nome);
     		  $("#email").attr('value', element.email);
     		  $("#user").attr('value', element.user);  
-    		  $("#isadmin").attr('value', element.admin);
+    		  $("#perfil").attr('value', element.perfil);
     		  $("#cep").attr('value', element.cep);
     		  $("#logradouro").attr('value', element.logradouro);
     		  $("#cidade").attr('value', element.cidade);
@@ -324,7 +353,7 @@
 							txt += '<td>'+jsonResult[i].nome+'</td>';
 							txt += '<td>'+jsonResult[i].user+'</td>';
 							txt += '<td>'+jsonResult[i].email+'</td>';
-							txt += "<td><button onclick='selectUser("+user+")' type='button' class='btn btn-secondary'>Selecionar</button></td>";
+							txt += "<td><button onclick='selectUser("+user+")' type='button' class='btn btn-secondary btn-sm'>Selecionar</button></td>";
 							txt += '</tr>';
 							
 							$(".table-sm > tbody").append(txt);

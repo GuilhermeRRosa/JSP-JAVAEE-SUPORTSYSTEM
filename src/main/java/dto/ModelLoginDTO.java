@@ -23,6 +23,7 @@ public class ModelLoginDTO implements Serializable {
 	private String cidade;
 	private String uf;
 	private boolean admin;
+	private String perfil;
 
 	public ModelLoginDTO(ModelLogin model) {
 		this.setId(model.getId());
@@ -37,9 +38,18 @@ public class ModelLoginDTO implements Serializable {
 		this.setBairro(model.getBairro());
 		this.setCidade(model.getCidade());
 		this.setUf(model.getUf());
+		this.setPerfil(model.getPerfil());
 	}
 
 	public ModelLoginDTO() {
+	}
+
+	public String getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
 	}
 
 	public String getCep() {

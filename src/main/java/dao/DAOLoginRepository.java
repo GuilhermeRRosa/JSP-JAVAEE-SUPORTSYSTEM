@@ -45,13 +45,13 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "INSERT INTO model_login (nome, email, username, password, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf) " + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO model_login (nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf) " + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model.getNome());
 			statement.setString(2, model.getEmail());
 			statement.setString(3, model.getUser());
 			statement.setString(4, model.getPassword());
-			statement.setBoolean(5, model.isAdmin());
+			statement.setString(5, model.getPerfil());
 			statement.setString(6, model.getGenero());
 			statement.setString(7, model.getUserImage());
 			statement.setString(8, model.getCep());
@@ -76,7 +76,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT id, nome, email, username, password, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE username = ? AND isadmin = false";
+			String sql = "SELECT id, nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE username = ? AND isadmin = false";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, username);
 			ResultSet set = statement.executeQuery();
@@ -87,7 +87,7 @@ public class DAOLoginRepository {
 				user.setEmail(set.getString("email"));
 				user.setUser(set.getString("username"));
 				user.setPassword(set.getString("password"));
-				user.setAdmin(set.getBoolean("isadmin"));
+				user.setPerfil(set.getString("perfil"));
 				user.setGenero(set.getString("genero"));
 				user.setUserImage(set.getString("user_image"));
 				user.setCep(set.getString("cep"));
@@ -112,7 +112,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT id, nome, email, username, password, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE username = ?";
+			String sql = "SELECT id, nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE username = ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, username);
 			ResultSet set = statement.executeQuery();
@@ -123,7 +123,7 @@ public class DAOLoginRepository {
 				user.setEmail(set.getString("email"));
 				user.setUser(set.getString("username"));
 				user.setPassword(set.getString("password"));
-				user.setAdmin(set.getBoolean("isadmin"));
+				user.setPerfil(set.getString("perfil"));
 				user.setGenero(set.getString("genero"));
 				user.setUserImage(set.getString("user_image"));
 				user.setCep(set.getString("cep"));
@@ -148,7 +148,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT id, nome, email, username, password, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE id = ? AND isadmin = false";
+			String sql = "SELECT id, nome, email, username, password, genero, user_image, cep, logradouro, bairro, cidade, uf, perfil FROM model_login WHERE id = ? AND isadmin = false";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setLong(1, id);
 			ResultSet set = statement.executeQuery();
@@ -166,6 +166,7 @@ public class DAOLoginRepository {
 				user.setBairro(set.getString("bairro"));
 				user.setCidade(set.getString("cidade"));
 				user.setUf(set.getString("uf"));
+				user.setPerfil(set.getString("perfil"));
 			}
 
 			return user;
@@ -180,13 +181,13 @@ public class DAOLoginRepository {
 	public ModelLogin update(ModelLogin model) {
 		try {
 
-			String sql = "UPDATE model_login SET username=?, password=?, nome=?, email=?, isadmin=?, genero=?, user_image=?, cep=?, logradouro=?, bairro=?, cidade=?, uf=? WHERE id = ? AND isadmin = false;";
+			String sql = "UPDATE model_login SET username=?, password=?, nome=?, email=?, perfil=?, genero=?, user_image=?, cep=?, logradouro=?, bairro=?, cidade=?, uf=? WHERE id = ? AND isadmin = false;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model.getUser());
 			statement.setString(2, model.getPassword());
 			statement.setString(3, model.getNome());
 			statement.setString(4, model.getEmail());
-			statement.setBoolean(5, model.isAdmin());
+			statement.setString(5, model.getPerfil());
 			statement.setString(6, model.getGenero());
 			statement.setString(7, model.getUserImage());
 			statement.setString(8, model.getCep());
@@ -250,7 +251,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT username, id, nome, email, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf FROM public.model_login WHERE UPPER(nome) like UPPER(?) AND isadmin = false;";
+			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf FROM public.model_login WHERE UPPER(nome) like UPPER(?) AND isadmin = false;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, "%" + nomeP + "%");
 			ResultSet set = statement.executeQuery();
@@ -261,7 +262,7 @@ public class DAOLoginRepository {
 				dados.setNome(set.getString("nome"));
 				dados.setUser(set.getString("username"));
 				dados.setEmail(set.getString("email"));
-				dados.setAdmin(set.getBoolean("isadmin"));
+				dados.setPerfil(set.getString("perfil"));
 				dados.setGenero(set.getString("genero"));
 				dados.setUserImage(set.getString("user_image"));
 				dados.setCep(set.getString("cep"));
@@ -287,7 +288,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT username, id, nome, email, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE isadmin = false";
+			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE isadmin = false";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet set = statement.executeQuery();
 
@@ -297,7 +298,7 @@ public class DAOLoginRepository {
 				dados.setNome(set.getString("nome"));
 				dados.setUser(set.getString("username"));
 				dados.setEmail(set.getString("email"));
-				dados.setAdmin(set.getBoolean("isadmin"));
+				dados.setPerfil(set.getString("perfil"));
 				dados.setGenero(set.getString("genero"));
 				dados.setUserImage(set.getString("user_image"));
 				dados.setCep(set.getString("cep"));
@@ -328,7 +329,7 @@ public class DAOLoginRepository {
 			
 		try {
 			
-			String sql = "SELECT username, id, nome, email, isadmin, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE isadmin = false offset "+(offset*pagina)+" limit 10";
+			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE isadmin = false ORDER BY nome ASC offset "+(offset*pagina)+" limit 10";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet set = statement.executeQuery();
 			
@@ -338,7 +339,7 @@ public class DAOLoginRepository {
 				dados.setNome(set.getString("nome"));
 				dados.setUser(set.getString("username"));
 				dados.setEmail(set.getString("email"));
-				dados.setAdmin(set.getBoolean("isadmin"));
+				dados.setPerfil(set.getString("perfil"));
 				dados.setGenero(set.getString("genero"));
 				dados.setUserImage(set.getString("user_image"));
 				dados.setCep(set.getString("cep"));

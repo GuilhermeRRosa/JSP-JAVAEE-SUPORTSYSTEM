@@ -70,9 +70,11 @@ public class ServletLogin extends HttpServlet {
 				if(loginRepo.authLogin(modelLogin)) {
 
 					modelLogin = loginRepo.getUserByUsername(user);
+					
 					//GUARDA O USUARIO NA SESSÃO
 					request.getSession().setAttribute("usuario", modelLogin.getUser());
-					request.getSession().setAttribute("isAdmin", modelLogin.isAdmin());
+					request.getSession().setAttribute("perfilUser", modelLogin.getPerfil());
+					request.getSession().setAttribute("userImg", modelLogin.getUserImage());
 
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/principal/inicio.jsp");
 					dispatcher.forward(request, response);

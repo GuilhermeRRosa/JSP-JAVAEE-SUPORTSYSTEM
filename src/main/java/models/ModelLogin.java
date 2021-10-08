@@ -22,6 +22,7 @@ public class ModelLogin implements Serializable {
 	private String cidade;
 	private String uf;
 	private boolean admin;
+	private String perfil;
 
 	public ModelLogin() {
 	}
@@ -30,6 +31,14 @@ public class ModelLogin implements Serializable {
 		super();
 		this.username = user;
 		this.password = password;
+	}
+
+	public String getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
 	}
 
 	public String getCep() {

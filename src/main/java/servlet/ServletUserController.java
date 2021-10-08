@@ -21,7 +21,7 @@ import models.ModelLogin;
  * Classe controladora do cadstro de usuário
  */
 
-@MultipartConfig // anotação para receber dados FILE do form
+@MultipartConfig(maxFileSize=1024*1024*5) // anotação para receber dados FILE do form
 @WebServlet(urlPatterns = {"/ServletUserController", "/principal/ver-usuarios"})
 public class ServletUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -117,29 +117,31 @@ public class ServletUserController extends HttpServlet {
 			String email = request.getParameter("email");
 			String username = request.getParameter("user");
 			String password = request.getParameter("password");
-			String admin = request.getParameter("admin");
+			String perfil = request.getParameter("perfil");
 			String genero = request.getParameter("genero");
 			String cep = request.getParameter("cep");
 			String logradouro = request.getParameter("logradouro");
 			String bairro = request.getParameter("bairro");
 			String cidade = request.getParameter("cidade");
 			String uf = request.getParameter("uf");
+			String acao = request.getParameter("acao");
 			
 			ModelLogin model = new ModelLogin();
 			//Settando tipo de dados corretos para o modelo
+			
+			final Part part = request.getPart("userImage");
 			model.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
 			model.setNome(nome);
 			model.setEmail(email);
 			model.setUser(username);
 			model.setPassword(password);
-			model.setAdmin(admin != null && !admin.isEmpty() ? Boolean.parseBoolean(admin) : null);
+			model.setPerfil(perfil);
 			model.setGenero(genero);
 			model.setCep(cep);
 			model.setLogradouro(logradouro);
 			model.setBairro(bairro);
 			model.setCidade(cidade);
-			model.setUf(uf);
-			final Part part = request.getPart("userImage");
+			model.setUf(uf);			
 			 		
 			//Ações POST
 			if(model.getId()==null) {		
@@ -162,7 +164,7 @@ public class ServletUserController extends HttpServlet {
 					    model.setUserImage(request.getContextPath()+"/principal/files-upload/"+model.getUser()+"/user_image."+part.getContentType().split("\\/")[1]);
 				    }else {
 				    	//Caso não for carregada a imagem, uma imagem default é salva no perfil
-				    	model.setUserImage(realPath+"default\\profile.png");
+				    	model.setUserImage(request.getContextPath()+"/principal/files-upload/default/profile.png");
 				    }
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -203,12 +205,18 @@ public class ServletUserController extends HttpServlet {
 			ModelLoginDTO userDto = new ModelLoginDTO(model);
 			
 			request.setAttribute("userDto", userDto);
-			request.getRequestDispatcher("/principal/cadastrar-usuario.jsp").forward(request, response);			
+			
+			if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("cadastraTelefones")) {
+				request.getRequestDispatcher("/principal/ver-contatos.jsp").forward(request, response);	
+			}else {
+				request.getRequestDispatcher("/principal/cadastrar-usuario.jsp").forward(request, response);							
+			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace();			
 			request.setAttribute("msg", e.getMessage());
 			request.getRequestDispatcher("erro.jsp").forward(request, response);
+			return;
 		}
 		
 	}

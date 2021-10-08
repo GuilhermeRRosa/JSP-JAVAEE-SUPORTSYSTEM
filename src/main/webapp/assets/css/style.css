@@ -5158,7 +5158,8 @@ select.form-control:not([size]):not([multiple]) {
   width: 70px; }
 
 .img-80 {
-  width: 80px; }
+  width: 80px;
+  height: 60px; }
 
 .img-90 {
   width: 90px; }
@@ -16456,4 +16457,10 @@ body.dark {
 .fixed-button.active {
   bottom: 50px;
   opacity: 1;
+}
+
+.box-img-custom-user{
+	width: 60px;
+	height: 60px;
+	margin: auto;
 }
