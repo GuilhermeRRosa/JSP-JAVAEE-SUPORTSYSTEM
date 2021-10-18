@@ -27,6 +27,8 @@ public class SingleConnection{
 				connection = DriverManager.getConnection(url, user, password);
 				connection.setAutoCommit(false);
 				System.out.println("Conexão realizada");
+			}else {
+				System.out.println(connection.toString());
 			}
 
 		} catch (Exception e) {

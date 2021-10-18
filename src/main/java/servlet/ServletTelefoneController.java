@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,13 +40,24 @@ public class ServletTelefoneController extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String userPerfil = (String) request.getSession().getAttribute("perfilUser");
+		Long empresaResp = (Long) request.getSession().getAttribute("empresaUserSession");
 		DAOLoginRepository userRepo = new DAOLoginRepository();
 		DAOTelefoneRepository teleRepo = new DAOTelefoneRepository();
 	
 		if(request.getRequestURI().contains("/principal/ver-contatos")) {
 
-			request.setAttribute("totalPaginas", userRepo.countPaginas());
-			request.getRequestDispatcher("/principal/ver-contatos.jsp").forward(request, response);			
+			//admin
+			if (userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("admin")) {
+				request.setAttribute("totalPaginas", userRepo.countPaginas());
+				request.getRequestDispatcher("/principal/ver-contatos.jsp").forward(request, response);	
+			}
+			//administrador / colaborador
+			else if (userPerfil != null && !userPerfil.isEmpty() && (userPerfil.equalsIgnoreCase("administrador") || userPerfil.equalsIgnoreCase("colaborador"))) {
+				request.setAttribute("totalPaginas", userRepo.countPaginas(empresaResp));
+				request.getRequestDispatcher("/principal/ver-contatos.jsp").forward(request, response);					
+			}
+					
 		}
 		
 		if(request.getRequestURI().contains("/ServletTelefoneController")) {		
@@ -56,9 +68,17 @@ public class ServletTelefoneController extends HttpServlet {
 				
 				String pagina = request.getParameter("pag");
 				Integer nPagina = pagina != null && !pagina.isEmpty() ? Integer.parseInt(pagina) : 1;
+				List<ModelLoginDTO> listaUsers = new ArrayList<ModelLoginDTO>();
 				
-				List<ModelLoginDTO> listaUsers = userRepo.findAllPagination(nPagina);
-				
+				//admin
+				if (userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("admin")) {
+					listaUsers = userRepo.findAllPagination(nPagina);
+				}
+				//administrador / colaborador
+				else if (userPerfil != null && !userPerfil.isEmpty() && (userPerfil.equalsIgnoreCase("administrador") || userPerfil.equalsIgnoreCase("colaborador"))) {
+					listaUsers = userRepo.findAllByEmpresaResp(nPagina, empresaResp);
+				}	
+						
 				ObjectMapper mapper = new ObjectMapper();
 				try {
 					String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(listaUsers);

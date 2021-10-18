@@ -45,7 +45,7 @@
                                         	<div class="col-md-12 shadow">
                                         		<div class="card">
                                         			<div class="card-header">
-                                                        <h5>Formulário de usuários</h5>
+                                                        <h5>Formulário de empresas</h5>
                                                     </div>
                                                     <div class="alert alert-info text-center" role="alert">
 														<span id="msg">
@@ -53,89 +53,75 @@
 														</span>
 													</div>
                                         			<div class="card-block">
-                                        				<form enctype="multipart/form-data" action="<%= request.getContextPath() %>/ServletUserController" method="post" class="form-material" id="form-user">
+                                        				<form enctype="multipart/form-data" action="<%= request.getContextPath() %>/ServletEmpresaController" method="post" class="form-material" id="form-empresa">
                                         					<!-- INPUT DE DELEÇÃO -->
                                         					<input type="hidden" name="acao" value="" id="acao" />
-                                        					<c:if test="${userDto.id != null}">
+                                        					<c:if test="${empresa.id != null}">
 	                                        					<div class="form-group form-default form-static-label">
-	                                        						<input type="text" name="id" id="id" class="form-control" value="${userDto.id}" placeholder="Aqui vai o id" required="required" readonly="readonly">
+	                                        						<input type="text" name="id" id="id" class="form-control" value="${empresa.id}" required="required" readonly="readonly">
 	                                        						<span class="form-bar"></span>
 	                                        						<label class="float-label">Id</label>
 	                                        					</div>
                                         					</c:if>
                                         					<div class="form-group form-default form-static-label">
-                                        						<input type="text" name="nome" id="nome" class="form-control" value="${userDto.nome}" placeholder="Digite o seu nome" required="required">
+                                        						<input type="text" name="cnpj" id="cnpj" class="form-control" value="${empresa.cnpj}" placeholder="Digite o CNPJ" required="required">
                                         						<span class="form-bar"></span>
-                                        						<label class="float-label">Nome completo</label>
+                                        						<label class="float-label">Cnpj</label>
                                         					</div>
-                                        					<div class="form-group">
-                                        						<label class="form-label">Gênero: </label>
-                                        						<br>
-                                        						<input type="radio" name="genero" id="sexo-m" value="masculino" required="required" ${userDto.genero=='masculino' ? 'checked' : ''}> Masculino
-                                        						<input type="radio" name="genero" id="sexo-f" value="feminino" required="required" <c:if test="${userDto.genero=='feminino'}">checked</c:if>> Feminino
-                                        						<input type="radio" name="genero" id="sexo-o" value="outros" required="required" ${userDto.genero=='outros' ? 'checked' : ''}> Outros
-                                        						<span class="form-bar"></span>
-                                        					</div>
-                                        					<hr>
                                         					<div class="form-group form-default form-static-label">
-                                        						<input type="email" name="email" id="email" class="form-control" value="${userDto.email}" placeholder="Digite o seu e-mail" required="required">
+                                        						<input type="text" name="razaoSocial" id="razaoSocial" class="form-control" value="${empresa.razaoSocial}" placeholder="Digite a razão social" required="required">
+                                        						<span class="form-bar"></span>
+                                        						<label class="float-label">Razão Social</label>
+                                        					</div>
+                                        					<div class="form-group form-default form-static-label">
+                                        						<input type="email" name="email" id="email" class="form-control" value="${empresa.email}" placeholder="Digite o e-mail da empresa" required="required">
                                         						<span class="form-bar"></span>
                                         						<label class="float-label">email</label>
                                         					</div>
                                         					<div class="form-group form-default form-static-label">
                                                                  <select name="perfil" id="perfil" class="form-control" required>
-                                                                     <option value="" ${userDto.perfil == null ? 'disabled selected hidden' : ''}>Selecione o perfil de usuário</option>
-                                                                     <option value="administrador" ${userDto.perfil == "administrador" ? 'selected' : ''}>Administrador</option>
-                                                                     <option value="colaborador" ${userDto.perfil == "colaborador" ? 'selected' : ''}>Colaborador</option>
-                                                                     <option value="cliente" ${userDto.perfil == "cliente" ? 'selected' : ''}>Cliente</option>
+                                                                     <option value="" ${empresa.perfil == null ? 'disabled selected hidden' : ''}>Selecione o perfil da empresa</option>
+                                                                     <c:if test="${perfilUser=='admin'}">
+                                                                    	 <option value="suporte" ${empresa.perfil == "suporte" ? 'selected' : ''}>Suporte</option>
+                                                                     </c:if>
+                                                                     <option value="cliente" ${empresa.perfil == "cliente" ? 'selected' : ''}>Cliente</option>
                                                                  </select>
                                                                  <span class="form-bar"></span>
                                         						<label class="float-label">Perfil</label>
                                         					</div>
                                         					<div class="form-group form-default form-static-label row">
-	                                        					<div class="col-sm-4">
-	                                        						<input type="text" id="nomeEmpresa" class="form-control" value="${userDto.empresa.razaoSocial}" readonly="readonly">
-	                                        						<input type="hidden" name="empresa" id="empresa" class="form-control" value="${userDto.empresa.id}">
-	                                        						<span class="form-bar"></span>
-	                                        						<label class="float-label">Empresa</label>
-	                                        					</div>
-                                        						<div class="col-sm-8" id="div-select-empresa">
-																	<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#pesquisarEmpresaModal">Selecionar empresa</button>
-                                        						</div>
-                                        					</div>	
-                                        					<div class="form-group form-default form-static-label row">
                                         						<div class="col-md-4">
-	                                        						<input type="text" name="cep" id="cep" class="form-control" value="${userDto.cep}" placeholder="Digite o seu CEP">
+	                                        						<input type="text" name="cep" id="cep" class="form-control" value="${empresa.cep}" placeholder="Digite o seu CEP">
 	                                        						<span class="form-bar"></span>
 	                                        						<label class="float-label">CEP</label>
 	                                        					</div>
 	                                        					<div class="col-md-8">
-	                                        						<input type="text" name="logradouro" id="logradouro" class="form-control" value="${userDto.logradouro}" placeholder="Logradouro">
+	                                        						<input type="text" name="logradouro" id="logradouro" class="form-control" value="${empresa.logradouro}" placeholder="Logradouro">
                                         							<span class="form-bar"></span>
                                         							<label class="float-label">Logradouro</label>
 	                                        					</div>
                                         					</div>
                                         					<div class="form-group form-default form-static-label row">
                                         						<div class="col-md-4">
-                                        							<input type="text" name="bairro" id="bairro" class="form-control" value="${userDto.bairro}" placeholder="Bairro">
+                                        							<input type="text" name="bairro" id="bairro" class="form-control" value="${empresa.bairro}" placeholder="Bairro">
 	                                        						<span class="form-bar"></span>
 	                                        						<label class="float-label">Bairro</label>
                                         						</div>
                                         						<div class="col-md-4">
-                                        							<input type="text" name="cidade" id="cidade" class="form-control" value="${userDto.cidade}" placeholder="Cidade">
+                                        							<input type="text" name="cidade" id="cidade" class="form-control" value="${empresa.cidade}" placeholder="Cidade">
 	                                        						<span class="form-bar"></span>
 	                                        						<label class="float-label">Cidade</label>
                                         						</div>
                                         						<div class="col-md-4">
-                                        							<input type="text" name="uf" id="uf" class="form-control" value="${userDto.uf}" placeholder="UF">
+                                        							<input type="text" name="uf" id="uf" class="form-control" value="${empresa.uf}" placeholder="UF">
 	                                        						<span class="form-bar"></span>
 	                                        						<label class="float-label">UF</label>
                                         						</div>
                                         					</div>
                                         					<div class="form-group form-default form-static-label">
                                         						<c:choose>
-                                       								<c:when test="${userDto.userImage != null}">
-		                                        						<img alt="img perfil" id="img64" src="${userDto.userImage}" width="70px" class="my-2 img-fluid">                                    						                                       								
+                                       								<c:when test="${empresa.logo != null}">
+		                                        						<img alt="img perfil" id="img64" src="${empresa.logo}" width="70px" class="my-2 img-fluid">                                    						                                       								
                                        								</c:when>
                                        								<c:otherwise>
                                        								    <img alt="img perfil" id="img64" src="<%=request.getContextPath()%>/principal/files-upload/default/profile.png" width="70px" class="my-2 img-fluid"> 								
@@ -143,23 +129,34 @@
                                         						</c:choose>
                                         						<input type="file" name="userImage" id="fileImg" accept="image/*" onchange="vizualizaImg('img64', 'fileImg')" class="form-control my-2">
                                         						<span class="form-bar"></span>
-                                        						<label class="float-label">Foto de perfil</label>
+                                        						<label class="float-label">Logo</label>
                                         					</div>
                                         					<div class="form-group form-default form-static-label">
-                                        						<input type="text" name="user" id="user" class="form-control" value="${userDto.user}" placeholder="Digite o seu nick" required="required">
+                                        						<input type="text" name="telefone" id="telefone" class="form-control" value="${empresa.telefone}" placeholder="Digite o telefone da empresa" required="required">
                                         						<span class="form-bar"></span>
-                                        						<label class="float-label">Nome de usuário</label>
+                                        						<label class="float-label">Telefone</label>
                                         					</div>
                                         					<div class="form-group form-default form-static-label">
-                                        						<input type="password" name="password" id="password" class="form-control" required="required">
+                                        						<input type="text" name="ramo" id="ramo" class="form-control" value="${empresa.ramo}" placeholder="Digite a área de atuação da empresa" required="required">
                                         						<span class="form-bar"></span>
-                                        						<label class="float-label">Senha</label>
+                                        						<label class="float-label">Ramo</label>
                                         					</div>
+                                        					<div class="form-group form-default form-static-label row">
+	                                        					<div class="col-sm-4">
+	                                        						<input type="text" id="nomeRepresentante" class="form-control" value="${representante}" readonly="readonly">
+	                                        						<input type="hidden" name="representante" id="representante" class="form-control" value="${empresa.representante.id}">
+	                                        						<span class="form-bar"></span>
+	                                        						<label class="float-label">Representante</label>
+	                                        					</div>
+	                                        					<div class="col-sm-8">
+																	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pesquisarUserModal">Selecionar</button>
+	                                        					</div>
+                                        					</div>					
                                         					<div class="d-flex flex-row-reverse">
                                         						<button type="submit" class="btn btn-primary waves-effect waves-light">Salvar</button>
-                                        						<button type="reset" onclick="limpaForm()" id="btn-limpaTela"  class="btn btn-warning waves-effect waves-light mx-2">Novo</button>
+                                        						<button type="button" onclick="limpaForm()" id="btn-limpaTela"  class="btn btn-warning waves-effect waves-light mx-2">Novo</button>
                                         						<button type="button" onclick="deletarComAjax()" class="btn btn-danger waves-effect waves-light mx-2">Remover</button>
-																<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pesquisarUserModal">Pesquisar</button>
+																<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pesquisarEmpresaModal">Pesquisar</button>
                                         					</div>
                                         				</form>
                                         			</div>
@@ -197,7 +194,7 @@
 	      </div>
 	      <div class="modal-body">
 	      	<div class="input-group mb-3">
-			  <input type="text" class="form-control" id="usernamePesquisa" name="username" placeholder="Nome" aria-label="nome de usuário" aria-describedby="basic-addon2">
+			  <input type="text" class="form-control" id="usernamePesquisa" name="nome" placeholder="nome" aria-label="nome" aria-describedby="basic-addon2">
 			  <div class="input-group-append">
 			    <button class="btn btn-outline-secondary" type="button" onclick="pesquisaUser()">Pesquisar</button>
 			  </div>
@@ -208,9 +205,9 @@
 				    <tr>
 				      <th scope="col">id</th>
 				      <th scope="col">Nome</th>
-				      <th scope="col">Usuário</th>
+				      <th scope="col">usuário</th>
 				      <th scope="col">Email</th>
-				      <th scope="col">ações</th>
+				      <th scope="col">Ação</th>
 				    </tr>
 				  </thead>
 				  <tbody>
@@ -272,20 +269,10 @@
     <script type="text/javascript">
     	
     	/* function deletar(){
-    		document.getElementById("form-user").method = 'get';
+    		document.getElementById("form-empresa").method = 'get';
     		document.getElementById("acao").value = 'excluirUser';
-    		document.getElementById("form-user").submit;
+    		document.getElementById("form-empresa").submit;
     	} */
-    	
-    	$(document).ready(function(){
-    		if($("#perfil").val()=="colaborador" || $(this).val()=="administrador"){
-        		$("#div-select-empresa").addClass("d-none");
-        		$("#nomeEmpresa").val('${empresaUserSessionNome}');
-        		$("#empresa").val('${empresaUserSession}');
-        	}else{
-        		$("#div-select-empresa").removeClass("d-none");
-        	}
-    	})
     	
     	$(".alert-info").hide();
     	
@@ -295,46 +282,9 @@
     		$(".alert-info").show();
     	}
     	
-    	//Alternador de "selecionar empresa"
-    	$("#perfil").change(function(){
-    		if($(this).val()=="colaborador" || $(this).val()=="administrador"){
-        		$("#div-select-empresa").addClass("d-none");
-        		$("#nomeEmpresa").val('${empresaUserSessionNome}');
-        		$("#empresa").val('${empresaUserSession}');
-        	}else{
-        		$("#div-select-empresa").removeClass("d-none");
-        	}
-    	})
-    	
     	function showMsg(msg){
     		$(".alert-info").show();
     		$("#msg").text(msg);
-    	}
-    	
-    	function acaoForm(){
-    		if($("#id").val != null){
-	    		event.preventDefault();
-	    		$.confirm({
-	    		    title: 'Cadastro de telefones.',
-	    		    content: 'Deseja cadastrar os telefones para este usuário agora?',
-	    		    buttons: {
-	    		        sim: function () {
-	    		        	$("#form-user").removeAttr("onsubmit");
-	    		        	
-	    		        	$("#acao").val("cadastraTelefones")
-	    		        	
-	    		        	$("#form-user").trigger( "submit" );
-	    		        },
-	    		        não: function () {
-	    		        	$("#form-user").removeAttr("onsubmit");
-	    		            $("#form-user").trigger( "submit" );
-	    		        },   
-	    		    }
-	    		});
-    		}else{
-    			$("#form-user").removeAttr("onsubmit");
-	            $("#form-user").trigger( "submit" );
-    		}
     	}
     	
     	function limpaForm(){
@@ -344,19 +294,24 @@
     		    buttons: {
     		        sim: function () {
     		        	  $("#id").attr('value', "");
-    		    		  $("#nome").attr('value', "");
+    		    		  $("#cnpj").attr('value', "");
+    		    		  $("#razaoSocial").attr('value', "");
     		    		  $("#email").attr('value', "");
-    		    		  $("#user").attr('value', "");
-    		    		  $("#password").attr('value', "");
+    		    		  $("#telefone").attr('value', "");
     		    		  $("#perfil").attr('value', "");
     		    		  $("#cep").attr('value', "");
     		    		  $("#logradouro").attr('value', "");
     		    		  $("#cidade").attr('value', "");
     		    		  $("#bairro").attr('value', "");
     		    		  $("#uf").attr('value', "");
-    		    		  $("#genero").attr('value', "");
+    		    		  $("#ramo").attr('value', "");
+    		    		  $("#representante").attr('value', "");
+    		    		  $("#nomeRepresentante").attr('value', "");
     		    		  $("#userImage").attr('value', "");
     		    		  $("#img64").attr('src', "<%=request.getContextPath()%>/principal/files-upload/default/profile.png");
+    		    		  $('#form-empresa').each (function(){
+    		    			  this.reset();
+    		    			});
     		    		  showMsg('Formulário limpo!');
     		        },
     		        não: function () {
@@ -369,10 +324,28 @@
     	function selectUser(obj){
     		$("#pesquisarUserModal").modal('hide');
     		$(obj).each(function(index, element) {
-    		  $("#id").attr('value', element.id);
-    		  $("#nome").attr('value', element.nome);
+    		  $("#representante").attr('value', element.id);
+    		  $("#nomeRepresentante").attr('value', element.nome);
+    		});
+    	}
+    	
+    	function selectEmpresa(obj){
+    		$("#pesquisarEmpresaModal").modal('hide');
+    		$(obj).each(function(index, element) {
+    		  if(!$("#id").length){
+    			  $("<input>").attr({
+    				 type: 'hidden',
+    				 id: 'id',
+    				 name: 'id',
+    				 value: element.id
+    			  }).appendTo('#form-empresa');
+    		  }else{
+    		  	$("#id").attr('value', element.id);    			  
+    		  }
+    		  $("#cnpj").attr('value', element.cnpj);
+    		  $("#razaoSocial").attr('value', element.razaoSocial);
     		  $("#email").attr('value', element.email);
-    		  $("#user").attr('value', element.user);  
+    		  $("#ramo").attr('value', element.ramo);  
     		  $("#perfil").attr('value', element.perfil);
     		  $("#cep").attr('value', element.cep);
     		  $("#logradouro").attr('value', element.logradouro);
@@ -380,23 +353,70 @@
     		  $("#bairro").attr('value', element.bairro);
     		  $("#uf").attr('value', element.uf);
     		  $("#userImage").attr('value', "");
-    		  $("#img64").attr('src', element.userImage);
-    		  switch(element.genero){
-    		  	case 'masculino': $("#sexo-m").prop('checked', true);
-    		  		break;
-    		  	case 'feminino': $("#sexo-f").prop('checked', true);
-    		  		break;
-    		  	case 'outros': $("#sexo-o").prop('checked', true);
-    		  		break;
-    		  }
+    		  $("#img64").attr('src', element.logo);
+    		  $("#telefone").attr('value', element.telefone);
+    		  $("#nomeRepresentante").attr('value', element.representante.nome);
+    		  $("#representante").attr('value', element.representante.id);
     		});
+    	}
+    	
+    	function pesquisaUser(){
+    		var userP = $("#usernamePesquisa").val();
+    		
+    		if(userP !=null && userP != "" && userP.trim() != ""){
+    			var urlAction = "<%=request.getContextPath()%>/ServletUserController"
+            	
+	        	$.ajax({
+	        		
+	        		method: "get",
+	        		url: urlAction,
+	        		data: "nomeP="+userP+"&acao=buscarComAjax",
+	        		success: function (response){
+	        			
+	        			$(".modal-dialog").css({
+	        				'max-width': $(document).width() * 0.5
+	        			});
+	        			
+	        			$(".scrollable")
+	        				.css({
+	        					'max-height': '38em',
+								'overflow': 'scroll'
+							});
+	        			
+						var jsonResult = JSON.parse(response);
+						
+						$(".user-table > tbody > tr").remove();
+						
+						for(var i = 0; i < jsonResult.length; i++){
+							
+							var user = JSON.stringify(jsonResult[i]);
+							var txt = '<tr>';
+							txt += '<td>'+jsonResult[i].id+'</td>';
+							txt += '<td>'+jsonResult[i].nome+'</td>';
+							txt += '<td>'+jsonResult[i].user+'</td>';
+							txt += '<td>'+jsonResult[i].email+'</td>';
+							txt += "<td><button onclick='selectUser("+user+")' type='button' class='btn btn-secondary btn-sm'>Selecionar</button></td>";
+							txt += '</tr>';
+							
+							$(".user-table > tbody").append(txt);
+						}
+	        			
+	        		}
+	        		
+	        	}).fail(function(xhr, status, errorThrown){
+	        		$.alert({
+	        		    title: 'ERRO!',
+	        		    content: 'erro ao buscar por nome: '+xhr.textResponse
+	        		});
+	        	});
+    		}
     	}
     	
     	function pesquisaEmpresa(){
     		var userP = $("#empresaPesquisa").val();
     		
     		if(userP !=null && userP != "" && userP.trim() != ""){
-    			var urlAction = "<%= request.getContextPath() %>/ServletEmpresaController";
+    			var urlAction = $("#form-empresa").attr("action");
             	
 	        	$.ajax({
 	        		
@@ -445,75 +465,15 @@
     		}
     	}
     	
-    	function selectEmpresa(obj){
-    		$("#pesquisarEmpresaModal").modal('hide');
-    		$(obj).each(function(index, element) {
-    		  $("#nomeEmpresa").val(element.razaoSocial);
-    		  $("#empresa").val(element.id);
-    		});
-    	}
-    	
-    	function pesquisaUser(){
-    		var userP = $("#usernamePesquisa").val();
-    		
-    		if(userP !=null && userP != "" && userP.trim() != ""){
-    			var urlAction = $("#form-user").attr("action");
-            	
-	        	$.ajax({
-	        		
-	        		method: "get",
-	        		url: urlAction,
-	        		data: "nomeP="+userP+"&acao=buscarComAjax",
-	        		success: function (response){
-	        			
-	        			$(".modal-dialog").css({
-	        				'max-width': $(document).width() * 0.5
-	        			});
-	        			
-	        			$(".scrollable")
-	        				.css({
-	        					'max-height': '38em',
-								'overflow': 'scroll'
-							});
-	        			
-						var jsonResult = JSON.parse(response);
-						
-						$(".user-table > tbody > tr").remove();
-						
-						for(var i = 0; i < jsonResult.length; i++){
-							
-							var user = JSON.stringify(jsonResult[i]);
-							var txt = '<tr>';
-							txt += '<td>'+jsonResult[i].id+'</td>';
-							txt += '<td>'+jsonResult[i].nome+'</td>';
-							txt += '<td>'+jsonResult[i].user+'</td>';
-							txt += '<td>'+jsonResult[i].email+'</td>';
-							txt += "<td><button onclick='selectUser("+user+")' type='button' class='btn btn-secondary btn-sm'>Selecionar</button></td>";
-							txt += '</tr>';
-							
-							$(".user-table > tbody").append(txt);
-						}
-	        			
-	        		}
-	        		
-	        	}).fail(function(xhr, status, errorThrown){
-	        		$.alert({
-	        		    title: 'ERRO!',
-	        		    content: 'erro ao buscar por nome: '+xhr.textResponse
-	        		});
-	        	});
-    		}
-    	}
-    	
    		function deletar(){
     		$.confirm({
     		    title: 'Confirmação!',
     		    content: 'Deseja excluir o cadastro atual?',
     		    buttons: {
     		        sim: function () {
-    		        	$("#form-user").attr("method", "get");
+    		        	$("#form-empresa").attr("method", "get");
     	    			$("#acao").attr("value", "excluirUser");
-    	    			$("#form-user").submit();
+    	    			$("#form-empresa").submit();
     		        },
     		        não: function () {
     		            $.alert('Ação cancelada!');
@@ -524,9 +484,9 @@
     	
     	function deletarComAjax(){
     		
-    		var idUser = $("#id").attr("value");
+    		var idEmpresa = $("#id").attr("value");
     		
-    		if(idUser == null || idUser == ""){
+    		if(idEmpresa == null || idEmpresa == ""){
     			showMsg("Nenhum dado informado!");
     		}else{
     			$.confirm({
@@ -535,21 +495,18 @@
         		    buttons: {
         		        sim: function () {
         		        	
-        		        	var urlAction = $("#form-user").attr("action");
+        		        	var urlAction = $("#form-empresa").attr("action");
         	
         		        	$.ajax({
         		        		
         		        		method: "get",
         		        		url: urlAction,
-        		        		data: "id="+idUser+"&acao=deletarComAjax",
-        		        		success: function (response){
-        		        			$("#id").attr('value', "");
-        	    		    		$("#nome").attr('value', "");
-        	    		    		$("#email").attr('value', "");
-        	    		    		$("#user").attr('value', "");
-        	    		    		$("#password").attr('value', "");
+        		        		data: "id="+idEmpresa+"&acao=deletarComAjax",
+        		        		success: function (response){       		        			        			
         		        			
         		        			showMsg(response);
+        		        			
+        		        			limpaForm();
         		        		}
         		        		
         		        	}).fail(function(xhr, status, errorThrown){

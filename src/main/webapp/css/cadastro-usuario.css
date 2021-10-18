@@ -4,3 +4,11 @@
 	max-width: 38em;
 	margin: 0 auto;
 }
+
+.modalEmpresa{
+	max-width: 80vh !important;
+}
+
+.scrollable{
+	overflow: scroll;
+}

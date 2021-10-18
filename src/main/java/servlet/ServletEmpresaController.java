@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import jakarta.websocket.Session;
 import models.ModelEmpresa;
 import models.ModelLogin;
 
@@ -25,13 +26,14 @@ import models.ModelLogin;
  */
 
 @MultipartConfig(maxFileSize=1024*1024*5) // anotação para receber dados FILE do form
-@WebServlet(urlPatterns = {"/ServletUserController", "/principal/ver-usuarios"})
-public class ServletUserController extends HttpServlet {
+@WebServlet(urlPatterns = {"/ServletEmpresaController", "/principal/ver-empresas"})
+public class ServletEmpresaController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private DAOLoginRepository userRepo = new DAOLoginRepository();
+	private DAOEmpresaRepository empresaRepo = new DAOEmpresaRepository();
          
-    public ServletUserController() {}
+    public ServletEmpresaController() {}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -40,34 +42,45 @@ public class ServletUserController extends HttpServlet {
 			String acao = request.getParameter("acao");
 			
 			//Se a URL de requisição for igual a /ver-susuarios, retorna a lista de usuarios e direciona a pagina
-			if(request.getRequestURI().contains("/principal/ver-usuarios")) {
+			if(request.getRequestURI().contains("/principal/ver-empresas")) {
 				
-				request.setAttribute("totalPaginas", userRepo.countPaginas());
-				request.setAttribute("totalUsers", userRepo.countUsers());
-				request.getRequestDispatcher("/principal/ver-usuarios.jsp").forward(request, response);
+				String userPerfil = (String) request.getSession().getAttribute("perfilUser");
+				
+				if(userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("admin")) {
+					request.setAttribute("totalPaginas", empresaRepo.countPaginas());
+					request.setAttribute("totalUsers", empresaRepo.countUsers());
+				}else if (userPerfil != null && !userPerfil.isEmpty() && (userPerfil.equalsIgnoreCase("administrador") || userPerfil.equalsIgnoreCase("colaborador"))) {
+					Long empresaResp = (Long) request.getSession().getAttribute("empresaUserSession");
+					request.setAttribute("totalPaginas", empresaRepo.countPaginasByPerfil(empresaResp));
+					request.setAttribute("totalUsers", empresaRepo.countUsersByPerfil(empresaResp));
+				}
+				
+				
+				request.getRequestDispatcher("/principal/ver-empresas.jsp").forward(request, response);
 				
 			}
 			
 			//Ações GET - procedural
 			if(acao != null && !acao.isEmpty() && acao.equals("buscarComAjax")) {
 				
-				String nomeP = request.getParameter("nomeP");
-				List<ModelLoginDTO> userSearch = new ArrayList<ModelLoginDTO>();
+				String razaoSocial = request.getParameter("razaoSocial");
+				List<ModelEmpresa> empresaSearch = new ArrayList<ModelEmpresa>();
 				
-				if(nomeP != null && !nomeP.isEmpty()) {
+				if(razaoSocial != null && !razaoSocial.isEmpty()) {
+					
 					String userPerfil = (String) request.getSession().getAttribute("perfilUser");
 					
 					if(userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("admin")) {
-						userSearch = userRepo.findByName(nomeP);
+						empresaSearch = empresaRepo.findByRazaoSocial(razaoSocial);
 					}else if (userPerfil != null && !userPerfil.isEmpty() && (userPerfil.equalsIgnoreCase("administrador") || userPerfil.equalsIgnoreCase("colaborador"))) {
 						Long empresaResp = (Long) request.getSession().getAttribute("empresaUserSession");
-						userSearch = userRepo.findByName(nomeP, empresaResp);
-					}	
+						empresaSearch = empresaRepo.findByRazaoSocial(razaoSocial, empresaResp);
+					}
 					
 					//transformando a lista em JSON com Jackson
 					ObjectMapper mapper = new ObjectMapper();
 					try {
-				         String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(userSearch);
+				         String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(empresaSearch);
 				         response.getWriter().write(json);
 				      } catch(Exception e) {
 				         e.printStackTrace();
@@ -79,32 +92,33 @@ public class ServletUserController extends HttpServlet {
 				Long id = sid != null && !sid.isEmpty() ? Long.parseLong(sid) : null;
 				
 				if(id != null) {
-					userRepo.deleteById(id);
-					response.getWriter().write("Usuário removido com sucesso!");
+					empresaRepo.deleteById(id);
+					response.getWriter().write("Empresa removida com sucesso!");
 				}	
-			}else if(acao != null && !acao.isEmpty() && acao.equals("editarUser")) {
+			}else if(acao != null && !acao.isEmpty() && acao.equals("editarEmpresa")) {
 				
 				String sid = request.getParameter("id");
 				Long id = sid != null && !sid.isEmpty() ? Long.parseLong(sid) : null;
 				
 				if(id != null) {
-					ModelLoginDTO user = new ModelLoginDTO(userRepo.searchById(id));
-					request.setAttribute("userDto", user);
-					request.setAttribute("msg", "Editando usuário "+user.getNome());					
-					request.getRequestDispatcher("/principal/cadastrar-usuario.jsp").forward(request, response);
+					ModelEmpresa empresa = empresaRepo.findById(id);
+					request.setAttribute("empresa", empresa);
+					request.setAttribute("msg", "Editando empresa "+empresa.getRazaoSocial());					
+					request.setAttribute("representante", empresa.getRepresentante().getNome());					
+					request.getRequestDispatcher("/principal/cadastrar-empresa.jsp").forward(request, response);
 				}	
 			}else if(acao != null && !acao.isEmpty() && acao.equals("listarComAjax")){
-				String pagina = request.getParameter("pag");			
+				String pagina = request.getParameter("pag");	
 				Integer nPagina = pagina != null && !pagina.isEmpty() ? Integer.parseInt(pagina) : 1;
+				List<ModelEmpresa> allUsers = new ArrayList<ModelEmpresa>();
 				String userPerfil = (String) request.getSession().getAttribute("perfilUser");
-				List<ModelLoginDTO> allUsers = new ArrayList<ModelLoginDTO>();
 				
 				if(userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("admin")) {
-					allUsers = userRepo.findAllPagination(nPagina);
+					allUsers = empresaRepo.findAllPagination(nPagina);	
 				}else if (userPerfil != null && !userPerfil.isEmpty() && (userPerfil.equalsIgnoreCase("administrador") || userPerfil.equalsIgnoreCase("colaborador"))) {
 					Long empresaResp = (Long) request.getSession().getAttribute("empresaUserSession");
-					allUsers = userRepo.findAllByEmpresaResp(nPagina, empresaResp);	
-				}				
+					allUsers = empresaRepo.findAllPaginationByPerfil(nPagina, empresaResp);
+				}
 				
 				ObjectMapper mapper = new ObjectMapper();
 				try {
@@ -128,54 +142,52 @@ public class ServletUserController extends HttpServlet {
 		
 		try {
 			
-			DAOEmpresaRepository empresaRepo = new DAOEmpresaRepository();
-			
 			//dados vindos do front
 			String id = request.getParameter("id");
-			String nome = request.getParameter("nome");
+			String cnpj = request.getParameter("cnpj");
+			String razaoSocial = request.getParameter("razaoSocial");
 			String email = request.getParameter("email");
-			String username = request.getParameter("user");
-			String password = request.getParameter("password");
+			String ramo = request.getParameter("ramo");
+			String telefone = request.getParameter("telefone");
 			String perfil = request.getParameter("perfil");
-			String genero = request.getParameter("genero");
 			String cep = request.getParameter("cep");
 			String logradouro = request.getParameter("logradouro");
 			String bairro = request.getParameter("bairro");
 			String cidade = request.getParameter("cidade");
 			String uf = request.getParameter("uf");
-			String empresa = request.getParameter("empresa");
+			String representante = request.getParameter("representante");
 			String acao = request.getParameter("acao");
 			
-			ModelLogin model = new ModelLogin();
-			ModelEmpresa userEmpresa = empresaRepo.findById(empresa != null && !empresa.isEmpty() ? Long.parseLong(empresa) : null);
+			ModelEmpresa model = new ModelEmpresa();
+			ModelLogin userRepresentante = userRepo.searchById(representante != null && !representante.isEmpty() ? Long.parseLong(representante) : null);
 			//Settando tipo de dados corretos para o modelo
 			
 			final Part part = request.getPart("userImage");
 			model.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
-			model.setNome(nome);
+			model.setCnpj(cnpj);
+			model.setRazaoSocial(razaoSocial);
 			model.setEmail(email);
-			model.setUser(username);
-			model.setPassword(password);
+			model.setRamo(ramo);
+			model.setTelefone(telefone);
 			model.setPerfil(perfil);
-			model.setGenero(genero);
 			model.setCep(cep);
 			model.setLogradouro(logradouro);
 			model.setBairro(bairro);
 			model.setCidade(cidade);
-			model.setUf(uf);			
-			model.setEmpresa(userEmpresa);			
+			model.setUf(uf);		
+			model.setRepresentante(userRepresentante);
 			 		
 			//Ações POST
 			if(model.getId()==null) {		
 				try {  
 	
-					String realPath = request.getServletContext().getRealPath("/principal/files-upload/");
+					String realPath = request.getServletContext().getRealPath("/principal/files-upload/empresas/");
 					
 					//Se a imagem foi enviada
 				    if(part != null && part.getSize() > 0) {
 				    	
 				    	//Setting do caminho para salvar 	
-				    	File path = new File(realPath+model.getUser());
+				    	File path = new File(realPath+model.getRazaoSocial());
 				    	//Se a pasta nao existir, cria uma nova
 				    	if(!path.exists()) {
 				    		path.mkdirs();
@@ -183,32 +195,23 @@ public class ServletUserController extends HttpServlet {
 				    	//Salta a imagem no server e seta o caminho do banco;
 				    	String fileName = path+"\\"+"user_image."+part.getContentType().split("\\/")[1];
 				    	part.write(fileName);
-					    model.setUserImage(request.getContextPath()+"/principal/files-upload/"+model.getUser()+"/user_image."+part.getContentType().split("\\/")[1]);
+					    model.setLogo(request.getContextPath()+"/principal/files-upload/empresas/"+model.getRazaoSocial()+"/user_image."+part.getContentType().split("\\/")[1]);
 				    }else {
 				    	//Caso não for carregada a imagem, uma imagem default é salva no perfil
-				    	model.setUserImage(request.getContextPath()+"/principal/files-upload/default/profile.png");
+				    	model.setLogo(request.getContextPath()+"/principal/files-upload/default/profile.png");
 				    }
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if (!userRepo.verifyUsername(model.getUser())) {
-					model = userRepo.save(model);
-					request.setAttribute("msg", "Usuário cadastrado com sucesso");					
-				}else {
-					request.setAttribute("msg", "Nome de usuário já existe");		
-					ModelLoginDTO userDto = new ModelLoginDTO(model);
-					
-					request.setAttribute("userDto", userDto);
-					
-					request.getRequestDispatcher("/principal/cadastrar-usuario.jsp").forward(request, response);	
-					return;
-				}
+				Long empresaResp = (Long) request.getSession().getAttribute("empresaUserSession");
+				model = empresaRepo.save(model, empresaResp);
+				request.setAttribute("msg", "Empresa cadastrada com sucesso");
 			}else{
 				
 				if(part != null && part.getSize() > 0) {
-					String realPath = request.getServletContext().getRealPath("/principal/files-upload/");
+					String realPath = request.getServletContext().getRealPath("/principal/files-upload/empresas/");
 					//Setting do caminho para salvar 	
-			    	File path = new File(realPath+model.getUser());
+			    	File path = new File(realPath+model.getRazaoSocial());
 			    	//Se a pasta nao existir, cria uma nova
 			    	if(!path.exists()) {
 			    		path.mkdirs();
@@ -225,20 +228,21 @@ public class ServletUserController extends HttpServlet {
 			    	//Salta a imagem no server e seta o caminho do banco;
 			    	String fileName = path+"\\"+"user_image."+part.getContentType().split("\\/")[1];
 			    	part.write(fileName);
-				    model.setUserImage(request.getContextPath()+"/principal/files-upload/"+model.getUser()+"/user_image."+part.getContentType().split("\\/")[1]);
+				    model.setLogo(request.getContextPath()+"/principal/files-upload/empresas/"+model.getRazaoSocial()+"/user_image."+part.getContentType().split("\\/")[1]);
 				}else {
-					model.setUserImage(userRepo.searchById(model.getId()).getUserImage());
+					model.setLogo(userRepo.searchById(model.getId()).getUserImage());
 				}
-				model = userRepo.update(model);
-				request.setAttribute("msg", "Usuário atualizado com sucesso");
+				Long empresaResp = (Long) request.getSession().getAttribute("empresaUserSession");
+				model = empresaRepo.update(model, empresaResp);
+				request.setAttribute("msg", "Empresa atualizada com sucesso");
 			}
 			
-			//Ação Pós Operação
-			ModelLoginDTO userDto = new ModelLoginDTO(model);
+			//Ação Pós Operação			
+			request.setAttribute("empresa", model);
+			request.setAttribute("representante", model.getRepresentante().getNome());
 			
-			request.setAttribute("userDto", userDto);
-			
-			request.getRequestDispatcher("/principal/cadastrar-usuario.jsp").forward(request, response);							
+			request.getRequestDispatcher("/principal/cadastrar-empresa.jsp").forward(request, response);							
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();			

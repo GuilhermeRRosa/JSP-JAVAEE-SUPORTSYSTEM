@@ -13,6 +13,7 @@ import models.ModelLogin;
 public class DAOLoginRepository {
 
 	private Connection connection;
+	private DAOEmpresaRepository empresaRepo = new DAOEmpresaRepository();
 
 	public DAOLoginRepository() {
 		connection = SingleConnection.getConnection();
@@ -45,7 +46,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "INSERT INTO model_login (nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf) " + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO model_login (nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa) " + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model.getNome());
 			statement.setString(2, model.getEmail());
@@ -59,6 +60,7 @@ public class DAOLoginRepository {
 			statement.setString(10, model.getBairro());
 			statement.setString(11, model.getCidade());
 			statement.setString(12, model.getUf());
+			statement.setLong(13, model.getEmpresa().getId());
 			statement.execute();
 			connection.commit();
 
@@ -76,7 +78,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT id, nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE username = ? AND isadmin = false";
+			String sql = "SELECT id, nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa FROM model_login WHERE username = ? AND isadmin = false";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, username);
 			ResultSet set = statement.executeQuery();
@@ -95,6 +97,7 @@ public class DAOLoginRepository {
 				user.setBairro(set.getString("bairro"));
 				user.setCidade(set.getString("cidade"));
 				user.setUf(set.getString("uf"));
+				user.setEmpresa(empresaRepo.findById(set.getLong("empresa")));
 			}
 
 			return user;
@@ -112,7 +115,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT id, nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE username = ?";
+			String sql = "SELECT id, nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa FROM model_login WHERE username = ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, username);
 			ResultSet set = statement.executeQuery();
@@ -131,6 +134,7 @@ public class DAOLoginRepository {
 				user.setBairro(set.getString("bairro"));
 				user.setCidade(set.getString("cidade"));
 				user.setUf(set.getString("uf"));
+				user.setEmpresa(empresaRepo.findById(set.getLong("empresa")));
 			}
 
 			return user;
@@ -148,7 +152,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT id, nome, email, username, password, genero, user_image, cep, logradouro, bairro, cidade, uf, perfil FROM model_login WHERE id = ? AND isadmin = false";
+			String sql = "SELECT id, nome, email, username, password, genero, user_image, cep, logradouro, bairro, cidade, uf, perfil, empresa FROM model_login WHERE id = ? AND isadmin = false";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setLong(1, id);
 			ResultSet set = statement.executeQuery();
@@ -167,6 +171,8 @@ public class DAOLoginRepository {
 				user.setCidade(set.getString("cidade"));
 				user.setUf(set.getString("uf"));
 				user.setPerfil(set.getString("perfil"));
+				user.setEmpresa(empresaRepo.findById(set.getLong("empresa")));
+
 			}
 
 			return user;
@@ -181,7 +187,7 @@ public class DAOLoginRepository {
 	public ModelLogin update(ModelLogin model) {
 		try {
 
-			String sql = "UPDATE model_login SET username=?, password=?, nome=?, email=?, perfil=?, genero=?, user_image=?, cep=?, logradouro=?, bairro=?, cidade=?, uf=? WHERE id = ? AND isadmin = false;";
+			String sql = "UPDATE model_login SET username=?, password=?, nome=?, email=?, perfil=?, genero=?, user_image=?, cep=?, logradouro=?, bairro=?, cidade=?, uf=?, empresa=? WHERE id = ? AND isadmin = false;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model.getUser());
 			statement.setString(2, model.getPassword());
@@ -194,8 +200,9 @@ public class DAOLoginRepository {
 			statement.setString(9, model.getLogradouro());
 			statement.setString(10, model.getBairro());
 			statement.setString(11, model.getCidade());
-			statement.setString(12, model.getUf());	
-			statement.setLong(13, model.getId());
+			statement.setString(12, model.getUf());
+			statement.setLong(13, model.getEmpresa().getId());
+			statement.setLong(14, model.getId());
 			statement.executeUpdate();
 			connection.commit();
 
@@ -251,7 +258,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf FROM public.model_login WHERE UPPER(nome) like UPPER(?) AND isadmin = false;";
+			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa FROM public.model_login WHERE UPPER(nome) like UPPER(?) AND isadmin = false;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, "%" + nomeP + "%");
 			ResultSet set = statement.executeQuery();
@@ -270,6 +277,7 @@ public class DAOLoginRepository {
 				dados.setBairro(set.getString("bairro"));
 				dados.setCidade(set.getString("cidade"));
 				dados.setUf(set.getString("uf"));
+				dados.setEmpresa(empresaRepo.findById(set.getLong("empresa")));
 				resultUsers.add(dados);
 			}
 
@@ -288,7 +296,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE isadmin = false";
+			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa FROM model_login WHERE isadmin = false";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet set = statement.executeQuery();
 
@@ -306,6 +314,7 @@ public class DAOLoginRepository {
 				dados.setBairro(set.getString("bairro"));
 				dados.setCidade(set.getString("cidade"));
 				dados.setUf(set.getString("uf"));
+				dados.setEmpresa(empresaRepo.findById(set.getLong("empresa")));
 				resultUsers.add(dados);
 			}
 
@@ -317,6 +326,7 @@ public class DAOLoginRepository {
 		}
 
 	}
+	
 	public List<ModelLoginDTO> findAllPagination(Integer pagina) {
 		
 		List<ModelLoginDTO> resultUsers = new ArrayList<>();
@@ -329,7 +339,7 @@ public class DAOLoginRepository {
 			
 		try {
 			
-			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf FROM model_login WHERE isadmin = false ORDER BY nome ASC offset "+(offset*pagina)+" limit 10";
+			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa FROM model_login WHERE isadmin = false ORDER BY nome ASC offset "+(offset*pagina)+" limit 10";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet set = statement.executeQuery();
 			
@@ -347,6 +357,7 @@ public class DAOLoginRepository {
 				dados.setBairro(set.getString("bairro"));
 				dados.setCidade(set.getString("cidade"));
 				dados.setUf(set.getString("uf"));
+				dados.setEmpresa(empresaRepo.findById(set.getLong("empresa")));
 				resultUsers.add(dados);
 			}
 			
@@ -389,6 +400,137 @@ public class DAOLoginRepository {
 		}catch (Exception e) {
 			e.printStackTrace();
 			return result;
+		}
+	}
+	
+	public int countPaginas(Long empresaResp) {
+		
+		Double totalPaginas = (double) countUsers(empresaResp) / 10;
+
+		if (((double) countUsers(empresaResp) % 10) > 0) {
+			totalPaginas += 1;
+		}
+		
+		return totalPaginas.intValue();
+	}
+	
+	public int countUsers(Long empresaResp) {
+		
+		Integer result = 0;
+		
+		try {
+	
+		String sql = " SELECT count(1) as conta "
+				+" FROM model_login ml, model_empresa me WHERE isadmin = false AND me.empresa_resp = ? AND ml.empresa = me.id "
+				+" UNION "
+				+" SELECT count(1) as conta "
+				+" FROM model_login ml, model_empresa me WHERE isadmin = false AND ml.empresa = ? ";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setLong(1, empresaResp);
+		statement.setLong(2, empresaResp);
+		ResultSet set = statement.executeQuery();
+		
+		set.next();
+		
+		result = set.getInt("conta");
+		
+		return result;
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return result;
+		}
+	}
+
+	public List<ModelLoginDTO> findAllByEmpresaResp(Integer pagina, Long empresaResp) {
+		List<ModelLoginDTO> resultUsers = new ArrayList<>();
+		
+		int offset = 10;
+		
+		if(pagina == null) {
+			pagina = 1;
+		}
+			
+		try {
+			
+			String sql = " SELECT ml.username, ml.id, ml.nome, ml.email, ml.perfil, ml.genero, ml.user_image, ml.cep, ml.logradouro, ml.bairro, ml.cidade, ml.uf, ml.empresa "
+						+" FROM model_login ml, model_empresa me WHERE isadmin = false AND me.empresa_resp = ? AND ml.empresa = me.id "
+						+" UNION "
+						+" SELECT ml.username, ml.id, ml.nome, ml.email, ml.perfil, ml.genero, ml.user_image, ml.cep, ml.logradouro, ml.bairro, ml.cidade, ml.uf, ml.empresa "
+						+" FROM model_login ml, model_empresa me WHERE isadmin = false AND ml.empresa = ? ORDER BY nome ASC offset "+(offset*pagina)+" limit 10";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setLong(1, empresaResp);
+			statement.setLong(2, empresaResp);
+			ResultSet set = statement.executeQuery();
+			
+			while (set.next()) {
+				ModelLoginDTO dados = new ModelLoginDTO();
+				dados.setId(set.getLong("id"));
+				dados.setNome(set.getString("nome"));
+				dados.setUser(set.getString("username"));
+				dados.setEmail(set.getString("email"));
+				dados.setPerfil(set.getString("perfil"));
+				dados.setGenero(set.getString("genero"));
+				dados.setUserImage(set.getString("user_image"));
+				dados.setCep(set.getString("cep"));
+				dados.setLogradouro(set.getString("logradouro"));
+				dados.setBairro(set.getString("bairro"));
+				dados.setCidade(set.getString("cidade"));
+				dados.setUf(set.getString("uf"));
+				dados.setEmpresa(empresaRepo.findById(set.getLong("empresa")));
+				resultUsers.add(dados);
+			}
+			
+			return resultUsers;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return resultUsers;
+		}
+	}
+
+	public List<ModelLoginDTO> findByName(String nomeP, Long empresaResp) {
+		
+		List<ModelLoginDTO> resultUsers = new ArrayList<>();
+
+		try {
+
+			String sql = " SELECT ml.username, ml.id, ml.nome, ml.email, ml.perfil, ml.genero, ml.user_image, ml.cep, ml.logradouro, ml.bairro, ml.cidade, ml.uf, ml.empresa "
+					+" FROM model_login ml, model_empresa me WHERE ml.isadmin = false AND me.empresa_resp = ? AND ml.empresa = me.id "
+					+" UNION "
+					+" SELECT ml.username, ml.id, ml.nome, ml.email, ml.perfil, ml.genero, ml.user_image, ml.cep, ml.logradouro, ml.bairro, ml.cidade, ml.uf, ml.empresa "
+					+" FROM model_login ml, model_empresa me WHERE ml.isadmin = false AND ml.empresa = ? AND UPPER(ml.nome) like UPPER(?) ORDER BY nome ASC";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setLong(1, empresaResp);
+			statement.setLong(2, empresaResp);
+			statement.setString(3, "%" + nomeP + "%");
+			ResultSet set = statement.executeQuery();
+
+			while (set.next()) {
+				ModelLoginDTO dados = new ModelLoginDTO();
+				dados.setId(set.getLong("id"));
+				dados.setNome(set.getString("nome"));
+				dados.setUser(set.getString("username"));
+				dados.setEmail(set.getString("email"));
+				dados.setPerfil(set.getString("perfil"));
+				dados.setGenero(set.getString("genero"));
+				dados.setUserImage(set.getString("user_image"));
+				dados.setCep(set.getString("cep"));
+				dados.setLogradouro(set.getString("logradouro"));
+				dados.setBairro(set.getString("bairro"));
+				dados.setCidade(set.getString("cidade"));
+				dados.setUf(set.getString("uf"));
+				dados.setEmpresa(empresaRepo.findById(set.getLong("empresa")));
+				resultUsers.add(dados);
+			}
+
+			return resultUsers;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return resultUsers;
 		}
 	}
 }

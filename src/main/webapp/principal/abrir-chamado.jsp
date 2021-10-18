@@ -45,7 +45,7 @@
                                         	<div class="col-md-12 shadow">
                                         		<div class="card">
                                         			<div class="card-header">
-                                                        <h5>Formulário de usuários</h5>
+                                                        <h5>Cadastrar chamado</h5>
                                                     </div>
                                                     <div class="alert alert-info text-center" role="alert">
 														<span id="msg">
@@ -53,118 +53,23 @@
 														</span>
 													</div>
                                         			<div class="card-block">
-                                        				<form enctype="multipart/form-data" action="<%= request.getContextPath() %>/ServletUserController" method="post" class="form-material" id="form-user">
-                                        					<!-- INPUT DE DELEÇÃO -->
-                                        					<input type="hidden" name="acao" value="" id="acao" />
-                                        					<c:if test="${userDto.id != null}">
-	                                        					<div class="form-group form-default form-static-label">
-	                                        						<input type="text" name="id" id="id" class="form-control" value="${userDto.id}" placeholder="Aqui vai o id" required="required" readonly="readonly">
-	                                        						<span class="form-bar"></span>
-	                                        						<label class="float-label">Id</label>
-	                                        					</div>
-                                        					</c:if>
+                                        				<form action="<%= request.getContextPath() %>/ServletChamadoController" method="post" class="form-material" id="form-user">
                                         					<div class="form-group form-default form-static-label">
-                                        						<input type="text" name="nome" id="nome" class="form-control" value="${userDto.nome}" placeholder="Digite o seu nome" required="required">
+                                        						<input type="text" name="titulo" id="titulo" class="form-control" value="${userDto.nome}" placeholder="Digite o assunto da chamada" required="required">
                                         						<span class="form-bar"></span>
-                                        						<label class="float-label">Nome completo</label>
-                                        					</div>
-                                        					<div class="form-group">
-                                        						<label class="form-label">Gênero: </label>
-                                        						<br>
-                                        						<input type="radio" name="genero" id="sexo-m" value="masculino" required="required" ${userDto.genero=='masculino' ? 'checked' : ''}> Masculino
-                                        						<input type="radio" name="genero" id="sexo-f" value="feminino" required="required" <c:if test="${userDto.genero=='feminino'}">checked</c:if>> Feminino
-                                        						<input type="radio" name="genero" id="sexo-o" value="outros" required="required" ${userDto.genero=='outros' ? 'checked' : ''}> Outros
-                                        						<span class="form-bar"></span>
-                                        					</div>
-                                        					<hr>
-                                        					<div class="form-group form-default form-static-label">
-                                        						<input type="email" name="email" id="email" class="form-control" value="${userDto.email}" placeholder="Digite o seu e-mail" required="required">
-                                        						<span class="form-bar"></span>
-                                        						<label class="float-label">email</label>
+                                        						<label class="float-label">Assunto</label>
                                         					</div>
                                         					<div class="form-group form-default form-static-label">
-                                                                 <select name="perfil" id="perfil" class="form-control" required>
-                                                                     <option value="" ${userDto.perfil == null ? 'disabled selected hidden' : ''}>Selecione o perfil de usuário</option>
-                                                                     <option value="administrador" ${userDto.perfil == "administrador" ? 'selected' : ''}>Administrador</option>
-                                                                     <option value="colaborador" ${userDto.perfil == "colaborador" ? 'selected' : ''}>Colaborador</option>
-                                                                     <option value="cliente" ${userDto.perfil == "cliente" ? 'selected' : ''}>Cliente</option>
-                                                                 </select>
-                                                                 <span class="form-bar"></span>
-                                        						<label class="float-label">Perfil</label>
-                                        					</div>
-                                        					<div class="form-group form-default form-static-label row">
-	                                        					<div class="col-sm-4">
-	                                        						<input type="text" id="nomeEmpresa" class="form-control" value="${userDto.empresa.razaoSocial}" readonly="readonly">
-	                                        						<input type="hidden" name="empresa" id="empresa" class="form-control" value="${userDto.empresa.id}">
-	                                        						<span class="form-bar"></span>
-	                                        						<label class="float-label">Empresa</label>
-	                                        					</div>
-                                        						<div class="col-sm-8" id="div-select-empresa">
-																	<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#pesquisarEmpresaModal">Selecionar empresa</button>
-                                        						</div>
-                                        					</div>	
-                                        					<div class="form-group form-default form-static-label row">
-                                        						<div class="col-md-4">
-	                                        						<input type="text" name="cep" id="cep" class="form-control" value="${userDto.cep}" placeholder="Digite o seu CEP">
-	                                        						<span class="form-bar"></span>
-	                                        						<label class="float-label">CEP</label>
-	                                        					</div>
-	                                        					<div class="col-md-8">
-	                                        						<input type="text" name="logradouro" id="logradouro" class="form-control" value="${userDto.logradouro}" placeholder="Logradouro">
-                                        							<span class="form-bar"></span>
-                                        							<label class="float-label">Logradouro</label>
-	                                        					</div>
-                                        					</div>
-                                        					<div class="form-group form-default form-static-label row">
-                                        						<div class="col-md-4">
-                                        							<input type="text" name="bairro" id="bairro" class="form-control" value="${userDto.bairro}" placeholder="Bairro">
-	                                        						<span class="form-bar"></span>
-	                                        						<label class="float-label">Bairro</label>
-                                        						</div>
-                                        						<div class="col-md-4">
-                                        							<input type="text" name="cidade" id="cidade" class="form-control" value="${userDto.cidade}" placeholder="Cidade">
-	                                        						<span class="form-bar"></span>
-	                                        						<label class="float-label">Cidade</label>
-                                        						</div>
-                                        						<div class="col-md-4">
-                                        							<input type="text" name="uf" id="uf" class="form-control" value="${userDto.uf}" placeholder="UF">
-	                                        						<span class="form-bar"></span>
-	                                        						<label class="float-label">UF</label>
-                                        						</div>
-                                        					</div>
-                                        					<div class="form-group form-default form-static-label">
-                                        						<c:choose>
-                                       								<c:when test="${userDto.userImage != null}">
-		                                        						<img alt="img perfil" id="img64" src="${userDto.userImage}" width="70px" class="my-2 img-fluid">                                    						                                       								
-                                       								</c:when>
-                                       								<c:otherwise>
-                                       								    <img alt="img perfil" id="img64" src="<%=request.getContextPath()%>/principal/files-upload/default/profile.png" width="70px" class="my-2 img-fluid"> 								
-                                       								</c:otherwise>
-                                        						</c:choose>
-                                        						<input type="file" name="userImage" id="fileImg" accept="image/*" onchange="vizualizaImg('img64', 'fileImg')" class="form-control my-2">
+                                        						<textarea class="form-control" id="summernote" name="descricao" required="required"></textarea>
                                         						<span class="form-bar"></span>
-                                        						<label class="float-label">Foto de perfil</label>
-                                        					</div>
-                                        					<div class="form-group form-default form-static-label">
-                                        						<input type="text" name="user" id="user" class="form-control" value="${userDto.user}" placeholder="Digite o seu nick" required="required">
-                                        						<span class="form-bar"></span>
-                                        						<label class="float-label">Nome de usuário</label>
-                                        					</div>
-                                        					<div class="form-group form-default form-static-label">
-                                        						<input type="password" name="password" id="password" class="form-control" required="required">
-                                        						<span class="form-bar"></span>
-                                        						<label class="float-label">Senha</label>
+                                        						<label class="float-label">Descrição</label>
                                         					</div>
                                         					<div class="d-flex flex-row-reverse">
-                                        						<button type="submit" class="btn btn-primary waves-effect waves-light">Salvar</button>
-                                        						<button type="reset" onclick="limpaForm()" id="btn-limpaTela"  class="btn btn-warning waves-effect waves-light mx-2">Novo</button>
-                                        						<button type="button" onclick="deletarComAjax()" class="btn btn-danger waves-effect waves-light mx-2">Remover</button>
-																<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pesquisarUserModal">Pesquisar</button>
+                                        						<button type="submit" class="btn btn-primary waves-effect waves-light">Enviar</button>
                                         					</div>
                                         				</form>
                                         			</div>
                                         		</div>
-                                        	
                                         	</div>
                                         </div>
                                     </div>
@@ -278,13 +183,9 @@
     	} */
     	
     	$(document).ready(function(){
-    		if($("#perfil").val()=="colaborador" || $(this).val()=="administrador"){
-        		$("#div-select-empresa").addClass("d-none");
-        		$("#nomeEmpresa").val('${empresaUserSessionNome}');
-        		$("#empresa").val('${empresaUserSession}');
-        	}else{
-        		$("#div-select-empresa").removeClass("d-none");
-        	}
+    		$('#summernote').summernote({
+    			height: 100
+    		});
     	})
     	
     	$(".alert-info").hide();

@@ -40,19 +40,17 @@
                                     <div class="page-body">
                                         <div class="row">                     
                                         	
-                                        	<h3>Todos os usuários</h3>
+                                        	<h3>Todos as empresas</h3>
                                         	
                                         	<!-- tabela com os usuários -->
                                         	<table class="table table-sm table-striped">
 											  <thead class="thead-dark">
 											    <tr>
 											      <th scope="col">#Id</th>
-											      <th scope="col">Nome</th>
+											      <th scope="col">Razão Social</th>
 											      <th scope="col">E-mail</th>
-											      <th scope="col">Empresa</th>
-											      <th scope="col">Username</th>
-											      <th scope="col">Gênero</th>
-											      <th scope="col">Perfil</th>
+											      <th scope="col">Representante</th>
+											      <th scope="col">Telefone</th>
 											      <th scope="col">ações</th>
 											    </tr>
 											  </thead>
@@ -93,7 +91,7 @@
     function paginationAjax(pag){
     	$.ajax({	
     		method: "get",
-    		url: "<%= request.getContextPath() %>/ServletUserController",
+    		url: "<%= request.getContextPath() %>/ServletEmpresaController",
     		data: "pag="+pag+"&acao=listarComAjax",
     		success: function (response){
 
@@ -105,12 +103,10 @@
 					
 					var txt = '<tr>';
 					txt += '<td>'+jsonResult[i].id+'</td>';
-					txt += '<td>'+jsonResult[i].nome+'</td>';
+					txt += '<td>'+jsonResult[i].razaoSocial+'</td>';
 					txt += '<td>'+jsonResult[i].email+'</td>';
-					txt += '<td>'+jsonResult[i].empresa.razaoSocial+'</td>';
-					txt += '<td>'+jsonResult[i].user+'</td>';
-					txt += '<td>'+jsonResult[i].genero+'</td>';
-					txt += '<td>'+jsonResult[i].perfil+'</td>';
+					txt += '<td>'+jsonResult[i].representante.nome+'</td>';
+					txt += '<td>'+jsonResult[i].telefone+'</td>';
 					txt += '<td>';
 					txt += "<i class='ti-pencil' onclick='editar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
 					txt += "<i class='ti-trash mx-3' onclick='deletar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
@@ -119,14 +115,14 @@
 					
 					$(".table-sm > tbody").append(txt);	
 				}
-				var lastLine = '<tr><td colspan="8"><strong>Total: <c:out value="${totalUsers}"></c:out></strong></td>';
+				var lastLine = '<tr><td colspan="6"><strong>Total: <c:out value="${totalUsers}"></c:out></strong></td>';
 				
 				$(".table-sm > tbody").append(lastLine);
     		}	        		
     	}).fail(function(xhr, status, errorThrown){
     		$.alert({
     		    title: 'ERRO!',
-    		    content: 'erro ao listar usuários: '+xhr.textResponse
+    		    content: 'erro ao listar empresas: '+xhr.textResponse
     		});
     	});
     }
@@ -139,7 +135,7 @@
 		        sim: function () {
 		        	$.ajax({	
 		        		method: "get",
-		        		url: "<%= request.getContextPath() %>/ServletUserController",
+		        		url: "<%= request.getContextPath() %>/ServletEmpresaController",
 		        		data: "id="+id+"&acao=deletarComAjax",
 		        		success: function (response){
 		        			$.confirm({
@@ -173,7 +169,7 @@
     		    content: 'Deseja editar o cadastro de ID = '+id+'?',
     		    buttons: {
     		        sim: function () {
-    		        	location.href="<%= request.getContextPath() %>/ServletUserController?acao=editarUser&id="+id;
+    		        	location.href="<%= request.getContextPath() %>/ServletEmpresaController?acao=editarEmpresa&id="+id;
     		        },
     		        não: function () {
     		            $.alert('Ação cancelada!');

@@ -41,7 +41,8 @@
                                       <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
                                       <span class="pcoded-mcaret"></span>
                                   </a>
-                              </li> 
+                              </li>
+                              <c:if test="${perfilUser=='admin' || perfilUser=='administrador' || perfilUser=='colaborador'}"> 
                               <li class="pcoded-hasmenu">
                                   <a href="javascript:void(0)" class="waves-effect waves-dark">
                                       <span class="pcoded-micon"><i class="ti-user"></i></span>
@@ -49,7 +50,7 @@
                                       <span class="pcoded-mcaret"></span>
                                   </a>
                                   <ul class="pcoded-submenu">
-                                  	<c:if test="${perfilUser=='admin'}">
+                                  	<c:if test="${perfilUser=='admin' || perfilUser=='administrador'}">
                                       <li class=" ">
                                           <a href="<%= request.getContextPath() %>/principal/cadastrar-usuario.jsp" class="waves-effect waves-dark">
                                               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -65,8 +66,34 @@
                                               <span class="pcoded-mcaret"></span>
                                           </a>
                                       </li>             
-                                  </ul>
+                                  </ul>                                 
+                              </li>                             
+                              <li class="pcoded-hasmenu">
+                                  <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                      <span class="pcoded-micon"><i class="ti-user"></i></span>
+                                      <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Empresas</span>
+                                      <span class="pcoded-mcaret"></span>
+                                  </a>
+                                  <ul class="pcoded-submenu">
+                                  	<c:if test="${perfilUser=='admin' || perfilUser=='administrador'}">
+                                      <li class=" ">
+                                          <a href="<%= request.getContextPath() %>/principal/cadastrar-empresa.jsp" class="waves-effect waves-dark">
+                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Cadastrar Empresa</span>
+                                              <span class="pcoded-mcaret"></span>
+                                          </a>
+                                      </li>
+                                    </c:if>
+                                      <li class=" ">
+                                          <a href="<%= request.getContextPath() %>/principal/ver-empresas" class="waves-effect waves-dark">
+                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Ver todos</span>
+                                              <span class="pcoded-mcaret"></span>
+                                          </a>
+                                      </li>             
+                                  </ul>                                 
                               </li>
+                              </c:if>
                               <li>
                                   <a href="<%= request.getContextPath() %>/principal/ver-contatos" class="waves-effect waves-dark">
                                       <span class="pcoded-micon"><i class="ti-mobile"></i><b>D</b></span>
@@ -75,19 +102,74 @@
                                   </a>
                               </li>
                           </ul>
-                          <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Forms &amp; Tables</div>
+                          <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Atendimento</div>
                           <ul class="pcoded-item pcoded-left-item">
-                              <li>
-                                  <a href="form-elements-component.html" class="waves-effect waves-dark">
-                                      <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Form Components</span>
+                              <li class="pcoded-hasmenu">
+                                  <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                      <span class="pcoded-micon"><i class="ti-user"></i></span>
+                                      <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Chamados</span>
                                       <span class="pcoded-mcaret"></span>
                                   </a>
+                                  <ul class="pcoded-submenu">
+                                  	<c:if test="${perfilUser=='administrador'}">
+                                      <li class=" ">
+                                          <a href="<%= request.getContextPath() %>/principal/cadastrar-empresa.jsp" class="waves-effect waves-dark">
+                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Abertos</span>
+                                              <span class="pcoded-mcaret"></span>
+                                          </a>
+                                      </li>
+                                      <li class=" ">
+                                          <a href="<%= request.getContextPath() %>/principal/ver-empresas" class="waves-effect waves-dark">
+                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Em atendimento</span>
+                                              <span class="pcoded-mcaret"></span>
+                                          </a>
+                                      </li>
+                                      <li class=" ">
+                                          <a href="<%= request.getContextPath() %>/principal/ver-empresas" class="waves-effect waves-dark">
+                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Pendência</span>
+                                              <span class="pcoded-mcaret"></span>
+                                          </a>
+                                      </li> 
+                                      <li class=" ">
+                                          <a href="<%= request.getContextPath() %>/principal/ver-empresas" class="waves-effect waves-dark">
+                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Concluídos</span>
+                                              <span class="pcoded-mcaret"></span>
+                                          </a>
+                                      </li>              
+                                    </c:if>
+                                    <c:if test="${perfilUser=='cliente'}">
+                                      <li class=" ">
+                                          <a href="<%= request.getContextPath() %>/principal/abrir-chamado/" class="waves-effect waves-dark">
+                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Abrir chamado</span>
+                                              <span class="pcoded-mcaret"></span>
+                                          </a>
+                                      </li>
+                                   	  <li class=" ">
+                                          <a href="<%= request.getContextPath() %>/principal/ver-chamados/" class="waves-effect waves-dark">
+                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Meus chamados</span>
+                                              <span class="pcoded-mcaret"></span>
+                                          </a>
+                                      </li>
+                                      <li class=" ">
+                                          <a href="<%= request.getContextPath() %>/principal/ver-empresas" class="waves-effect waves-dark">
+                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Concluídos</span>
+                                              <span class="pcoded-mcaret"></span>
+                                          </a>
+                                      </li>  
+                                    </c:if>
+                                  </ul> 
                               </li>
                               <li>
                                   <a href="bs-basic-table.html" class="waves-effect waves-dark">
                                       <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Basic Table</span>
+                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Relatórios</span>
                                       <span class="pcoded-mcaret"></span>
                                   </a>
                               </li>

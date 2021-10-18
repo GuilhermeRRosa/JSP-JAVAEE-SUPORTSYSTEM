@@ -23,6 +23,7 @@ public class ModelLogin implements Serializable {
 	private String uf;
 	private boolean admin;
 	private String perfil;
+	private ModelEmpresa empresa;
 
 	public ModelLogin() {
 	}
@@ -31,6 +32,14 @@ public class ModelLogin implements Serializable {
 		super();
 		this.username = user;
 		this.password = password;
+	}
+
+	public ModelEmpresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(ModelEmpresa empresa) {
+		this.empresa = empresa;
 	}
 
 	public String getPerfil() {

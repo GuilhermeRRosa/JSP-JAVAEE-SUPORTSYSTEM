@@ -73,8 +73,11 @@ public class ServletLogin extends HttpServlet {
 					
 					//GUARDA O USUARIO NA SESSÃO
 					request.getSession().setAttribute("usuario", modelLogin.getUser());
+					request.getSession().setAttribute("userId", modelLogin.getId());
 					request.getSession().setAttribute("perfilUser", modelLogin.getPerfil());
 					request.getSession().setAttribute("userImg", modelLogin.getUserImage());
+					request.getSession().setAttribute("empresaUserSession", modelLogin.getEmpresa().getId());
+					request.getSession().setAttribute("empresaUserSessionNome", modelLogin.getEmpresa().getRazaoSocial());
 
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/principal/inicio.jsp");
 					dispatcher.forward(request, response);

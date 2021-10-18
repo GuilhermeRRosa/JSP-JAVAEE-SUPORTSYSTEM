@@ -32,7 +32,7 @@ $(document).ready(function() {
             $(this).addClass("fa-wrench").fadeIn('slow');
         } else {
             $this.parents('.card-option').animate({
-                'width': '140px',
+                'width': '100px',
             });
             $(this).addClass("fa-times").fadeIn('slow');
             $(this).removeClass("fa-wrench").fadeIn('slow');
