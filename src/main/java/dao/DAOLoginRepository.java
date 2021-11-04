@@ -420,11 +420,12 @@ public class DAOLoginRepository {
 		
 		try {
 	
-		String sql = " SELECT count(1) as conta "
-				+" FROM model_login ml, model_empresa me WHERE isadmin = false AND me.empresa_resp = ? AND ml.empresa = me.id "
-				+" UNION "
-				+" SELECT count(1) as conta "
-				+" FROM model_login ml, model_empresa me WHERE isadmin = false AND ml.empresa = ? ";
+		String sql = " SELECT SUM(conta) as total "
+				+" FROM ( "
+				+ " SELECT count(distinct ml.id) as conta from model_login ml, model_empresa me WHERE isadmin = false AND me.empresa_resp = ? AND ml.empresa = me.id "
+				+" UNION ALL "
+				+" SELECT count(distinct ml.id) as conta FROM model_login ml, model_empresa me WHERE isadmin = false AND ml.empresa = ? "
+				+ " ) as conta ";
 		
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setLong(1, empresaResp);
@@ -433,7 +434,7 @@ public class DAOLoginRepository {
 		
 		set.next();
 		
-		result = set.getInt("conta");
+		result = set.getInt("total");
 		
 		return result;
 			
@@ -459,6 +460,7 @@ public class DAOLoginRepository {
 						+" UNION "
 						+" SELECT ml.username, ml.id, ml.nome, ml.email, ml.perfil, ml.genero, ml.user_image, ml.cep, ml.logradouro, ml.bairro, ml.cidade, ml.uf, ml.empresa "
 						+" FROM model_login ml, model_empresa me WHERE isadmin = false AND ml.empresa = ? ORDER BY nome ASC offset "+(offset*pagina)+" limit 10";
+			
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setLong(1, empresaResp);
 			statement.setLong(2, empresaResp);

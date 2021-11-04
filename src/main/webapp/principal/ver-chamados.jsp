@@ -42,8 +42,8 @@
                                         	<!-- Conteúdo aqui -->
                                         	<div class="col-md-12">
                                         	<div class="card table-card">
-                                                    <div class="card-header">
-                                                        <h5>Chamados</h5>
+                                                    <div class="card-header bg-dark">
+                                                        <h5 class="text-light">Chamados Abertos</h5>
                                                         <div class="card-header-right">
                                                             <ul class="list-unstyled card-option">
                                                                 <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -53,7 +53,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-block">
-                                                        <div class="table-responsive">
+                                                        <c:if test="${!empty chamadosAbertos}">
+                                                          <div class="table-responsive">
                                                             <table class="table table-hover">
                                                                 <thead>
                                                                 <tr>
@@ -64,12 +65,12 @@
                                                                     <th class="text-right">Ações</th>
                                                                 </tr>
                                                                 </thead>
-                                                                <tbody>
-                                                                <c:forEach var="chamado" items="${chamados}">
+                                                                <tbody class="chamados">
+                                                                <c:forEach var="chamado" items="${chamadosAbertos}">
                                                                 <tr>
                                                                     <td><h6>${chamado.titulo}</h6></td>
                                                                     <td>${chamado.cliente.nome}</td>
-                                                                    <td>${chamado.criadoEm}</td>
+                                                                    <td><span class="criadoEm">${chamado.criadoEm}</span></td>
                                                                     <td class="text-right"><label class="label label-danger">${chamado.status}</label></td>
                                                                     <td class="text-right">
                                                                     	<a onclick="confirmaExclusao(${chamado.id})" data-toggle="tooltip" data-placement="left" data-trigger="hover" title="Deletar chamado">
@@ -81,10 +82,131 @@
                                                                 </c:forEach>
                                                                 </tbody>
                                                             </table>
-                                                            <div class="text-right m-r-20">
-                                                                <a href="#" class=" b-b-primary text-primary">View all Projects</a>
-                                                            </div>
+                                                       	  </div>
+                                                        </c:if>
+                                                        <c:if test="${empty chamadosAbertos}">
+                                                      	<div>
+                                                      		<p>
+                                                      			<h6  class="m-3">Não há atendimentos nesta seção</h6>
+                                                      		</p>
+                                                      	</div>
+                                                      </c:if>
+                                                    </div>
+                                                </div>
+                                        	</div>
+                                        	
+                                        	<!-- Chamados em Atendimento -->
+                                        	<div class="col-md-12">
+                                        	<div class="card table-card">
+                                                    <div class="card-header bg-warning">
+                                                        <h5>Chamados em atendimento</h5>
+                                                        <div class="card-header-right">
+                                                            <ul class="list-unstyled card-option">
+                                                                <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                                                <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                                <li><i class="fa fa-minus minimize-card"></i></li>
+                                                            </ul>
                                                         </div>
+                                                    </div>
+                                                    <div class="card-block">
+                                                      <c:if test="${!empty chamadosEmAtendimento}">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-hover">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>Assunto</th>
+                                                                    <th>Atendido por</th>
+                                                                    <th>Criado por</th>
+                                                                    <th>Criado em</th>
+                                                                    <th class="text-right">Status</th>
+                                                                    <th class="text-right">Ações</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="chamados">
+                                                                <c:forEach var="chamado" items="${chamadosEmAtendimento}">
+                                                                <tr>
+                                                                    <td><h6>${chamado.titulo}</h6></td>
+                                                                    <td>${chamado.atentidoPor.nome}</td>
+                                                                    <td>${chamado.cliente.nome}</td>
+                                                                    <td><span class="criadoEm">${chamado.criadoEm}</span></td>
+                                                                    <td class="text-right"><label class="label label-danger">${chamado.status}</label></td>
+                                                                    <td class="text-right">
+                                                                    	<a onclick="confirmaExclusao(${chamado.id})" data-toggle="tooltip" data-placement="left" data-trigger="hover" title="Deletar chamado">
+                                                                    		<i class="ti-trash mr-2"></i>
+                                                                    	</a> 	
+                                                                    	<a href="<%= request.getContextPath() %>/ServletChamadoController?acao=verChamado&id=${chamado.id}" class="btn btn-info text-light">ver</a>
+                                                                    </td>
+                                                                </tr>
+                                                                </c:forEach>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                      </c:if>
+                                                      <c:if test="${empty chamadosEmAtendimento}">
+                                                      	<div>
+                                                      		<p>
+                                                      			<h6  class="m-3">Não há atendimentos nesta seção</h6>
+                                                      		</p>
+                                                      	</div>
+                                                      </c:if>
+                                                    </div>
+                                                </div>
+                                        	</div>
+                                        	
+                                        	<!-- Chamados em Pendência -->
+                                        	<div class="col-md-12">
+                                        	<div class="card table-card">
+                                                    <div class="card-header bg-danger">
+                                                        <h5 class="text-light">Chamados em Pendência</h5>
+                                                        <div class="card-header-right">
+                                                            <ul class="list-unstyled card-option">
+                                                                <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                                                <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                                <li><i class="fa fa-minus minimize-card"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block">
+                                                      <c:if test="${!empty chamadosEmPendencia}">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-hover">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>Assunto</th>
+                                                                    <th>Atendido por</th>
+                                                                    <th>Criado por</th>
+                                                                    <th>Criado em</th>
+                                                                    <th class="text-right">Status</th>
+                                                                    <th class="text-right">Ações</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="chamados">
+                                                                <c:forEach var="chamado" items="${chamadosEmPendencia}">
+                                                                <tr>
+                                                                    <td><h6>${chamado.titulo}</h6></td>
+                                                                    <td>${chamado.atentidoPor.nome}</td>
+                                                                    <td>${chamado.cliente.nome}</td>
+                                                                    <td><span class="criadoEm">${chamado.criadoEm}</span></td>
+                                                                    <td class="text-right"><label class="label label-danger">${chamado.status}</label></td>
+                                                                    <td class="text-right">
+                                                                    	<a onclick="confirmaExclusao(${chamado.id})" data-toggle="tooltip" data-placement="left" data-trigger="hover" title="Deletar chamado">
+                                                                    		<i class="ti-trash mr-2"></i>
+                                                                    	</a> 	
+                                                                    	<a href="<%= request.getContextPath() %>/ServletChamadoController?acao=verChamado&id=${chamado.id}" class="btn btn-info text-light">ver</a>
+                                                                    </td>
+                                                                </tr>
+                                                                </c:forEach>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                      </c:if>
+                                                      <c:if test="${empty chamadosEmPendencia}">
+                                                      	<div>
+                                                      		<p>
+                                                      			<h6  class="m-3">Não há atendimentos nesta seção</h6>
+                                                      		</p>
+                                                      	</div>
+                                                      </c:if>
                                                     </div>
                                                 </div>
                                         	</div>
@@ -107,6 +229,18 @@
     <!-- Js -->
     <jsp:include page="fragments/main-javascript.jsp"></jsp:include>
     <script type="text/javascript">
+    	$(document).ready(function(){
+    		
+    		$(".chamados tr").each(function(){
+    			$(this).find(".criadoEm").each(function (){
+    				var criadoEm = new Date($(this).html());
+    				
+    				$(this).text(criadoEm.toLocaleString());
+    			});
+    		});
+    		
+    	});
+    
     	function confirmaExclusao(idc){
     		$.confirm({
     		    title: 'Confirmação!',

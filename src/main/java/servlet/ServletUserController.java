@@ -42,8 +42,19 @@ public class ServletUserController extends HttpServlet {
 			//Se a URL de requisição for igual a /ver-susuarios, retorna a lista de usuarios e direciona a pagina
 			if(request.getRequestURI().contains("/principal/ver-usuarios")) {
 				
-				request.setAttribute("totalPaginas", userRepo.countPaginas());
-				request.setAttribute("totalUsers", userRepo.countUsers());
+				String userPerfil = (String) request.getSession().getAttribute("perfilUser");
+				
+				if(userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("admin")) {
+					request.setAttribute("totalPaginas", userRepo.countPaginas());
+					request.setAttribute("totalUsers", userRepo.countUsers());
+				}else if (userPerfil != null && !userPerfil.isEmpty() && (userPerfil.equalsIgnoreCase("administrador") || userPerfil.equalsIgnoreCase("colaborador"))) {
+					Long empresaResp = (Long) request.getSession().getAttribute("empresaUserSession");
+					request.setAttribute("totalPaginas", userRepo.countPaginas(empresaResp));
+					int u = userRepo.countUsers(empresaResp);
+					request.setAttribute("totalUsers", userRepo.countUsers(empresaResp));
+				}
+				
+				
 				request.getRequestDispatcher("/principal/ver-usuarios.jsp").forward(request, response);
 				
 			}

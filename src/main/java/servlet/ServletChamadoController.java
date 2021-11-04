@@ -14,8 +14,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.ModelChamado;
+import models.ModelLogin;
 
-@WebServlet({ "/ServletChamadoController", "/principal/abrir-chamado/", "/principal/ver-chamados/" })
+@WebServlet({ "/ServletChamadoController", "/principal/abrir-chamado/", "/principal/ver-chamados/", "/principal/ver-conluidos" })
 public class ServletChamadoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -41,16 +42,53 @@ public class ServletChamadoController extends HttpServlet {
 		//Ver chamados page
 		else if (request.getRequestURI().contains("/principal/ver-chamados/")) {
 			
-			List<ModelChamado> chamados = new ArrayList<ModelChamado>();
+			List<ModelChamado> chamadosAbertos = new ArrayList<ModelChamado>();
+			List<ModelChamado> chamadosEmAtendimento = new ArrayList<ModelChamado>();
+			List<ModelChamado> chamadosEmPendencia = new ArrayList<ModelChamado>();
 			
+			//CHAMADOS CLIENTE
 			if(userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("cliente")) {
 				Long userId = (Long) request.getSession().getAttribute("userId");
-				chamados = chamadoRepo.findAllByCliente(userId);				
-				request.setAttribute("chamados", chamados);
+				chamadosAbertos = chamadoRepo.findAllByCliente(userId, "aberto");				
+				chamadosEmAtendimento = chamadoRepo.findAllByCliente(userId, "Em atendimento");				
+				chamadosEmPendencia = chamadoRepo.findAllByCliente(userId, "pendencia");				
+				request.setAttribute("chamadosAbertos", chamadosAbertos);
+				request.setAttribute("chamadosEmAtendimento", chamadosEmAtendimento);
+			}
+			
+			//CHAMADOS ADMINISTRADOR
+			else if(userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("administrador")) {
+				Long empresaId = (Long) request.getSession().getAttribute("empresaUserSession");
+				chamadosAbertos = chamadoRepo.findAllByEmpresaResp(empresaId, "aberto");				
+				chamadosEmAtendimento = chamadoRepo.findAllByEmpresaResp(empresaId, "Em atendimento");		
+				request.setAttribute("chamadosAbertos", chamadosAbertos);
+				request.setAttribute("chamadosEmAtendimento", chamadosEmAtendimento);
 			}
 			
 			request.getRequestDispatcher("/principal/ver-chamados.jsp").forward(request, response);	
+			return;
 		
+		}else if(request.getRequestURI().contains("/principal/ver-conluidos")) {
+		
+			List<ModelChamado> chamadosConcluidos = new ArrayList<ModelChamado>();
+			
+			//Concluídos do cliente
+			if(userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("cliente")) {
+				Long userId = (Long) request.getSession().getAttribute("userId");
+				chamadosConcluidos = chamadoRepo.findAllByCliente(userId, "concluido");						
+				request.setAttribute("chamadosConcluidos", chamadosConcluidos);
+			}
+			
+			//Concluídos administrador
+			else if(userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("administrador")) {
+				Long empresaId = (Long) request.getSession().getAttribute("empresaUserSession");
+				chamadosConcluidos = chamadoRepo.findAllByCliente(empresaId, "concluido");						
+				request.setAttribute("chamadosConcluidos", chamadosConcluidos);
+			}
+			
+			request.getRequestDispatcher("/principal/ver-concluidos.jsp").forward(request, response);	
+			return;
+			
 		}else if(request.getRequestURI().contains("/ServletChamadoController")) {
 			
 			String acao = request.getParameter("acao");
@@ -72,6 +110,15 @@ public class ServletChamadoController extends HttpServlet {
 				
 				request.setAttribute("chamado", chamado);
 				request.getRequestDispatcher("/principal/ver-chamado.jsp").forward(request, response);
+				
+			}else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("alteraStatus")) {
+				
+				String chamadoId = request.getParameter("chamadoId");
+				Long id = Long.parseLong(chamadoId);
+				String status = request.getParameter("status");
+				Long userId = (Long) request.getSession().getAttribute("userId");
+				
+				chamadoRepo.alteraStatus(id, status, userId);				
 			}
 			
 		} 
