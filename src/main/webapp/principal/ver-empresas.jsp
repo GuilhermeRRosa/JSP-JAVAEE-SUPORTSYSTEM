@@ -51,7 +51,9 @@
 											      <th scope="col">E-mail</th>
 											      <th scope="col">Representante</th>
 											      <th scope="col">Telefone</th>
-											      <th scope="col">ações</th>
+											      <c:if test="${perfilUser=='admin' || perfilUser=='administrador'}">
+											      	<th scope="col">ações</th>
+											      </c:if>
 											    </tr>
 											  </thead>
 											  <tbody>								  
@@ -89,6 +91,13 @@
     });
     
     function paginationAjax(pag){
+    	
+    	var perfilUser = '${perfilUSer}';
+    	var isAdmin = false;
+    	if(perfilUser=='admin' || perfilUser=='administrador'){
+    		isAdmin=true;
+    	}
+    	
     	$.ajax({	
     		method: "get",
     		url: "<%= request.getContextPath() %>/ServletEmpresaController",
@@ -108,8 +117,10 @@
 					txt += '<td>'+jsonResult[i].representante.nome+'</td>';
 					txt += '<td>'+jsonResult[i].telefone+'</td>';
 					txt += '<td>';
-					txt += "<i class='ti-pencil' onclick='editar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
-					txt += "<i class='ti-trash mx-3' onclick='deletar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
+					if(isAdmin){
+						txt += "<i class='ti-pencil' onclick='editar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
+						txt += "<i class='ti-trash mx-3' onclick='deletar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
+					}
 					txt += '</td>';
 					txt += '</tr>';
 					

@@ -53,7 +53,9 @@
 											      <th scope="col">Username</th>
 											      <th scope="col">Gênero</th>
 											      <th scope="col">Perfil</th>
-											      <th scope="col">ações</th>
+											      <c:if test="${perfilUser=='admin' || perfilUser=='administrador'}">
+											      	<th scope="col">ações</th>
+											      </c:if>
 											    </tr>
 											  </thead>
 											  <tbody>								  
@@ -91,6 +93,13 @@
     });
     
     function paginationAjax(pag){
+    	
+    	var perfilUser = '${perfilUser}';
+    	var isAdmin = false;
+    	if(perfilUser=='admin' || perfilUser=='administrador'){
+    		isAdmin = true;
+    	}
+    	
     	$.ajax({	
     		method: "get",
     		url: "<%= request.getContextPath() %>/ServletUserController",
@@ -112,8 +121,10 @@
 					txt += '<td>'+jsonResult[i].genero+'</td>';
 					txt += '<td>'+jsonResult[i].perfil+'</td>';
 					txt += '<td>';
-					txt += "<i class='ti-pencil' onclick='editar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
-					txt += "<i class='ti-trash mx-3' onclick='deletar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
+					if(isAdmin){
+						txt += "<i class='ti-pencil' onclick='editar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
+						txt += "<i class='ti-trash mx-3' onclick='deletar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
+					}	
 					txt += '</td>';
 					txt += '</tr>';
 					

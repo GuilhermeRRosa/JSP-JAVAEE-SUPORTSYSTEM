@@ -61,21 +61,22 @@
                                                                     <th>Assunto</th>
                                                                     <th>Criado por</th>
                                                                     <th>Criado em</th>
+                                                                    <th>Finalizado em</th>
+                                                                    <th>Finalizado por</th>
                                                                     <th class="text-right">Status</th>
                                                                     <th class="text-right">Ações</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody class="chamados">
-                                                                <c:forEach var="chamado" items="${chamadosAbertos}">
+                                                                <c:forEach var="chamado" items="${chamadosConcluidos}">
                                                                 <tr>
                                                                     <td><h6>${chamado.titulo}</h6></td>
                                                                     <td>${chamado.cliente.nome}</td>
                                                                     <td><span class="criadoEm">${chamado.criadoEm}</span></td>
-                                                                    <td class="text-right"><label class="label label-danger">${chamado.status}</label></td>
+                                                                    <td><span class="criadoEm">${chamado.finalizadoEm}</span></td>
+                                                                    <td>${chamado.finalizadoPor.nome}</td>
+                                                                    <td class="text-right"><label class="label label-success">${chamado.status}</label></td>
                                                                     <td class="text-right">
-                                                                    	<a onclick="confirmaExclusao(${chamado.id})" data-toggle="tooltip" data-placement="left" data-trigger="hover" title="Deletar chamado">
-                                                                    		<i class="ti-trash mr-2"></i>
-                                                                    	</a> 	
                                                                     	<a href="<%= request.getContextPath() %>/ServletChamadoController?acao=verChamado&id=${chamado.id}" class="btn btn-info text-light">ver</a>
                                                                     </td>
                                                                 </tr>
@@ -86,9 +87,7 @@
                                                         </c:if>
                                                         <c:if test="${empty chamadosConcluidos}">
                                                       	<div>
-                                                      		<p>
-                                                      			<h6  class="m-3">Não há atendimentos nesta seção</h6>
-                                                      		</p>
+                                                      		<h6  class="m-3">Não há atendimentos nesta seção</h6>
                                                       	</div>
                                                       </c:if>
                                                     </div>

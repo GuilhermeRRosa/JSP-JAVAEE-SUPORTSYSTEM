@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import models.ModelChamado;
 import models.ModelLogin;
 
-@WebServlet({ "/ServletChamadoController", "/principal/abrir-chamado/", "/principal/ver-chamados/", "/principal/ver-conluidos" })
+@WebServlet({ "/ServletChamadoController", "/principal/abrir-chamado/", "/principal/ver-chamados/", "/principal/ver-concluidos" })
 public class ServletChamadoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -57,18 +58,20 @@ public class ServletChamadoController extends HttpServlet {
 			}
 			
 			//CHAMADOS ADMINISTRADOR
-			else if(userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("administrador")) {
+			else if(userPerfil != null && !userPerfil.isEmpty() && (userPerfil.equalsIgnoreCase("administrador") || userPerfil.equalsIgnoreCase("colaborador"))) {
 				Long empresaId = (Long) request.getSession().getAttribute("empresaUserSession");
 				chamadosAbertos = chamadoRepo.findAllByEmpresaResp(empresaId, "aberto");				
 				chamadosEmAtendimento = chamadoRepo.findAllByEmpresaResp(empresaId, "Em atendimento");		
+				chamadosEmPendencia = chamadoRepo.findAllByEmpresaResp(empresaId, "pendencia");
 				request.setAttribute("chamadosAbertos", chamadosAbertos);
 				request.setAttribute("chamadosEmAtendimento", chamadosEmAtendimento);
+				request.setAttribute("chamadosEmPendencia", chamadosEmPendencia);
 			}
 			
 			request.getRequestDispatcher("/principal/ver-chamados.jsp").forward(request, response);	
 			return;
 		
-		}else if(request.getRequestURI().contains("/principal/ver-conluidos")) {
+		}else if(request.getRequestURI().contains("/principal/ver-concluidos")) {
 		
 			List<ModelChamado> chamadosConcluidos = new ArrayList<ModelChamado>();
 			
@@ -80,9 +83,9 @@ public class ServletChamadoController extends HttpServlet {
 			}
 			
 			//Concluídos administrador
-			else if(userPerfil != null && !userPerfil.isEmpty() && userPerfil.equalsIgnoreCase("administrador")) {
+			else if(userPerfil != null && !userPerfil.isEmpty() && (userPerfil.equalsIgnoreCase("administrador") || userPerfil.equalsIgnoreCase("colaborador"))) {
 				Long empresaId = (Long) request.getSession().getAttribute("empresaUserSession");
-				chamadosConcluidos = chamadoRepo.findAllByCliente(empresaId, "concluido");						
+				chamadosConcluidos = chamadoRepo.findAllByEmpresaResp(empresaId, "concluido");							
 				request.setAttribute("chamadosConcluidos", chamadosConcluidos);
 			}
 			
@@ -127,6 +130,19 @@ public class ServletChamadoController extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String acao = request.getParameter("acao");
+		
+		//Responder Chamado action ----------------
+		if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("responderChamado")) {
+			String resposta = request.getParameter("resposta");
+			Long chamadoId = Long.parseLong(request.getParameter("chamadoId"));
+			Long fechadoPor = (Long) request.getSession().getAttribute("userId");
+			
+			chamadoRepo.responderChamado(chamadoId, resposta, fechadoPor);
+			
+			return;
+		}
 		
 		//parâmetros do form
 		String titulo = request.getParameter("titulo");

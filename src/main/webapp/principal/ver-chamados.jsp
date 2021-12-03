@@ -41,7 +41,46 @@
                                         <div class="row">                     
                                         	<!-- Conteúdo aqui -->
                                         	<div class="col-md-12">
-                                        	<div class="card table-card">
+                                        	<!-- Cards de filtros -->
+                                        	<div class="col-md-12 my-1">
+                                        		<div class="card-deck">
+														<div class="card">
+															<div class="card-body">
+																<h5 class="card-title"><i class="ti-info-alt"></i> Em aberto</h5>
+																<p class="card-text mt-2">Atendimentos que não foram atendidos.</p>
+																<a onclick='showAtendimentos("abertos")' class="btn btn-outline-primary">Ver</a>
+															</div>
+														</div>
+														<div class="card">
+															<div class="card-body">
+																<h5 class="card-title"><i class="ti-info-alt"></i> Em atendimento</h5>
+																<p class="card-text mt-2">Atendimentos que foram vizualizados pela equipe de suporte
+																e estão em estado de tratamento.</p>
+																<a onclick='showAtendimentos("emAtendimento")' class="btn btn-outline-primary">Ver</a>
+															</div>
+														</div>
+														<div class="card">
+															<div class="card-body">
+																<h5 class="card-title"><i class="ti-info-alt"></i> Em pendência</h5>
+																<p class="card-text mt-2">Atendimentos que foram colocados em estado de pendência pela equipe de
+																suporte.</p>
+																<a onclick='showAtendimentos("emPendencia")' class="btn btn-outline-primary">Ver</a>
+															</div>
+														</div>
+														<div class="card">
+															<div class="card-body">
+																<h5 class="card-title"><i class="ti-info-alt"></i> Concluídos</h5>
+																<p class="card-text mt-2">Atendimentos que foram finalizados pela equipe de suporte ou pelo usuário.</p>
+																<a href="<%= request.getContextPath() %>/principal/ver-concluidos" class="btn btn-outline-primary">Ver</a>
+															</div>
+														</div>
+											    </div>
+                                        	<div class="row justify-content-end">
+										    	<a onclick='showAtendimentos("todos")' class="btn btn-outline-secondary">Ver todos</a>
+										    </div>
+                                        	</div>
+                                        	<!-- Cards de atendimentos -->
+                                        	<div class="card table-card" id="abertos">
                                                     <div class="card-header bg-dark">
                                                         <h5 class="text-light">Chamados Abertos</h5>
                                                         <div class="card-header-right">
@@ -71,7 +110,7 @@
                                                                     <td><h6>${chamado.titulo}</h6></td>
                                                                     <td>${chamado.cliente.nome}</td>
                                                                     <td><span class="criadoEm">${chamado.criadoEm}</span></td>
-                                                                    <td class="text-right"><label class="label label-danger">${chamado.status}</label></td>
+                                                                    <td class="text-right"><label class="label label-primary">${chamado.status}</label></td>
                                                                     <td class="text-right">
                                                                     	<a onclick="confirmaExclusao(${chamado.id})" data-toggle="tooltip" data-placement="left" data-trigger="hover" title="Deletar chamado">
                                                                     		<i class="ti-trash mr-2"></i>
@@ -96,7 +135,7 @@
                                         	</div>
                                         	
                                         	<!-- Chamados em Atendimento -->
-                                        	<div class="col-md-12">
+                                        	<div class="col-md-12" id="emAtendimento">
                                         	<div class="card table-card">
                                                     <div class="card-header bg-warning">
                                                         <h5>Chamados em atendimento</h5>
@@ -129,7 +168,7 @@
                                                                     <td>${chamado.atentidoPor.nome}</td>
                                                                     <td>${chamado.cliente.nome}</td>
                                                                     <td><span class="criadoEm">${chamado.criadoEm}</span></td>
-                                                                    <td class="text-right"><label class="label label-danger">${chamado.status}</label></td>
+                                                                    <td class="text-right"><label class="label label-warning">${chamado.status}</label></td>
                                                                     <td class="text-right">
                                                                     	<a onclick="confirmaExclusao(${chamado.id})" data-toggle="tooltip" data-placement="left" data-trigger="hover" title="Deletar chamado">
                                                                     		<i class="ti-trash mr-2"></i>
@@ -154,7 +193,7 @@
                                         	</div>
                                         	
                                         	<!-- Chamados em Pendência -->
-                                        	<div class="col-md-12">
+                                        	<div class="col-md-12" id="emPendencia">
                                         	<div class="card table-card">
                                                     <div class="card-header bg-danger">
                                                         <h5 class="text-light">Chamados em Pendência</h5>
@@ -209,7 +248,7 @@
                                                       </c:if>
                                                     </div>
                                                 </div>
-                                        	</div>
+                                        	</div>	
                                         </div>
                                     </div>
                                     <!-- Page-body end -->
@@ -240,6 +279,31 @@
     		});
     		
     	});
+    	
+    	function showAtendimentos(atendimento){
+    		switch(atendimento){
+    			case 'abertos':
+    					$("#abertos").show();
+    					$("#emAtendimento").hide();
+    					$("#emPendencia").hide();
+    				break;
+    			case 'emAtendimento':
+	    				$("#abertos").hide();
+						$("#emAtendimento").show();
+						$("#emPendencia").hide();
+    				break;
+    			case 'emPendencia':
+    				$("#abertos").hide();
+					$("#emAtendimento").hide();
+					$("#emPendencia").show();
+				break;
+    			case 'todos':
+    				$("#abertos").show();
+					$("#emAtendimento").show();
+					$("#emPendencia").show();
+				break;
+    		}
+    	}
     
     	function confirmaExclusao(idc){
     		$.confirm({

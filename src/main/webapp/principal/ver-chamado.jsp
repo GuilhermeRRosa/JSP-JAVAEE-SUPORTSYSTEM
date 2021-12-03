@@ -41,7 +41,7 @@
                                         <div class="row">                     
                                         	<!-- Conteúdo aqui -->
                                         	<div class="col-md-12 shadow">
-                                        		<a href="<%= request.getContextPath() %>/principal/ver-chamados/" class="btn btn-primary m-3">Voltar</a>
+                                        		<a href="${chamado.status == 'concluido' ? 'principal/ver-concluidos' : 'principal/ver-chamados/'}" class="btn btn-primary mb-2 mx-2">Voltar</a>
                                         		<div class="card">
                                         			<div class="card-header rounded border border-secondary m-3">
                                                         <h5>Detakhes do chamado</h5>
@@ -70,17 +70,24 @@
                                         			<div class="card-block rounded border border-secondary m-3">
                                        					<h5>resposta:</h5>
                                        					<hr>
-                                       					<c:out value="${chamado.resposta !=null ? chamado.resposta : 'ainda não há respostas para este chamado'}"></c:out>                                       					                                  						
+                                       					<span>${chamado.resposta}</span>
+                                       					<c:out value="${chamado.resposta == null ? 'ainda não há respostas para este chamado' : ''}"></c:out>                                       					                                  						
                                         			</div>
                                         		</div>
                                         		<!-- Action buttons -->
-                                        		<c:if test="${perfilUser=='administrador' || perfilUser=='colaborador'}">
+                                        		<c:if test="${chamado.status!='concluido'}">
+                                        			<c:if test="${perfilUser=='administrador' || perfilUser=='colaborador'}">
 	                                        		<div class="d-flex flex-row-reverse mt-1 mx-3">
-	                                        			<a onclick="" class="btn btn-success mx-1">Responder</a>
+	                                        			<!-- Button trigger modal -->
+														<button type="button" class="btn btn-success mx-1" data-toggle="modal" data-target="#exampleModalCenter" data-idChamado="${chamado.id}">
+														  Responder
+														</button>
 	                                        			<a onclick="alteraStatus(${chamado.id}, 'Em atendimento')" class="btn btn-warning mx-1 text-dark">Em antendimento</a>
 	                                        			<a onclick="alteraStatus(${chamado.id}, 'pendencia')" class="btn btn-danger mx-1">Pendência</a>
 	                                        		</div>
+                                        			</c:if>
                                         		</c:if>
+                                        		
                                         	</div>
                                         </div>
                                     </div>
@@ -95,6 +102,30 @@
         </div>
     </div>
     
+    <!-- Modal -->
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLongTitle">Responder chamado</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <form id="formResponse">
+	        	<input type="hidden" value="" name="idChamado" id="idChamado">
+	        	<textarea class="form-control" id="summernote" name="resposta" required="required"></textarea>
+	        	<div class="d-flex flex-row-reverse mt-1">
+		       	 	<button type="button" onclick="responderChamado()" class="btn btn-success mx-1">Responder e Concluir</button>
+		        	<button type="button" class="btn btn-secondary mx-1" data-dismiss="modal">fechar</button>
+	        	</div>
+	        </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+    
     <!-- Avisos de navegador desatualizado -->
     <jsp:include page="fragments/warnings.jsp"></jsp:include>
     
@@ -105,11 +136,26 @@
     
     	$(document).ready(function(){
     		
+    		$('#summernote').summernote({
+    			height: 100
+    		});
+    		
     		var criadoEm = new Date($(".criadoEm").html());
     		
     		$(".criadoEm").text(criadoEm.toLocaleString());
-    		
+	
     	});
+    	
+    	function responderChamado(){   		
+    		
+    		var resposta = $('#summernote').val();
+    		var chamadoId = ${chamado.id};
+    		
+    		$.post("<%= request.getContextPath() %>/ServletChamadoController", {chamadoId: chamadoId, resposta: resposta, acao: 'responderChamado'})
+    			.done(function(response){
+    				location.reload();
+    			})
+    	}
     	
     	function alteraStatus(id, status){
     		

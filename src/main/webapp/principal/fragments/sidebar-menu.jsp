@@ -111,7 +111,7 @@
                                       <span class="pcoded-mcaret"></span>
                                   </a>
                                   <ul class="pcoded-submenu">
-                                  	<c:if test="${perfilUser=='administrador'}">
+                                  	<c:if test="${perfilUser=='administrador' || perfilUser=='colaborador'}">
                                       <li class=" ">
                                           <a href="<%= request.getContextPath() %>/principal/ver-chamados/" class="waves-effect waves-dark">
                                               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -120,7 +120,7 @@
                                           </a>
                                       </li>
                                       <li class=" ">
-                                          <a href="<%= request.getContextPath() %>/principal/ver-conluidos" class="waves-effect waves-dark">
+                                          <a href="<%= request.getContextPath() %>/principal/ver-concluidos" class="waves-effect waves-dark">
                                               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                               <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Concluídos</span>
                                               <span class="pcoded-mcaret"></span>
@@ -145,7 +145,7 @@
                                           </a>
                                       </li>
                                       <li class=" ">
-                                          <a href="<%= request.getContextPath() %>/principal/ver-conluidos" class="waves-effect waves-dark">
+                                          <a href="<%= request.getContextPath() %>/principal/ver-concluidos" class="waves-effect waves-dark">
                                               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                               <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Concluídos</span>
                                               <span class="pcoded-mcaret"></span>

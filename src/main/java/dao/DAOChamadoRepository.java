@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -223,6 +224,31 @@ public class DAOChamadoRepository implements Serializable{
 			}
 
 			
+			
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void responderChamado(Long chamadoId, String resposta, Long fechadoPor) {
+		
+		try {
+			
+			String sql = "UPDATE model_chamado SET resposta = ?, status = 'concluido', fechado_por = ?, finalizado_em = ? WHERE id = ?";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, resposta);
+			statement.setLong(2, fechadoPor);
+			statement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+			statement.setLong(4, chamadoId);
+			statement.executeUpdate();
+			connection.commit();
 			
 		} catch (Exception e) {
 			try {
