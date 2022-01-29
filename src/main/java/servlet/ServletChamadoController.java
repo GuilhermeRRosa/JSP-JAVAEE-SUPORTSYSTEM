@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.ModelChamado;
-import models.ModelLogin;
 
 @WebServlet({ "/ServletChamadoController", "/principal/abrir-chamado/", "/principal/ver-chamados/", "/principal/ver-concluidos" })
 public class ServletChamadoController extends HttpServlet {

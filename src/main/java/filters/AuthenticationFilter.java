@@ -16,6 +16,7 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+
 //URL que o filter irá capturar. No caso todos os arquivos dentro de
 //principal irão passar pelo filtro
 @WebFilter(urlPatterns = {"/principal/*"})

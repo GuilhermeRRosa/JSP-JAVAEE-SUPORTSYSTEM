@@ -46,7 +46,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "INSERT INTO model_login (nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa) " + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO model_login (nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa, isadmin) " + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model.getNome());
 			statement.setString(2, model.getEmail());
@@ -61,6 +61,7 @@ public class DAOLoginRepository {
 			statement.setString(11, model.getCidade());
 			statement.setString(12, model.getUf());
 			statement.setLong(13, model.getEmpresa().getId());
+			statement.setBoolean(14, false);
 			statement.execute();
 			connection.commit();
 

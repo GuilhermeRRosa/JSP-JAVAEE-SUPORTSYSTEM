@@ -11,7 +11,6 @@ import java.util.List;
 
 import connection.SingleConnection;
 import models.ModelChamado;
-import models.ModelLogin;
 
 public class DAOChamadoRepository implements Serializable{
 

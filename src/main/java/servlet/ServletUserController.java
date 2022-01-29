@@ -158,6 +158,8 @@ public class ServletUserController extends HttpServlet {
 			String acao = request.getParameter("acao");
 			
 			ModelLogin model = new ModelLogin();
+			if(empresa == null || empresa.isEmpty())
+				empresa = "0";
 			ModelEmpresa userEmpresa = empresaRepo.findById(empresa != null && !empresa.isEmpty() ? Long.parseLong(empresa) : null);
 			//Settando tipo de dados corretos para o modelo
 			

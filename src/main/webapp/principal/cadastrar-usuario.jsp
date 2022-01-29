@@ -278,13 +278,16 @@
     	} */
     	
     	$(document).ready(function(){
-    		if($("#perfil").val()=="colaborador" || $(this).val()=="administrador"){
-        		$("#div-select-empresa").addClass("d-none");
-        		$("#nomeEmpresa").val('${empresaUserSessionNome}');
-        		$("#empresa").val('${empresaUserSession}');
-        	}else{
-        		$("#div-select-empresa").removeClass("d-none");
-        	}
+    		let perfilUser = '${perfilUser}';
+    		if(perfilUser != 'admin'){
+    			if($("#perfil").val()=="colaborador" || $(this).val()=="administrador"){
+            		$("#div-select-empresa").addClass("d-none");
+            		$("#nomeEmpresa").val('${empresaUserSessionNome}');
+            		$("#empresa").val('${empresaUserSession}');
+            	}else{
+            		$("#div-select-empresa").removeClass("d-none");
+            	}
+    		}	
     	})
     	
     	$(".alert-info").hide();
@@ -296,15 +299,18 @@
     	}
     	
     	//Alternador de "selecionar empresa"
-    	$("#perfil").change(function(){
-    		if($(this).val()=="colaborador" || $(this).val()=="administrador"){
-        		$("#div-select-empresa").addClass("d-none");
-        		$("#nomeEmpresa").val('${empresaUserSessionNome}');
-        		$("#empresa").val('${empresaUserSession}');
-        	}else{
-        		$("#div-select-empresa").removeClass("d-none");
-        	}
-    	})
+    	let perfilUser = '${perfilUser}';
+    	if(perfilUser != 'admin'){
+	    	$("#perfil").change(function(){
+	    		if($(this).val()=="colaborador" || $(this).val()=="administrador"){
+	        		$("#div-select-empresa").addClass("d-none");
+	        		$("#nomeEmpresa").val('${empresaUserSessionNome}');
+	        		$("#empresa").val('${empresaUserSession}');
+	        	}else{
+	        		$("#div-select-empresa").removeClass("d-none");
+	        	}
+	    	})
+    	}
     	
     	function showMsg(msg){
     		$(".alert-info").show();
