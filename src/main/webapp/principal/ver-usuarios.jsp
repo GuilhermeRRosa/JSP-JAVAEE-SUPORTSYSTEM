@@ -122,8 +122,10 @@
 					txt += '<td>'+jsonResult[i].perfil+'</td>';
 					txt += '<td>';
 					if(isAdmin){
-						txt += "<i class='ti-pencil' onclick='editar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
+						
+						txt += "<i class='ti-pencil' onclick='editar("+jsonResult[i].id+", \""+jsonResult[i].empresa.razaoSocial+"\", "+jsonResult[i].empresa.id+")' style='cursor: pointer;'></i>";
 						txt += "<i class='ti-trash mx-3' onclick='deletar("+jsonResult[i].id+")' style='cursor: pointer;'></i>";
+						
 					}	
 					txt += '</td>';
 					txt += '</tr>';
@@ -178,13 +180,13 @@
 		});	
 		}
     
-    	function editar(id){
+    	function editar(id, razao, empresa_id){
     		$.confirm({
     		    title: 'Confirmação!',
     		    content: 'Deseja editar o cadastro de ID = '+id+'?',
     		    buttons: {
     		        sim: function () {
-    		        	location.href="<%= request.getContextPath() %>/ServletUserController?acao=editarUser&id="+id;
+    		        	location.href="<%= request.getContextPath() %>/ServletUserController?acao=editarUser&id="+id+"&rzSocial="+razao+"&id_empresa="+empresa_id;
     		        },
     		        não: function () {
     		            $.alert('Ação cancelada!');

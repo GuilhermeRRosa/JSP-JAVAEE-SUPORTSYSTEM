@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class ModelLogin implements Serializable {
 
@@ -24,6 +25,7 @@ public class ModelLogin implements Serializable {
 	private boolean admin;
 	private String perfil;
 	private ModelEmpresa empresa;
+	private Date dataNasc;
 
 	public ModelLogin() {
 	}
@@ -32,6 +34,14 @@ public class ModelLogin implements Serializable {
 		super();
 		this.username = user;
 		this.password = password;
+	}
+
+	public Date getDataNasc() {
+		return dataNasc;
+	}
+
+	public void setDataNasc(Date dataNasc) {
+		this.dataNasc = dataNasc;
 	}
 
 	public ModelEmpresa getEmpresa() {

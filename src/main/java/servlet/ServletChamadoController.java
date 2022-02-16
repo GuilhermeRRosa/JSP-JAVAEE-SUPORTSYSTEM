@@ -53,6 +53,7 @@ public class ServletChamadoController extends HttpServlet {
 				chamadosEmPendencia = chamadoRepo.findAllByCliente(userId, "pendencia");				
 				request.setAttribute("chamadosAbertos", chamadosAbertos);
 				request.setAttribute("chamadosEmAtendimento", chamadosEmAtendimento);
+				request.setAttribute("chamadosEmPendencia", chamadosEmPendencia);
 			}
 			
 			//CHAMADOS ADMINISTRADOR

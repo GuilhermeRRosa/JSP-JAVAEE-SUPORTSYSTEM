@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8412c2e5-f3ca-4cea-b04d-dfd1651247b2">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="cidade" class="java.lang.String">
+		<fieldDescription><![CDATA[cidade]]></fieldDescription>
+	</field>
+	<field name="bairro" class="java.lang.String">
+		<fieldDescription><![CDATA[bairro]]></fieldDescription>
+	</field>
+	<field name="admin" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[admin]]></fieldDescription>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[nome]]></fieldDescription>
+	</field>
+	<field name="cep" class="java.lang.String">
+		<fieldDescription><![CDATA[cep]]></fieldDescription>
+	</field>
+	<field name="perfil" class="java.lang.String">
+		<fieldDescription><![CDATA[perfil]]></fieldDescription>
+	</field>
+	<field name="uf" class="java.lang.String">
+		<fieldDescription><![CDATA[uf]]></fieldDescription>
+	</field>
+	<field name="dataNasc" class="java.sql.Date">
+		<fieldDescription><![CDATA[dataNasc]]></fieldDescription>
+	</field>
+	<field name="userImage" class="java.lang.String">
+		<fieldDescription><![CDATA[userImage]]></fieldDescription>
+	</field>
+	<field name="logradouro" class="java.lang.String">
+		<fieldDescription><![CDATA[logradouro]]></fieldDescription>
+	</field>
+	<field name="genero" class="java.lang.String">
+		<fieldDescription><![CDATA[genero]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="empresa" class="models.ModelEmpresa">
+		<fieldDescription><![CDATA[empresa]]></fieldDescription>
+	</field>
+	<field name="user" class="java.lang.String">
+		<fieldDescription><![CDATA[user]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[email]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<line>
+				<reportElement x="-3" y="20" width="560" height="1" uuid="62b60db8-512d-4aa5-b971-04caee1166d2"/>
+			</line>
+			<frame>
+				<reportElement x="0" y="0" width="550" height="30" uuid="e0d27a7c-376e-43f7-aff0-6ee6efe9c053"/>
+				<staticText>
+					<reportElement x="0" y="0" width="550" height="20" uuid="9c0888f1-31f5-47a8-97b7-ed2d981680b5"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Relatório de todos os usuários]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30">
+			<rectangle radius="5">
+				<reportElement x="-3" y="1" width="559" height="11" backcolor="#EBEBEB" uuid="fd7998f7-4f2c-478e-acfe-559d0e4b01e0"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="280" y="-1" width="150" height="24" uuid="08e30bbc-5851-4658-af39-093d0ba482eb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empresa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="0" width="140" height="24" uuid="6f5995f3-3d35-4247-a71f-6160ae5a8018"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Perfil:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="-1" width="126" height="24" uuid="21351fa1-971b-45b4-a762-da4d9ac68c50"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Nascimento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="140" height="23" uuid="db44264f-8071-4f76-b8d7-c3fdb5331808"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="1" width="140" height="19" uuid="5702ca86-8da9-440a-a4f5-63fc87416431"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="2" width="150" height="19" uuid="5a1c5045-81d1-434b-847d-ac1c03dee5de"/>
+				<textFieldExpression><![CDATA[$F{empresa}.getRazaoSocial()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="1" width="140" height="20" uuid="25da69ae-446f-465b-b808-ea7741dbce46"/>
+				<textFieldExpression><![CDATA[$F{perfil}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="430" y="1" width="126" height="20" uuid="95cf4718-48d0-44a7-9dd2-b80beefdf2ba"/>
+				<textFieldExpression><![CDATA[$F{dataNasc}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

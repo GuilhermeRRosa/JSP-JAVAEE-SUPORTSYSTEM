@@ -2,8 +2,12 @@ package servlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.text.DateFormatter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -96,14 +100,19 @@ public class ServletUserController extends HttpServlet {
 			}else if(acao != null && !acao.isEmpty() && acao.equals("editarUser")) {
 				
 				String sid = request.getParameter("id");
+				String rzSocial = request.getParameter("rzSocial");
+				Long id_empresa = Long.parseLong(request.getParameter("id_empresa"));
 				Long id = sid != null && !sid.isEmpty() ? Long.parseLong(sid) : null;
 				
 				if(id != null) {
 					ModelLoginDTO user = new ModelLoginDTO(userRepo.searchById(id));
 					request.setAttribute("userDto", user);
+					request.setAttribute("razaoSocial", rzSocial);
+					request.setAttribute("empresa_id", id_empresa);
 					request.setAttribute("msg", "Editando usuário "+user.getNome());					
 					request.getRequestDispatcher("/principal/cadastrar-usuario.jsp").forward(request, response);
-				}	
+				}
+				
 			}else if(acao != null && !acao.isEmpty() && acao.equals("listarComAjax")){
 				String pagina = request.getParameter("pag");			
 				Integer nPagina = pagina != null && !pagina.isEmpty() ? Integer.parseInt(pagina) : 1;
@@ -156,6 +165,7 @@ public class ServletUserController extends HttpServlet {
 			String uf = request.getParameter("uf");
 			String empresa = request.getParameter("empresa");
 			String acao = request.getParameter("acao");
+			Date dataNasc = Date.valueOf(request.getParameter("dataNasc"));
 			
 			ModelLogin model = new ModelLogin();
 			if(empresa == null || empresa.isEmpty())
@@ -176,7 +186,8 @@ public class ServletUserController extends HttpServlet {
 			model.setBairro(bairro);
 			model.setCidade(cidade);
 			model.setUf(uf);			
-			model.setEmpresa(userEmpresa);			
+			model.setEmpresa(userEmpresa);	
+			model.setDataNasc(dataNasc);
 			 		
 			//Ações POST
 			if(model.getId()==null) {		

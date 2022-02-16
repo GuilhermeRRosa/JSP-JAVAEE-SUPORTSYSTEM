@@ -9,6 +9,8 @@
     <!-- custom CSS -->
     <link href="<%= request.getContextPath() %>/css/cadastro-usuario.css" type="text/css" rel="stylesheet" />
     <jsp:include page="fragments/head.jsp"></jsp:include>
+    <link rel="stylesheet" href="https://unpkg.com/jcrop/dist/jcrop.css">
+	<script src="https://unpkg.com/jcrop"></script>
 </head>
 
   <body>
@@ -83,6 +85,11 @@
                                         						<label class="float-label">email</label>
                                         					</div>
                                         					<div class="form-group form-default form-static-label">
+                                        						<input type="date" name="dataNasc" id="dataNasc" class="form-control" value="${userDto.dataNasc}" placeholder="Escolha..." required="required">
+                                        						<span class="form-bar"></span>
+                                        						<label class="float-label">Data de nascimento</label>
+                                        					</div>
+                                        					<div class="form-group form-default form-static-label">
                                                                  <select name="perfil" id="perfil" class="form-control" required>
                                                                      <option value="" ${userDto.perfil == null ? 'disabled selected hidden' : ''}>Selecione o perfil de usuário</option>
                                                                      <option value="administrador" ${userDto.perfil == "administrador" ? 'selected' : ''}>Administrador</option>
@@ -94,8 +101,8 @@
                                         					</div>
                                         					<div class="form-group form-default form-static-label row">
 	                                        					<div class="col-sm-4">
-	                                        						<input type="text" id="nomeEmpresa" class="form-control" value="${userDto.empresa.razaoSocial}" readonly="readonly">
-	                                        						<input type="hidden" name="empresa" id="empresa" class="form-control" value="${userDto.empresa.id}">
+	                                        						<input type="text" id="nomeEmpresa" class="form-control" value="${razaoSocial}" readonly="readonly">
+	                                        						<input type="hidden" name="empresa" id="empresa" class="form-control" value="${empresa_id}">
 	                                        						<span class="form-bar"></span>
 	                                        						<label class="float-label">Empresa</label>
 	                                        					</div>
@@ -135,10 +142,10 @@
                                         					<div class="form-group form-default form-static-label">
                                         						<c:choose>
                                        								<c:when test="${userDto.userImage != null}">
-		                                        						<img alt="img perfil" id="img64" src="${userDto.userImage}" width="70px" class="my-2 img-fluid">                                    						                                       								
+		                                        						<img alt="img perfil" id="img64" src="${userDto.userImage}" width="100px" class="my-2 img-fluid">                                    						                                       								
                                        								</c:when>
                                        								<c:otherwise>
-                                       								    <img alt="img perfil" id="img64" src="<%=request.getContextPath()%>/principal/files-upload/default/profile.png" width="70px" class="my-2 img-fluid"> 								
+                                       								    <img alt="img perfil" id="img64" src="<%=request.getContextPath()%>/principal/files-upload/default/profile.png" width="100px" class="my-2 img-fluid"> 								
                                        								</c:otherwise>
                                         						</c:choose>
                                         						<input type="file" name="userImage" id="fileImg" accept="image/*" onchange="vizualizaImg('img64', 'fileImg')" class="form-control my-2">
@@ -275,7 +282,12 @@
     		document.getElementById("form-user").method = 'get';
     		document.getElementById("acao").value = 'excluirUser';
     		document.getElementById("form-user").submit;
-    	} */
+    	} */  	
+    	
+    	//Campo CEP aceitará somente números
+    	$("#cep").keypress(function (event){
+    		return /\d/.test(String.fromCharCode(event.keyCode));
+    	});
     	
     	$(document).ready(function(){
     		let perfilUser = '${perfilUser}';
@@ -361,6 +373,7 @@
     		    		  $("#bairro").attr('value', "");
     		    		  $("#uf").attr('value', "");
     		    		  $("#genero").attr('value', "");
+    		    		  $("#dataNasc").attr('value', "");
     		    		  $("#userImage").attr('value', "");
     		    		  $("#img64").attr('src', "<%=request.getContextPath()%>/principal/files-upload/default/profile.png");
     		    		  showMsg('Formulário limpo!');

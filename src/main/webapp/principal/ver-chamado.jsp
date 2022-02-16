@@ -44,23 +44,39 @@
                                         		<a href="${chamado.status == 'concluido' ? 'principal/ver-concluidos' : 'principal/ver-chamados/'}" class="btn btn-primary mb-2 mx-2">Voltar</a>
                                         		<div class="card">
                                         			<div class="card-header rounded border border-secondary m-3">
-                                                        <h5>Detakhes do chamado</h5>
+                                                        <h5>Detalhes do chamado</h5>
                                                         <hr>
-                                                        <table class="w-100">
-                                                        	<tbody>
-	                                                        	<tr>
-	                                                        		<td><p><strong>Chamado:</strong> ${chamado.titulo}</p></td>
-	                                                        		<td><p><strong>Usuário:</strong> ${chamado.cliente.nome}</p></td>                                                        		
-	                                                        	</tr>
-	                                                        	<tr>
-	                                                        		<td><p><strong>Empresa:</strong> ${chamado.empresaCliente.razaoSocial}</p></td>
-	                                                        		<td><p><strong>Criado em:</strong><span class="criadoEm">${chamado.criadoEm}</span></p></td>                                                        		
-	                                                        	</tr>
-	                                                        	<tr>
-	                                                        		<td colspan="2"><p><strong>Status:</strong> ${chamado.status}</p></td>
-	                                                        	</tr>
-	                                                        </tbody>
-                                                        </table>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-1 col-form-label">Título</label>
+                                                            <div class="col-sm-11">
+                                                                <input type="text" class="form-control"
+                                                                value="${chamado.titulo}" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-1 col-form-label">Cliente</label>
+                                                            <div class="col-sm-5">
+                                                                <input type="text" class="form-control"
+                                                                value="${chamado.cliente.nome}" readonly>
+                                                            </div>
+                                                            <label class="col-sm-1 col-form-label">Empresa</label>
+                                                            <div class="col-sm-5">
+                                                                <input type="text" class="form-control"
+                                                                value="${chamado.empresaCliente.razaoSocial}" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-1 col-form-label">Criado em</label>
+                                                            <div class="col-sm-5">
+                                                                <input type="text" class="form-control criadoEm"
+                                                                value="${chamado.criadoEm}" readonly>
+                                                            </div>
+                                                            <label class="col-sm-1 col-form-label">Status</label>
+                                                            <div class="col-sm-5">
+                                                                <input type="text" class="form-control"
+                                                                value="${chamado.status}" readonly>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                         			<div class="card-block rounded border border-secondary m-3">
                                        					<h5>Descrição:</h5>
@@ -140,9 +156,9 @@
     			height: 100
     		});
     		
-    		var criadoEm = new Date($(".criadoEm").html());
+    		var criadoEm = new Date($(".criadoEm").val());
     		
-    		$(".criadoEm").text(criadoEm.toLocaleString());
+    		$(".criadoEm").val(criadoEm.toLocaleString());
 	
     	});
     	

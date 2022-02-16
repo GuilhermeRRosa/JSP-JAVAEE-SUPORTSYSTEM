@@ -304,10 +304,10 @@ public class DAOEmpresaRepository {
 				empresa.setUf(set.getString("uf"));
 				empresa.setTelefone(set.getString("telefone"));
 				empresa.setRamo(set.getString("ramo"));
-				empresa.setEmail(set.getString("email"));
-				empresa.setRepresentante(userRepo.searchById(set.getLong("representante")));
+				empresa.setEmail(set.getString("email"));			
 				empresa.setLogo(set.getString("logo"));
-				empresa.setPerfil(set.getString("perfil"));		
+				empresa.setPerfil(set.getString("perfil"));	
+				empresa.setRepresentante(userRepo.searchById(set.getLong("representante")));	 
 			}		
 			return empresa;
 		

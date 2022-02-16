@@ -176,9 +176,9 @@ public class ServletEmpresaController extends HttpServlet {
 			model.setRepresentante(userRepresentante);
 			 		
 			//Ações POST
-			if(model.getId()==null) {		
+			if(model.getId()==null) {
+				
 				try {  
-	
 					String realPath = request.getServletContext().getRealPath("/principal/files-upload/empresas/");
 					
 					//Se a imagem foi enviada
@@ -186,10 +186,12 @@ public class ServletEmpresaController extends HttpServlet {
 				    	
 				    	//Setting do caminho para salvar 	
 				    	File path = new File(realPath+model.getRazaoSocial());
+				    	
 				    	//Se a pasta nao existir, cria uma nova
 				    	if(!path.exists()) {
 				    		path.mkdirs();
 				    	}
+				    	
 				    	//Salta a imagem no server e seta o caminho do banco;
 				    	String fileName = path+"\\"+"user_image."+part.getContentType().split("\\/")[1];
 				    	part.write(fileName);
@@ -228,7 +230,7 @@ public class ServletEmpresaController extends HttpServlet {
 			    	part.write(fileName);
 				    model.setLogo(request.getContextPath()+"/principal/files-upload/empresas/"+model.getRazaoSocial()+"/user_image."+part.getContentType().split("\\/")[1]);
 				}else {
-					model.setLogo(userRepo.searchById(model.getId()).getUserImage());
+					model.setLogo(request.getContextPath()+"/principal/files-upload/default/profile.png");
 				}
 				Long empresaResp = (Long) request.getSession().getAttribute("empresaUserSession");
 				model = empresaRepo.update(model, empresaResp);

@@ -92,7 +92,7 @@
     
     function paginationAjax(pag){
     	
-    	var perfilUser = '${perfilUSer}';
+    	var perfilUser = '${perfilUser}';
     	var isAdmin = false;
     	if(perfilUser=='admin' || perfilUser=='administrador'){
     		isAdmin=true;

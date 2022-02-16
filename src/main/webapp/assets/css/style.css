@@ -6564,11 +6564,11 @@ table tbody .border-bottom-info td {
   display: none; }
 .pcoded[theme-layout="vertical"] .pcoded-navbar {
   z-index: 1027;
-  height: calc(100% - 56px); }
+  height: calc(100%); }
   .pcoded[theme-layout="vertical"] .pcoded-navbar[pcoded-navbar-position="absolute"] {
     height: 100%; }
   .pcoded[theme-layout="vertical"] .pcoded-navbar[pcoded-navbar-position="fixed"] {
-    top: 56px; }
+     }
 .pcoded[theme-layout="vertical"] .pcoded-content {
   position: relative;
   display: block; }

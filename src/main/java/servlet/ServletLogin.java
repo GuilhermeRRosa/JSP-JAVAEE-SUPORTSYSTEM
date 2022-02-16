@@ -1,8 +1,11 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import dao.DAOLoginRepository;
+import dto.ModelLoginDTO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -80,6 +83,8 @@ public class ServletLogin extends HttpServlet {
 					request.getSession().setAttribute("empresaUserSession", modelLogin.getEmpresa().getId());
 					request.getSession().setAttribute("empresaUserSessionNome", modelLogin.getEmpresa().getRazaoSocial());
 
+					ServletInicio.preparaPagina(request, response);
+					
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/principal/inicio.jsp");
 					dispatcher.forward(request, response);
 				}else {

@@ -1,6 +1,7 @@
 package dto;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import models.ModelEmpresa;
 import models.ModelLogin;
@@ -26,6 +27,7 @@ public class ModelLoginDTO implements Serializable {
 	private boolean admin;
 	private String perfil;
 	private ModelEmpresa empresa;
+	private Date dataNasc;
 
 	public ModelLoginDTO(ModelLogin model) {
 		this.setId(model.getId());
@@ -42,6 +44,7 @@ public class ModelLoginDTO implements Serializable {
 		this.setUf(model.getUf());
 		this.setPerfil(model.getPerfil());
 		this.setEmpresa(model.getEmpresa());
+		this.setDataNasc(model.getDataNasc());
 	}
 
 	public ModelLoginDTO() {
@@ -49,6 +52,14 @@ public class ModelLoginDTO implements Serializable {
 
 	public ModelEmpresa getEmpresa() {
 		return empresa;
+	}
+
+	public Date getDataNasc() {
+		return dataNasc;
+	}
+
+	public void setDataNasc(Date dataNasc) {
+		this.dataNasc = dataNasc;
 	}
 
 	public void setEmpresa(ModelEmpresa empresa) {
