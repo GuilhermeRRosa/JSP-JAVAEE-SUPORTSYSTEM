@@ -59,6 +59,8 @@
 																		<option id="opt-esp" value="esp">Dados de cliente específico</option>
 																	</select>																	
 																</div>
+																
+																<!-- FILTRO TODOS -->
 																<div class="col-md-2 filtro-todos">
 																	<label class="form-label"> Data Inicial </label> <input
 																		type="date" id="datepicker" name="dataNascInicial"
@@ -69,7 +71,18 @@
 																		type="date" id="datepicker2" name="dataNascFinal"
 																		placeholder="Data nasc. final" class="form-control" />
 																</div>
-																<div class="col-md-2 filtro-todos">
+																
+																<!-- FILTRO ESP -->
+																<div class='col-md-3 filtro-esp'>
+																	<label class='form-label'>Nome:</label>
+																	<input type='hidden' name='username-esp' id='username-esp'>
+																	<input type='text' name='nome-usuario' id='nome' placeholder='Selecione o usuário' class='form-control'
+																		readonly='true'>
+																</div>
+																<div class='col-md-1 filtro-esp'>
+																	<button type='button' class='btn btn-secondary' data-toggle='modal' data-target='#pesquisarUserModal'>Selecionar</button>
+																</div>
+																<div class="col-md-2">
 																	<div class="form-check mt-2">
 																		<input class="form-check-input m-0 mt-1"
 																			type="checkbox" name="gerarPDF" value="gerar"
@@ -79,7 +92,8 @@
 																	</div>
 																	<button type="submit" value="Gerar"
 																		class="btn btn-primary align-self-end">Gerar
-																		relatório</button>
+																		relatório
+																	</button>
 																</div>
 															</div>
 														</form>
@@ -87,7 +101,8 @@
 												</div>
                                         	</div>
 										</div>
-										<c:if test="${!empty dados}">
+										<c:choose>
+										<c:when test="${!empty dados}">
 										<div class="row">
 											<div class="col-md-12">
                                         		<div class="card">												
@@ -121,7 +136,68 @@
 												</div>
                                         	</div>
 										</div>
-										</c:if>
+										</c:when>
+										<c:when test="${!empty espUsu}">
+											<div class="row">
+												<div class="col-md-12">
+													<div class="card">
+														<div class="card-body">
+															<h5>Dados Pessoais</h5>
+															<hr>
+															<div class="row">
+																<div class="col-md-6">
+																	<label for="nome-esp" >Nome</label>
+																	<input name="nome-esp" class="form-control form-control-inverse" value="${espUsu.nome}">	
+																	<label for="user-esp-esp" class="mt-2">Username</label>
+																	<input name="user-esp" class="form-control form-control-inverse" value="${espUsu.user}">
+																	<label for="genero-esp" class="mt-2">Gênero</label>
+																	<input name="genero-esp" class="form-control form-control-inverse" value="${espUsu.genero}">
+																</div>																
+																<div class="col-md-6">	
+																	<label for="email-esp">e-mail</label>
+																	<input name="email-esp" class="form-control form-control-inverse" value="${espUsu.email}">
+																	<label for="nasc-esp" class="mt-2">Data de nascimento</label>
+																	<input name="nasc-esp" class="form-control form-control-inverse" value="${espUsu.dataNasc}">
+																</div>
+															</div>
+															<hr>
+															<h5 class="mt-3">Dados de endereço</h5>
+															<hr>
+															<div class="row">
+																<div class="col-md-6">
+																	<label for="logradouro-esp" >Logradouro</label>
+																	<input name="logradouro-esp" class="form-control form-control-inverse" value="${espUsu.logradouro}">	
+																	<label for="bairro-esp" class="mt-2">Bairro</label>
+																	<input name="bairro-esp" class="form-control form-control-inverse" value="${espUsu.bairro}">
+																	<label for="cep-esp" class="mt-2">CEP</label>
+																	<input name="cep-esp" class="form-control form-control-inverse" value="${espUsu.cep}">
+																</div>																
+																<div class="col-md-6">	
+																	<label for="cidade-esp">Cidade</label>
+																	<input name="cidade-esp" class="form-control form-control-inverse" value="${espUsu.cidade}">
+																	<label for="uf-esp" class="mt-2">UF</label>
+																	<input name="uf-esp" class="form-control form-control-inverse"  value="${espUsu.uf}">
+																</div>
+															</div>
+															<hr>
+															<h5 class="mt-3">Dados de Serviço</h5>
+															<hr>
+															<div class="row">
+																<div class="col-md-6">
+																	<label for="empresa-esp" >Empresa</label>
+																	<input name="empresa-esp" class="form-control form-bg-inverse" value="${espUsu.empresa.razaoSocial}">	
+																</div>																
+																<div class="col-md-6">	
+																	<label for="ramo-esp">Ramo</label>
+																	<input name="ramo-esp" class="form-control form-bg-inverse" value="${espUsu.empresa.ramo}">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</c:when>
+										</c:choose>
                                     </div>
                                     <!-- Page-body end -->
                                 </div>
@@ -184,6 +260,7 @@
     
     	// Função formata data
 	    $(document).ready(function(){
+	    	
 	    	$(".result tr").each(function(){
 	    		$(this).find(".dataNasc").each(function(){
 	    			let dataNa = new Date($(this).html());
@@ -195,27 +272,27 @@
 	    		});
 	    	});
 	    	
+	    	$(".nasc-esp").each(function(){
+	    		let dataNa = new Date($(this).html());
+    			if(dataNa != "Invalid Date"){
+	    			$(this).val(dataNa.toLocaleDateString());    				
+    			}else{
+    				$(this).val("Não informado");
+    			}
+	    	});
+	    	
 	    	// Alterar filtros
+	    	
+	    	$(".filtro-esp").addClass("d-none");
+	    	
 	    	$("#select-filtros").change(function(){
 	    		$("#opt-todos:selected").each(function(){
 	    			$(".filtro-todos").removeClass("d-none");
-	    			$(".input-esp").remove();
+	    			$(".filtro-esp").addClass("d-none");
 	    		});
 	    		$("#opt-esp:selected").each(function(){
 	    			$(".filtro-todos").addClass("d-none");
-	    			$(".row-filtros").append(
-	    				 "<div class='col-md-4 input-esp'>"
-		    				+"<label class='form-label'>Nome:</label>" 
-		    				+"<input type='hidden' name='user-id' id='id'>"
-		    				+"<input type='text' name='nome-usuario' id='nome' placeholder='Selecione o usuário' class='form-control' readonly='true'>" 
-	    				+"</div>"
-	    				+"<div class='col-md-1 input-esp'>"
-	    					+"<button type='button' class='btn btn-secondary' data-toggle='modal' data-target='#pesquisarUserModal'>Selecionar</button>"
-	    				+"</div>"
-	    				+"<div class='col-md-1 input-esp'>"
-    						+"<button type='submit' class='btn btn-primary'>Gerar</button>"
-    					+"</div>"
-	    			);
+	    			$(".filtro-esp").removeClass("d-none");
 	    		});
 	    	});
 	    }); 
@@ -223,7 +300,7 @@
 	    function selectUser(obj){
     		$("#pesquisarUserModal").modal('hide');
     		$(obj).each(function(index, element) {
-    		  $("#id").attr('value', element.id);
+    		  $("#username-esp").attr('value', element.user);
     		  $("#nome").attr('value', element.nome);
     		});
     	}
