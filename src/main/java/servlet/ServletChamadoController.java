@@ -1,9 +1,15 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import dao.DAOChamadoRepository;
 import dao.DAOEmpresaRepository;
@@ -120,7 +126,24 @@ public class ServletChamadoController extends HttpServlet {
 				String status = request.getParameter("status");
 				Long userId = (Long) request.getSession().getAttribute("userId");
 				
-				chamadoRepo.alteraStatus(id, status, userId);				
+				chamadoRepo.alteraStatus(id, status, userId);	
+				
+			}else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("verTodos")) {
+				
+				Long userId = (Long) request.getSession().getAttribute("userId");
+				List<ModelChamado> todosChamadosbyCliente = chamadoRepo.findAllByCliente(userId);
+				
+				ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule())
+			            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);;
+				try {
+					
+					String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(todosChamadosbyCliente);
+					response.getWriter().write(json);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}
 			
 		} 
@@ -157,7 +180,7 @@ public class ServletChamadoController extends HttpServlet {
 		chamado.setCliente(userRepo.searchByUser(username));
 		chamado.setEmpresaCliente(empresaRepo.findById(empresaCliente));
 		chamado.setEmpresaResp(empresaRepo.findEmpresaResp(empresaCliente));
-		chamado.setCriadoEm(LocalDateTime.now());
+		chamado.setCriadoEm(new Timestamp(new java.util.Date().getTime()));
 		chamado.setStatus("aberto");
 		
 		try {

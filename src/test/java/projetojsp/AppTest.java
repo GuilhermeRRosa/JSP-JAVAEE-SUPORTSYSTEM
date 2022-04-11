@@ -1,5 +1,7 @@
 package projetojsp;
 
+import java.sql.Timestamp;
+
 import org.junit.Test;
 
 /**
@@ -10,17 +12,18 @@ public class AppTest
     /**
      * Rigorous Test :-)
      */
+	
+	@Test
+	public static void main(String[] args) {
+		
+		testaData();
+	}
+    
     @Test
-    public void shouldAnswerWithTrue()
-    {
-    	double total = 24;
+    public static void testaData() {
+    	Timestamp dataAgora =  new Timestamp(new java.util.Date().getTime());
     	
-    	double paginas = total / 10;
+    	System.out.println(dataAgora);
     	
-    	if((total % 10) > 0 ) {
-    		paginas += 1;
-    	}
-    	
-    	System.out.println((int) paginas);
     }
 }

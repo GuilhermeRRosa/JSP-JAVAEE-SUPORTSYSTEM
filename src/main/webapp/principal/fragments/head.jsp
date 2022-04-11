@@ -34,3 +34,4 @@
       <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/assets/css/style.css">
       <!-- Jquery UI -->
       <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+      <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/inicio.css">

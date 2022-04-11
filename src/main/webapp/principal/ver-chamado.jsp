@@ -40,8 +40,26 @@
                                     <div class="page-body">
                                         <div class="row">                     
                                         	<!-- Conteúdo aqui -->
-                                        	<div class="col-md-12 shadow">
-                                        		<a href="${chamado.status == 'concluido' ? 'principal/ver-concluidos' : 'principal/ver-chamados/'}" class="btn btn-primary mb-2 mx-2">Voltar</a>
+                                        	
+                                        	<div class="col-md-12 mb-3">
+                                        		<a href="${chamado.status == 'concluido' ? 'principal/ver-concluidos' : 'principal/ver-chamados/'}" class="btn btn-primary float-left">Voltar</a>
+                                        		<!-- Action buttons -->
+                                        		<c:if test="${chamado.status!='concluido'}">
+                                        			<c:if test="${perfilUser=='administrador' || perfilUser=='colaborador'}">
+	                                        		<div class="d-flex flex-row-reverse align-items-center">
+	                                        			<!-- Button trigger modal -->
+														<button type="button" class="btn btn-success mx-1" data-toggle="modal" data-target="#exampleModalCenter" data-idChamado="${chamado.id}">
+														  Responder
+														</button>
+	                                        			<a onclick="alteraStatus(${chamado.id}, 'Em atendimento')" class="btn btn-warning mx-1 text-dark">Em antendimento</a>
+	                                        			<a onclick="alteraStatus(${chamado.id}, 'pendencia')" class="btn btn-danger mx-1">Pendência</a>
+	                                        			<h6 class="mx-1">Ações para este chamado:</h6>
+	                                        		</div>
+                                        			</c:if>
+                                        		</c:if>
+                                        	</div>
+                                        	
+                                        	<div class="col-md-12 shadow">                                        		
                                         		<div class="card">
                                         			<div class="card-header rounded border border-secondary m-3">
                                                         <h5>Detalhes do chamado</h5>
@@ -89,21 +107,7 @@
                                        					<span>${chamado.resposta}</span>
                                        					<c:out value="${chamado.resposta == null ? 'ainda não há respostas para este chamado' : ''}"></c:out>                                       					                                  						
                                         			</div>
-                                        		</div>
-                                        		<!-- Action buttons -->
-                                        		<c:if test="${chamado.status!='concluido'}">
-                                        			<c:if test="${perfilUser=='administrador' || perfilUser=='colaborador'}">
-	                                        		<div class="d-flex flex-row-reverse mt-1 mx-3">
-	                                        			<!-- Button trigger modal -->
-														<button type="button" class="btn btn-success mx-1" data-toggle="modal" data-target="#exampleModalCenter" data-idChamado="${chamado.id}">
-														  Responder
-														</button>
-	                                        			<a onclick="alteraStatus(${chamado.id}, 'Em atendimento')" class="btn btn-warning mx-1 text-dark">Em antendimento</a>
-	                                        			<a onclick="alteraStatus(${chamado.id}, 'pendencia')" class="btn btn-danger mx-1">Pendência</a>
-	                                        		</div>
-                                        			</c:if>
-                                        		</c:if>
-                                        		
+                                        		</div> 
                                         	</div>
                                         </div>
                                     </div>

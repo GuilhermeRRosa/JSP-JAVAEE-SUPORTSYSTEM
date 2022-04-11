@@ -16,23 +16,12 @@
         
                               <div class="main-menu-content">
                                   <ul>
-                                      <li class="more-details">
-                                          <a href="<%= request.getContextPath() %>/principal/profile.jsp"><i class="ti-user"></i>Ver Perfil</a>
-                                          <a href="#!"><i class="ti-settings"></i>Settings</a>
+                                      <li class="more-details">                                          
                                           <a href="<%= request.getContextPath() %>/ServletLogin?acao=logout"><i class="ti-layout-sidebar-left"></i>Sair</a>
                                       </li>
                                   </ul>
                               </div>
-                          </div>
-                          <div class="p-15 p-b-0">
-                              <form class="form-material">
-                                  <div class="form-group form-primary">
-                                      <input type="text" name="footer-email" class="form-control" required="">
-                                      <span class="form-bar"></span>
-                                      <label class="float-label"><i class="fa fa-search m-r-10"></i>Search Friend</label>
-                                  </div>
-                              </form>
-                          </div>
+                          </div>                         
                           <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Dados</div>
                           <ul class="pcoded-item pcoded-left-item">
                               <li class="active">
@@ -102,6 +91,7 @@
                                   </a>
                               </li>
                           </ul>
+                          <c:if test="${!admin}">
                           <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Atendimento</div>
                           <ul class="pcoded-item pcoded-left-item">
                               <li class="pcoded-hasmenu">
@@ -155,46 +145,49 @@
                                   </ul> 
                               </li>
         					</ul>
-        				
-                          <div class="pcoded-navigation-label" data-i18n="nav.category.other">Relatórios</div>
-                          <ul class="pcoded-item pcoded-left-item">
-                              <li class="pcoded-hasmenu ">
-                                  <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                      <span class="pcoded-micon"><i class="ti-direction-alt"></i><b>M</b></span>
-                                      <span class="pcoded-mtext" data-i18n="nav.menu-levels.main">Categorias</span>
-                                      <span class="pcoded-mcaret"></span>
-                                  </a>
-                                  <ul class="pcoded-submenu">
-                                      <li>
-                                          <a href="<%= request.getContextPath() %>/principal/ver-relatorios/clientes/" class="waves-effect waves-dark">
-                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                              <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-21">Clientes</span>
-                                              <span class="pcoded-mcaret"></span>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                              <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
-                                              <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.main">Chamados</span>
-                                              <span class="pcoded-mcaret"></span>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                              <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-23">Empresas</span>
-                                              <span class="pcoded-mcaret"></span>
-                                          </a>
-                                      </li>
-                                      <li class="">
-                                          <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                              <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-23">Funcionários</span>
-                                              <span class="pcoded-mcaret"></span>
-                                          </a>
-                                      </li>
-                                  </ul>
-                              </li>
-                          </ul>
+        					</c:if>
+        				  <c:if test="${perfilUser=='administrador'}">
+        				  	<div class="pcoded-navigation-label" data-i18n="nav.category.other">Relatórios</div>
+	                          <ul class="pcoded-item pcoded-left-item">
+	                              <li class="pcoded-hasmenu ">
+	                                  <a href="javascript:void(0)" class="waves-effect waves-dark">
+	                                      <span class="pcoded-micon"><i class="ti-direction-alt"></i><b>M</b></span>
+	                                      <span class="pcoded-mtext" data-i18n="nav.menu-levels.main">Categorias</span>
+	                                      <span class="pcoded-mcaret"></span>
+	                                  </a>
+	                                  <ul class="pcoded-submenu">
+	                                      <li>
+	                                          <a href="<%= request.getContextPath() %>/principal/ver-relatorios/clientes/" class="waves-effect waves-dark">
+	                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+	                                              <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-21">Clientes</span>
+	                                              <span class="pcoded-mcaret"></span>
+	                                          </a>
+	                                      </li>
+	                                      <li>
+	                                          <a href="<%= request.getContextPath() %>/principal/ver-relatorios/chamados/" class="waves-effect waves-dark">
+	                                              <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+	                                              <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.main">Chamados</span>
+	                                              <span class="pcoded-mcaret"></span>
+	                                          </a>
+	                                      </li>
+	                                      <li>
+	                                          <a href="javascript:void(0)" class="waves-effect waves-dark">
+	                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+	                                              <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-23">Empresas</span>
+	                                              <span class="pcoded-mcaret"></span>
+	                                          </a>
+	                                      </li>
+	                                      <li class="">
+	                                          <a href="javascript:void(0)" class="waves-effect waves-dark">
+	                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+	                                              <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-23">Funcionários</span>
+	                                              <span class="pcoded-mcaret"></span>
+	                                          </a>
+	                                      </li>
+	                                  </ul>
+	                              </li>
+	                          </ul>
+        				  </c:if>
+                          
                       </div>
                   </nav>

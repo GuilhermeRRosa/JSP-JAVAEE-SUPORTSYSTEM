@@ -64,11 +64,9 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="numero" class="java.lang.String">
-		<fieldDescription><![CDATA[numero]]></fieldDescription>
-	</field>
+	<field name="_THIS" class="java.lang.String"/>
 	<title>
-		<band height="87" splitType="Stretch">
+		<band height="481" splitType="Stretch">
 			<rectangle radius="10">
 				<reportElement x="0" y="0" width="555" height="80" backcolor="#E6E8E9" uuid="248df325-7aef-444a-a9d2-f113044f8142"/>
 				<graphicElement>
@@ -90,12 +88,8 @@
 				<reportElement x="80" y="30" width="464" height="30" uuid="1554fe2d-63a2-443d-b54e-6191860bf905"/>
 				<textFieldExpression><![CDATA["Usuário: "+$P{PARAM_OBJ}.getNome()]]></textFieldExpression>
 			</textField>
-		</band>
-	</title>
-	<detail>
-		<band height="624">
 			<textField>
-				<reportElement x="280" y="22" width="274" height="20" uuid="3d26f550-1e77-4c72-8f30-bddd4da9f764">
+				<reportElement x="280" y="109" width="274" height="20" uuid="bb79d28c-e2ea-4a48-99ff-d71721046fd7">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -107,7 +101,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getId()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="22" width="279" height="20" uuid="d62960e9-c6c5-4886-8296-614922ca047c">
+				<reportElement x="1" y="109" width="279" height="20" uuid="4feff4c0-dc45-48bb-8df5-e383d922597d">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -123,7 +117,7 @@
 				<text><![CDATA[ID:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="42" width="279" height="20" uuid="923d7621-777b-4be8-8a4d-6f2067073c35">
+				<reportElement x="1" y="129" width="279" height="20" uuid="dbc281c8-1aab-4d29-911b-7617ceb00d8e">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -139,7 +133,7 @@
 				<text><![CDATA[Nome:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="42" width="274" height="20" uuid="adfb2f72-bdf0-4837-a33d-2bf65ce77ce6">
+				<reportElement x="280" y="129" width="274" height="20" uuid="cebdb6b0-638b-4b43-a3ce-77e01710df77">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -151,7 +145,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getNome()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="62" width="279" height="20" uuid="b0648701-42fd-413a-8a31-87769d23012a">
+				<reportElement x="1" y="149" width="279" height="20" uuid="fc67e03f-5c16-4747-a0b4-98d64c089818">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -167,7 +161,7 @@
 				<text><![CDATA[E-mail:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="62" width="274" height="20" uuid="59129e12-4806-4d7f-8bab-0a6411a62b3c">
+				<reportElement x="280" y="149" width="274" height="20" uuid="c82cbb8c-7fa7-4064-8034-5f07c0bac215">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -179,7 +173,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getEmail()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="82" width="279" height="20" uuid="fb65708b-791e-4ed0-b624-7093edaa9eed">
+				<reportElement x="1" y="169" width="279" height="20" uuid="9479bf33-4449-434c-b1ae-c9bcdda06955">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -195,7 +189,7 @@
 				<text><![CDATA[Username:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="82" width="274" height="20" uuid="15281d94-12dc-4765-b0ea-78b6a08378c7">
+				<reportElement x="280" y="169" width="274" height="20" uuid="8c8e0eb9-f7a2-4435-84d8-82f9e4c244b2">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -207,7 +201,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getUser()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="102" width="279" height="20" uuid="0f4cd8fb-555b-401f-ab59-333471a54aab">
+				<reportElement x="1" y="189" width="279" height="20" uuid="c937ba88-3954-4067-b197-4fae4d78e965">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -223,7 +217,7 @@
 				<text><![CDATA[Gênero:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="102" width="274" height="20" uuid="5ce4aa30-d137-46cf-b872-a8a45e667bac">
+				<reportElement x="280" y="189" width="274" height="20" uuid="5c31ceba-1414-4289-9b94-c3938db2b80a">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -235,7 +229,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getGenero()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="122" width="279" height="20" uuid="e1202c93-faae-4e80-bf13-aca1043af193">
+				<reportElement x="1" y="209" width="279" height="20" uuid="b72539b1-29c9-49e5-8f15-da4faf9910dc">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -251,7 +245,7 @@
 				<text><![CDATA[E-mail:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="122" width="274" height="20" uuid="64dac7c0-f06c-416b-b3b3-36ae32ef63f4">
+				<reportElement x="280" y="209" width="274" height="20" uuid="57df7e5f-65fa-4e7f-86ff-322effcfb613">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -263,7 +257,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getEmail()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="2" width="553" height="20" backcolor="#E5E7E8" uuid="25a2d467-ab9d-42e6-bb46-401314a97eb0">
+				<reportElement mode="Opaque" x="1" y="89" width="553" height="20" backcolor="#E5E7E8" uuid="fcdd613e-0468-40e7-826f-1269b53cb9ad">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -280,7 +274,7 @@
 				<text><![CDATA[Dados pessoais:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="162" width="553" height="20" backcolor="#E5E7E8" uuid="2ec0ad2d-0f86-452a-b3f1-51b949eefe20">
+				<reportElement mode="Opaque" x="2" y="250" width="553" height="20" backcolor="#E5E7E8" uuid="aee439fb-019e-4884-900f-0337144584da">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -297,7 +291,7 @@
 				<text><![CDATA[Dados de endereço:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="182" width="279" height="20" uuid="37e21918-183e-4d4c-bbd9-97ca76e09437">
+				<reportElement x="1" y="269" width="279" height="20" uuid="6257ee46-a94d-4e1a-af8b-7eb8382b5447">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -313,7 +307,7 @@
 				<text><![CDATA[CEP:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="182" width="274" height="20" uuid="67ce6e10-e030-46d3-846e-5741339e5979">
+				<reportElement x="280" y="269" width="274" height="20" uuid="b99e21ec-6dc9-4cc7-bd9c-fa305afdd7bd">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -325,7 +319,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getCep()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="202" width="279" height="20" uuid="e28c8581-021a-4f37-b052-5a145586bcca">
+				<reportElement x="1" y="289" width="279" height="20" uuid="83024c2d-a34a-418a-8240-ebf24552fe35">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -341,7 +335,7 @@
 				<text><![CDATA[Logradouro:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="202" width="274" height="20" uuid="594f6f10-461c-4174-a5d6-71b0f25662ef">
+				<reportElement x="280" y="289" width="274" height="20" uuid="79b32ca4-bf1b-4d5c-bbd9-1779e9aa4054">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -353,7 +347,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getLogradouro()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="222" width="279" height="20" uuid="a5486554-7960-4bc2-af20-1a042475a322">
+				<reportElement x="1" y="309" width="279" height="20" uuid="ee9b0e81-7d5b-4c74-a9b2-aca72ae22974">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -369,7 +363,7 @@
 				<text><![CDATA[Cidade:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="222" width="274" height="20" uuid="6cc63f6f-a6da-43d7-a28a-62969e001a4d">
+				<reportElement x="280" y="309" width="274" height="20" uuid="d5642b6d-567e-4218-981d-cf374ae43876">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -381,7 +375,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getCidade()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="242" width="279" height="20" uuid="c59adf8e-cf35-48c2-8a97-8c23d30c0215">
+				<reportElement x="1" y="329" width="279" height="20" uuid="784d74c3-c129-49c3-84c0-687ed34c5d90">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -397,7 +391,7 @@
 				<text><![CDATA[Bairro:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="242" width="274" height="20" uuid="c095379f-c0bc-4325-8f23-7a0825b42525">
+				<reportElement x="280" y="329" width="274" height="20" uuid="79ffc742-35e6-4d52-9bab-c0ed55c16781">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -409,7 +403,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getBairro()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="262" width="279" height="20" uuid="1abad6ae-627f-42ef-a609-bb60900a3c5e">
+				<reportElement x="1" y="349" width="279" height="20" uuid="9c5abcb1-7daa-4ed4-8740-aedea7141983">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -425,7 +419,7 @@
 				<text><![CDATA[UF:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="262" width="274" height="20" uuid="e7413296-8a63-4b74-8371-9bba975548ec">
+				<reportElement x="280" y="349" width="274" height="20" uuid="d698fe23-2d2d-4827-8189-3e301809572c">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -437,7 +431,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getUf()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="301" width="554" height="20" backcolor="#E6E8E9" uuid="8be71ad6-f92a-42c0-a658-b0e8e96c2f05">
+				<reportElement mode="Opaque" x="1" y="388" width="554" height="20" backcolor="#E6E8E9" uuid="ceb44289-9872-4aff-b32e-4fa77a018685">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -454,7 +448,7 @@
 				<text><![CDATA[Dados de empresa:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="321" width="279" height="20" uuid="c6c43325-ba95-48fb-a376-a636e2e8bd5d">
+				<reportElement x="1" y="408" width="279" height="20" uuid="3ec313ea-434c-4e68-a32f-813322ff4a3c">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -470,7 +464,7 @@
 				<text><![CDATA[Empresa:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="321" width="275" height="20" uuid="ce07b8e0-bf97-4539-b4e6-051bf33bde77">
+				<reportElement x="280" y="408" width="275" height="20" uuid="b4e1380e-7844-401f-ac88-a4ee9768ee6f">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -482,7 +476,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getEmpresa().getRazaoSocial()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="280" y="341" width="275" height="20" uuid="f3637137-772d-43d0-b92c-40cc147857c4">
+				<reportElement x="280" y="428" width="275" height="20" uuid="54bc6e60-7935-44f7-9e6f-3648ede2bb66">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -494,7 +488,7 @@
 				<textFieldExpression><![CDATA[$P{PARAM_OBJ}.getPerfil()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="341" width="279" height="20" uuid="9af2ea0d-22eb-4408-ae5c-e7a02ab8d54e">
+				<reportElement x="1" y="428" width="279" height="20" uuid="167a9b4f-4c86-4b62-8ae8-347b35e24895">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -510,7 +504,7 @@
 				<text><![CDATA[Perfil:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="370" width="554" height="20" backcolor="#E6E8E9" uuid="11be02dc-edaf-49b2-b47a-10d932e40492">
+				<reportElement mode="Opaque" x="0" y="460" width="554" height="20" backcolor="#E6E8E9" uuid="8be0cc4f-5f3d-4d49-9546-48bf78c362e8">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -526,11 +520,14 @@
 				</textElement>
 				<text><![CDATA[Telefones:]]></text>
 			</staticText>
-			<subreport>
-				<reportElement x="0" y="390" width="555" height="20" uuid="acc48daf-6cbb-49f4-b24a-848fb8bc9e3e"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{PARAM_TELEFONES})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{PARAM_FILEPATH}+"sub_report_tel_usu.jasper"]]></subreportExpression>
-			</subreport>
+		</band>
+	</title>
+	<detail>
+		<band height="21">
+			<textField>
+				<reportElement x="3" y="0" width="554" height="19" uuid="723b17ba-e1d4-4a8a-9b65-a085fffffdab"/>
+				<textFieldExpression><![CDATA[$F{_THIS}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<lastPageFooter>

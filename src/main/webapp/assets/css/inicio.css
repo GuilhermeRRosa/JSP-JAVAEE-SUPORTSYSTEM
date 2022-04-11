@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+.btn-action{
+	font-size: 18px;
+	width: 100%;
+	height: 10rem;
+	display: flex;
+	align-items: center;
+	border-radius: 10px;
+	text-decoration: none;
+	justify-content: center;
+}
+
+.btn-action-success{
+	background-color: #95E12D;
+}
+
+.ultimosCh{
+    overflow-x: scroll;
+    white-space: nowrap;
+}

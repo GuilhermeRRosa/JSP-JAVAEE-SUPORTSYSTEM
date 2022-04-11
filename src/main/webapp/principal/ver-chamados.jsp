@@ -40,47 +40,121 @@
                                     <div class="page-body">
                                         <div class="row">                     
                                         	<!-- Conteúdo aqui -->
-                                        	<div class="col-md-12">
-                                        	<!-- Cards de filtros -->
-                                        	<div class="col-md-12 my-1">
-                                        		<div class="card-deck">
-														<div class="card">
-															<div class="card-body">
-																<h5 class="card-title"><i class="ti-info-alt"></i> Em aberto</h5>
-																<p class="card-text mt-2">Atendimentos que não foram atendidos.</p>
-																<a onclick='showAtendimentos("abertos")' class="btn btn-outline-primary">Ver</a>
-															</div>
-														</div>
-														<div class="card">
-															<div class="card-body">
-																<h5 class="card-title"><i class="ti-info-alt"></i> Em atendimento</h5>
-																<p class="card-text mt-2">Atendimentos que foram vizualizados pela equipe de suporte
-																e estão em estado de tratamento.</p>
-																<a onclick='showAtendimentos("emAtendimento")' class="btn btn-outline-primary">Ver</a>
-															</div>
-														</div>
-														<div class="card">
-															<div class="card-body">
-																<h5 class="card-title"><i class="ti-info-alt"></i> Em pendência</h5>
-																<p class="card-text mt-2">Atendimentos que foram colocados em estado de pendência pela equipe de
-																suporte.</p>
-																<a onclick='showAtendimentos("emPendencia")' class="btn btn-outline-primary">Ver</a>
-															</div>
-														</div>
-														<div class="card">
-															<div class="card-body">
-																<h5 class="card-title"><i class="ti-info-alt"></i> Concluídos</h5>
-																<p class="card-text mt-2">Atendimentos que foram finalizados pela equipe de suporte ou pelo usuário.</p>
-																<a href="<%= request.getContextPath() %>/principal/ver-concluidos" class="btn btn-outline-primary">Ver</a>
-															</div>
-														</div>
-											    </div>
-                                        	<div class="row justify-content-end">
-										    	<a onclick='showAtendimentos("todos")' class="btn btn-outline-secondary">Ver todos</a>
-										    </div>
-                                        	</div>
+                                       	    <div class="col-md-12">
+                                       			<div class="card bg-light">
+                                       				<div class="card-body">
+                                       					<h3 class="float-left">Chamados</h3>
+                                       					<i class="fa fa-refresh float-right f-28" aria-hidden="true" onclick='showAtendimentos("todos")'></i>
+                                       				</div>
+                                       			</div>
+                                       		</div>   
+                                        		                                    	
+                                        	<!-- INICIO CARDS -->
+                                       		<div class="col-xl-3 col-md-6">
+                                                <div class="card">
+                                                    <div class="card-block">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-8">
+                                                                <h4 class="text-c-purple"><span class="numAbertos"></span></h4>
+                                                                <h6 class="text-muted m-b-0">Em aberto</h6>
+                                                            </div>
+                                                            <div class="col-4 text-right">
+                                                                <i class="fa fa-file-text-o f-28"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer bg-c-purple">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-9" onclick='showAtendimentos("abertos")'>
+                                                                <p class="text-white m-b-0">ver</p>
+                                                            </div>
+                                                            <div class="col-3 text-right">
+                                                                <i class="ti-arrow-right text-white f-16"></i>
+                                                            </div>
+                                                        </div>
+            
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                            <div class="col-xl-3 col-md-6">
+                                                <div class="card">
+                                                    <div class="card-block">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-8">
+                                                                <h4 class="text-c-red"><span class="numPend"></span></h4>
+                                                                <h6 class="text-muted m-b-0">Em pendência</h6>
+                                                            </div>
+                                                            <div class="col-4 text-right">
+                                                                <i class="fa fa-exclamation f-28"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer bg-c-red">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-9" onclick='showAtendimentos("emPendencia")'>
+                                                                <p class="text-white m-b-0">ver</p>
+                                                            </div>
+                                                            <div class="col-3 text-right">
+                                                                <i class="ti-arrow-right text-white f-16"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6">
+                                                <div class="card">
+                                                    <div class="card-block">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-8">
+                                                                <h4 class="text-c-black"><span class="numEmAt"></span></h4>
+                                                                <h6 class="text-muted m-b-0">Em atendimento</h6>
+                                                            </div>
+                                                            <div class="col-4 text-right">
+                                                                <i class="fa fa-hand-o-down f-28"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer bg-c-yellow">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-9" onclick='showAtendimentos("emAtendimento")'>
+                                                                <p class="text-dark m-b-0">ver</p>
+                                                            </div>
+                                                            <div class="col-3 text-right">
+                                                                <i class="ti-arrow-right text-dark f-16"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6">
+                                                <div class="card">
+                                                    <div class="card-block">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-8">
+                                                                <h4 class="text-muted">...</h4>
+                                                                <h6 class="text-muted m-b-0">Concluídos</h6>
+                                                            </div>
+                                                            <div class="col-4 text-right">
+                                                                <i class="fa fa-calendar-check-o f-28"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer bg-c-green">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-9" onclick="verConcluidos();return false;">
+                                                                <p class="text-white m-b-0">ver</p>
+                                                            </div>
+                                                            <div class="col-3 text-right">
+                                                                <i class="ti-arrow-right text-white f-16"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        	
                                         	<!-- Cards de atendimentos -->
-                                        	<div class="card table-card" id="abertos">
+                                        	<div class="col-md-12">
+                                        		<div class="card table-card" id="abertos">
                                                     <div class="card-header bg-dark">
                                                         <h5 class="text-light">Chamados Abertos</h5>
                                                         <div class="card-header-right">
@@ -104,7 +178,7 @@
                                                                     <th class="text-right">Ações</th>
                                                                 </tr>
                                                                 </thead>
-                                                                <tbody class="chamados">
+                                                                <tbody class="chamados chAbertos">
                                                                 <c:forEach var="chamado" items="${chamadosAbertos}">
                                                                 <tr>
                                                                     <td><h6>${chamado.titulo}</h6></td>
@@ -132,7 +206,7 @@
                                                       </c:if>
                                                     </div>
                                                 </div>
-                                        	</div>
+                                        	</div>                                        		
                                         	
                                         	<!-- Chamados em Atendimento -->
                                         	<div class="col-md-12" id="emAtendimento">
@@ -161,7 +235,7 @@
                                                                     <th class="text-right">Ações</th>
                                                                 </tr>
                                                                 </thead>
-                                                                <tbody class="chamados">
+                                                                <tbody class="chamados chEmAt">
                                                                 <c:forEach var="chamado" items="${chamadosEmAtendimento}">
                                                                 <tr>
                                                                     <td><h6>${chamado.titulo}</h6></td>
@@ -170,9 +244,11 @@
                                                                     <td><span class="criadoEm">${chamado.criadoEm}</span></td>
                                                                     <td class="text-right"><label class="label label-warning">${chamado.status}</label></td>
                                                                     <td class="text-right">
+                                                                    <c:if test="${perfilUser=='administrador' || perfilUser=='colaborador'}">
                                                                     	<a onclick="confirmaExclusao(${chamado.id})" data-toggle="tooltip" data-placement="left" data-trigger="hover" title="Deletar chamado">
                                                                     		<i class="ti-trash mr-2"></i>
-                                                                    	</a> 	
+                                                                    	</a> 
+                                                                    </c:if>	
                                                                     	<a href="<%= request.getContextPath() %>/ServletChamadoController?acao=verChamado&id=${chamado.id}" class="btn btn-info text-light">ver</a>
                                                                     </td>
                                                                 </tr>
@@ -219,7 +295,7 @@
                                                                     <th class="text-right">Ações</th>
                                                                 </tr>
                                                                 </thead>
-                                                                <tbody class="chamados">
+                                                                <tbody class="chamados chPend">
                                                                 <c:forEach var="chamado" items="${chamadosEmPendencia}">
                                                                 <tr>
                                                                     <td><h6>${chamado.titulo}</h6></td>
@@ -228,9 +304,11 @@
                                                                     <td><span class="criadoEm">${chamado.criadoEm}</span></td>
                                                                     <td class="text-right"><label class="label label-danger">${chamado.status}</label></td>
                                                                     <td class="text-right">
+                                                                    <c:if test="${perfilUser=='administrador' || perfilUser=='colaborador'}">
                                                                     	<a onclick="confirmaExclusao(${chamado.id})" data-toggle="tooltip" data-placement="left" data-trigger="hover" title="Deletar chamado">
                                                                     		<i class="ti-trash mr-2"></i>
-                                                                    	</a> 	
+                                                                    	</a>
+                                                                    </c:if>
                                                                     	<a href="<%= request.getContextPath() %>/ServletChamadoController?acao=verChamado&id=${chamado.id}" class="btn btn-info text-light">ver</a>
                                                                     </td>
                                                                 </tr>
@@ -278,6 +356,27 @@
     			});
     		});
     		
+    		var counterA = 0, counterE = 0, counterP = 0;    
+    		
+    		$(".numAbertos").text(counterA);
+    		$(".numEmAt").text(counterE);
+    		$(".numPend").text(counterP);
+    		
+    		$(".chAbertos tr").each(function(){
+    			counterA++;
+    			$(".numAbertos").text(counterA);
+    		});
+    		
+    		$(".chEmAt tr").each(function(){
+    			counterE++;	
+    			$(".numEmAt").text(counterE);
+    		});
+    		
+    		$(".chPend tr").each(function(){
+    			counterP++;
+    			$(".numPend").text(counterP);
+    		});
+    		
     	});
     	
     	function showAtendimentos(atendimento){
@@ -298,9 +397,7 @@
 					$("#emPendencia").show();
 				break;
     			case 'todos':
-    				$("#abertos").show();
-					$("#emAtendimento").show();
-					$("#emPendencia").show();
+    				location.reload();
 				break;
     		}
     	}
@@ -330,6 +427,10 @@
     		        },   
     		    }
     		});	
+    	}
+    	
+    	function verConcluidos(){
+    		window.location.replace("<%= request.getContextPath() %>/principal/ver-concluidos");
     	}
     </script>
 </body>

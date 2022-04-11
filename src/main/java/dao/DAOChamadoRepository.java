@@ -2,14 +2,17 @@ package dao;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.jni.Time;
+
 import connection.SingleConnection;
+import dto.ChamadoRelatorioDTO;
 import models.ModelChamado;
 
 public class DAOChamadoRepository implements Serializable{
@@ -33,7 +36,7 @@ public class DAOChamadoRepository implements Serializable{
 			statement.setLong(1, chamado.getCliente().getId());
 			statement.setLong(2, chamado.getEmpresaCliente().getId());
 			statement.setLong(3, chamado.getEmpresaResp().getId());
-			statement.setTimestamp(4, Timestamp.valueOf(chamado.getCriadoEm()));
+			statement.setTimestamp(4, chamado.getCriadoEm());
 			statement.setString(5, chamado.getTitulo());
 			statement.setString(6, chamado.getDescricao());
 			statement.setString(7, chamado.getStatus());
@@ -49,6 +52,45 @@ public class DAOChamadoRepository implements Serializable{
 			}
 			e.printStackTrace();
 		}
+	}
+	
+public List<ModelChamado> findAllByCliente(Long userId) {
+		
+		List<ModelChamado> chamados = new ArrayList<ModelChamado>();
+		DAOLoginRepository userRepo = new DAOLoginRepository();
+		DAOEmpresaRepository empresaRepo = new DAOEmpresaRepository();
+		
+		try {
+			
+			String sql = "SELECT id, cliente, empresa_cliente, empresa_resp, criado_em, titulo, status, atendido_por, fechado_por, finalizado_em "
+					+ "	FROM public.model_chamado WHERE cliente = ?;";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setLong(1, userId);
+			ResultSet rs = statement.executeQuery();
+			
+			while(rs.next()) {
+				ModelChamado chamado = new ModelChamado();
+				chamado.setId(rs.getLong("id"));
+				chamado.setCliente(userRepo.searchById(rs.getLong("cliente")));
+				chamado.setEmpresaCliente(empresaRepo.findById(rs.getLong("empresa_cliente")));
+				chamado.setEmpresaResp(empresaRepo.findById(rs.getLong("empresa_resp")));
+				chamado.setCriadoEm(rs.getTimestamp("criado_em"));
+				chamado.setTitulo(rs.getString("titulo"));
+				chamado.setStatus(rs.getString("status"));
+				chamado.setAtentidoPor(userRepo.searchById(rs.getLong("atendido_por")));
+				chamado.setFinalizadoPor(userRepo.searchById(rs.getLong("fechado_por")));
+				chamado.setFinalizadoEm(rs.getTimestamp("finalizado_em"));
+				chamados.add(chamado);
+			}
+			
+			return chamados;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 
 	public List<ModelChamado> findAllByCliente(Long userId, String status) {
@@ -73,14 +115,12 @@ public class DAOChamadoRepository implements Serializable{
 				chamado.setCliente(userRepo.searchById(rs.getLong("cliente")));
 				chamado.setEmpresaCliente(empresaRepo.findById(rs.getLong("empresa_cliente")));
 				chamado.setEmpresaResp(empresaRepo.findById(rs.getLong("empresa_resp")));
-				Timestamp c = rs.getTimestamp("criado_em");
-				chamado.setCriadoEm(c !=null ? c.toLocalDateTime() : null);
+				chamado.setCriadoEm(rs.getTimestamp("criado_em"));
 				chamado.setTitulo(rs.getString("titulo"));
 				chamado.setStatus(rs.getString("status"));
 				chamado.setAtentidoPor(userRepo.searchById(rs.getLong("atendido_por")));
 				chamado.setFinalizadoPor(userRepo.searchById(rs.getLong("fechado_por")));
-				Timestamp f = rs.getTimestamp("finalizado_em");
-				chamado.setFinalizadoEm(f !=null ? f.toLocalDateTime() : null);
+				chamado.setFinalizadoEm(rs.getTimestamp("finalizado_em"));
 				chamados.add(chamado);
 			}
 			
@@ -134,15 +174,13 @@ public class DAOChamadoRepository implements Serializable{
 				chamado.setCliente(userRepo.searchById(rs.getLong("cliente")));
 				chamado.setEmpresaCliente(empresaRepo.findById(rs.getLong("empresa_cliente")));
 				chamado.setEmpresaResp(empresaRepo.findById(rs.getLong("empresa_resp")));
-				Timestamp c = rs.getTimestamp("criado_em");
-				chamado.setCriadoEm(c !=null ? c.toLocalDateTime() : null);
+				chamado.setCriadoEm(rs.getTimestamp("criado_em"));
 				chamado.setTitulo(rs.getString("titulo"));
 				chamado.setDescricao(rs.getString("descricao"));
 				chamado.setStatus(rs.getString("status"));
 				chamado.setAtentidoPor(userRepo.searchById(rs.getLong("atendido_por")));
 				chamado.setFinalizadoPor(userRepo.searchById(rs.getLong("fechado_por")));
-				Timestamp f = rs.getTimestamp("finalizado_em");
-				chamado.setFinalizadoEm(f !=null ? f.toLocalDateTime() : null);
+				chamado.setFinalizadoEm(rs.getTimestamp("finalizado_em"));
 				chamado.setResposta(rs.getString("resposta"));
 			}
 			
@@ -177,14 +215,12 @@ public class DAOChamadoRepository implements Serializable{
 				chamado.setCliente(userRepo.searchById(rs.getLong("cliente")));
 				chamado.setEmpresaCliente(empresaRepo.findById(rs.getLong("empresa_cliente")));
 				chamado.setEmpresaResp(empresaRepo.findById(rs.getLong("empresa_resp")));
-				Timestamp c = rs.getTimestamp("criado_em");
-				chamado.setCriadoEm(c !=null ? c.toLocalDateTime() : null);
+				chamado.setCriadoEm(rs.getTimestamp("criado_em"));
 				chamado.setTitulo(rs.getString("titulo"));
 				chamado.setStatus(rs.getString("status"));
 				chamado.setAtentidoPor(userRepo.searchById(rs.getLong("atendido_por")));
 				chamado.setFinalizadoPor(userRepo.searchById(rs.getLong("fechado_por")));
-				Timestamp f = rs.getTimestamp("finalizado_em");
-				chamado.setFinalizadoEm(f !=null ? f.toLocalDateTime() : null);
+				chamado.setFinalizadoEm(rs.getTimestamp("finalizado_em"));
 				chamados.add(chamado);
 			}
 			
@@ -194,6 +230,116 @@ public class DAOChamadoRepository implements Serializable{
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public List<ModelChamado> findAllByEmpresaResp(Long empresaId) {
+		
+		List<ModelChamado> chamados = new ArrayList<ModelChamado>();
+		DAOLoginRepository userRepo = new DAOLoginRepository();
+		DAOEmpresaRepository empresaRepo = new DAOEmpresaRepository();
+		
+		try {
+			
+			String sql = "SELECT id, cliente, empresa_cliente, empresa_resp, criado_em, titulo, status, atendido_por, fechado_por, finalizado_em "
+					+ "	FROM public.model_chamado WHERE empresa_resp = ?;";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setLong(1, empresaId);
+			ResultSet rs = statement.executeQuery();
+			
+			while(rs.next()) {
+				ModelChamado chamado = new ModelChamado();
+				chamado.setId(rs.getLong("id"));
+				chamado.setCliente(userRepo.searchById(rs.getLong("cliente")));
+				chamado.setEmpresaCliente(empresaRepo.findById(rs.getLong("empresa_cliente")));
+				chamado.setEmpresaResp(empresaRepo.findById(rs.getLong("empresa_resp")));
+				chamado.setCriadoEm(rs.getTimestamp("criado_em"));
+				chamado.setTitulo(rs.getString("titulo"));
+				chamado.setStatus(rs.getString("status"));
+				chamado.setAtentidoPor(userRepo.searchById(rs.getLong("atendido_por")));
+				chamado.setFinalizadoPor(userRepo.searchById(rs.getLong("fechado_por")));
+				chamado.setFinalizadoEm(rs.getTimestamp("finalizado_em"));
+				chamados.add(chamado);
+			}
+			
+			return chamados;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+public List<ModelChamado> findAllByEmpresaResp(Long empresaId, Timestamp criadoEm, Timestamp finalizadoEm) {
+		
+		List<ModelChamado> chamados = new ArrayList<ModelChamado>();
+		DAOLoginRepository userRepo = new DAOLoginRepository();
+		DAOEmpresaRepository empresaRepo = new DAOEmpresaRepository();
+		
+		try {
+			
+			String sql = "SELECT id, cliente, empresa_cliente, empresa_resp, criado_em, titulo, status, atendido_por, fechado_por, finalizado_em "
+					+ "	FROM public.model_chamado WHERE empresa_resp = ? AND criado_em BETWEEN ? AND ?;";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setLong(1, empresaId);
+			statement.setTimestamp(2, criadoEm);
+			statement.setTimestamp(3, finalizadoEm);
+			ResultSet rs = statement.executeQuery();
+			
+			while(rs.next()) {
+				ModelChamado chamado = new ModelChamado();
+				chamado.setId(rs.getLong("id"));
+				chamado.setCliente(userRepo.searchById(rs.getLong("cliente")));
+				chamado.setEmpresaCliente(empresaRepo.findById(rs.getLong("empresa_cliente")));
+				chamado.setEmpresaResp(empresaRepo.findById(rs.getLong("empresa_resp")));
+				chamado.setCriadoEm(rs.getTimestamp("criado_em"));
+				chamado.setTitulo(rs.getString("titulo"));
+				chamado.setStatus(rs.getString("status"));
+				chamado.setAtentidoPor(userRepo.searchById(rs.getLong("atendido_por")));
+				chamado.setFinalizadoPor(userRepo.searchById(rs.getLong("fechado_por")));
+				chamado.setFinalizadoEm(rs.getTimestamp("finalizado_em"));
+				chamados.add(chamado);
+			}
+			
+			return chamados;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ChamadoRelatorioDTO dadosRelatorioBarras(Long empresaId, Timestamp criadoEm, Timestamp finalizadoEm) {
+		ChamadoRelatorioDTO rel = new ChamadoRelatorioDTO();
+		
+		List<ModelChamado> chamados = findAllByEmpresaResp(empresaId, criadoEm, finalizadoEm);	
+		
+		rel.setChamados(chamados.size());
+		
+		for(int i = 0; i < chamados.size(); i++) {
+			switch (chamados.get(i).getStatus()) {
+				case "aberto":{
+						rel.somaAberto();
+					break;
+				}
+				case "concluido":{
+						rel.somaConcluido();
+					break;
+				}
+				case "Em atendimento":{
+						rel.somaEmAtendimento();
+					break;
+				}
+				case "pendencia":{
+						rel.somaPendencia();
+					break;
+				}			
+			}
+		}
+		
+		return rel;
+		
 	}
 
 	public void alteraStatus(Long id, String status, Long userId) {
@@ -220,9 +366,7 @@ public class DAOChamadoRepository implements Serializable{
 				statement.setLong(2, id);
 				statement.executeUpdate();
 				connection.commit();
-			}
-
-			
+			}			
 			
 		} catch (Exception e) {
 			try {
@@ -244,7 +388,7 @@ public class DAOChamadoRepository implements Serializable{
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, resposta);
 			statement.setLong(2, fechadoPor);
-			statement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+			statement.setTimestamp(3, new Timestamp(new java.util.Date().getTime()));
 			statement.setLong(4, chamadoId);
 			statement.executeUpdate();
 			connection.commit();

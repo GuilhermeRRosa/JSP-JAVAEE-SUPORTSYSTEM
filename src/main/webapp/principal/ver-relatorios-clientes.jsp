@@ -49,11 +49,9 @@
 												<div class="card-body">
 													<p>Selecione o filtro para aplicação</p>
 														<form action="<%= request.getContextPath() %>/principal/ver-relatorios/clientes/" method="get">
- 															<div class="row row-filtros">
-																<div class="col-md-6">
-																	<label class="form-label">
-																		Filtro
-																	</label>
+ 															<div class="row align-items-center row-filtros">
+																<div class="col">
+																	<label class="form-label"> Filtros </label>
 																	<select id="select-filtros" name="filtro" class="form-control">
 																		<option id="opt-todos" value="todos">Todos</option>
 																		<option id="opt-esp" value="esp">Dados de cliente específico</option>
@@ -61,28 +59,29 @@
 																</div>
 																
 																<!-- FILTRO TODOS -->
-																<div class="col-md-2 filtro-todos">
+																<div class="col filtro-todos">
 																	<label class="form-label"> Data Inicial </label> <input
 																		type="date" id="datepicker" name="dataNascInicial"
 																		placeholder="Data nasc. inicial" class="form-control" />
 																</div>
-																<div class="col-md-2 filtro-todos">
+																<div class="col filtro-todos">
 																	<label class="form-label"> Data Final </label> <input
 																		type="date" id="datepicker2" name="dataNascFinal"
 																		placeholder="Data nasc. final" class="form-control" />
 																</div>
 																
 																<!-- FILTRO ESP -->
-																<div class='col-md-3 filtro-esp'>
-																	<label class='form-label'>Nome:</label>
-																	<input type='hidden' name='username-esp' id='username-esp'>
-																	<input type='text' name='nome-usuario' id='nome' placeholder='Selecione o usuário' class='form-control'
-																		readonly='true'>
+																<div class="col filtro-esp">
+																	<label class="form-label"> Usuário </label>
+																	<div class="input-group">
+																		<input type='hidden' name='username-esp' id='username-esp'>
+																		<input type='text' name='nome-usuario' id='nome' placeholder='Selecione o usuário' class='form-control' readonly='true'>
+																		<div class='input-group-append filtro-esp'>
+																			<button type='button' class='btn btn-secondary' data-toggle='modal' data-target='#pesquisarUserModal'>Selecionar</button>
+																		</div>
+																	</div>
 																</div>
-																<div class='col-md-1 filtro-esp'>
-																	<button type='button' class='btn btn-secondary' data-toggle='modal' data-target='#pesquisarUserModal'>Selecionar</button>
-																</div>
-																<div class="col-md-2">
+																<div class="col">
 																	<div class="form-check mt-2">
 																		<input class="form-check-input m-0 mt-1"
 																			type="checkbox" name="gerarPDF" value="gerar"

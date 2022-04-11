@@ -17,7 +17,7 @@
 			<textField>
 				<reportElement x="0" y="0" width="544" height="24" uuid="76f496c8-280b-4765-9d80-a10714bf1b04"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{_THIS}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

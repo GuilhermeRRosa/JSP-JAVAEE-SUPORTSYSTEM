@@ -1,6 +1,8 @@
 package models;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -11,8 +13,8 @@ public class ModelChamado implements Serializable {
 	private ModelLogin cliente;
 	private ModelEmpresa empresaCliente;
 	private ModelEmpresa empresaResp;
-	private LocalDateTime criadoEm;
-	private LocalDateTime finalizadoEm;
+	private Timestamp criadoEm;
+	private Timestamp finalizadoEm;
 	private String titulo;
 	private String descricao;
 	private String resposta;
@@ -64,19 +66,19 @@ public class ModelChamado implements Serializable {
 		this.empresaResp = empresaResp;
 	}
 
-	public LocalDateTime getCriadoEm() {
+	public Timestamp getCriadoEm() {
 		return criadoEm;
 	}
 
-	public void setCriadoEm(LocalDateTime criadoEm) {
+	public void setCriadoEm(Timestamp criadoEm) {
 		this.criadoEm = criadoEm;
 	}
 
-	public LocalDateTime getFinalizadoEm() {
+	public Timestamp getFinalizadoEm() {
 		return finalizadoEm;
 	}
 
-	public void setFinalizadoEm(LocalDateTime finalizadoEm) {
+	public void setFinalizadoEm(Timestamp finalizadoEm) {
 		this.finalizadoEm = finalizadoEm;
 	}
 
