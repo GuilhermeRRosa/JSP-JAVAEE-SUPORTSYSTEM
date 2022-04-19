@@ -1,9 +1,7 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +29,6 @@ public class ServletChamadoController extends HttpServlet {
 	
     public ServletChamadoController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

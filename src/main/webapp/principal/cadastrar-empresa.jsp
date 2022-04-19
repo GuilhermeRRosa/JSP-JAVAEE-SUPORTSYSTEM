@@ -143,8 +143,8 @@
                                         					</div>
                                         					<div class="form-group form-default form-static-label row">
 	                                        					<div class="col-sm-4">
-	                                        						<input type="text" id="nomeRepresentante" class="form-control" value="${representante}" readonly="readonly">
-	                                        						<input type="hidden" name="representante" id="representante" class="form-control" value="${empresa.representante.id}">
+	                                        						<input type="text" id="nomeRepresentante" class="form-control" value="${representante}" readonly="readonly" required/>
+	                                        						<input type="hidden" name="representante" id="representante" class="form-control" value="${empresa.representante.id}" required/>
 	                                        						<span class="form-bar"></span>
 	                                        						<label class="float-label">Representante</label>
 	                                        					</div>
@@ -273,6 +273,28 @@
     		document.getElementById("acao").value = 'excluirUser';
     		document.getElementById("form-empresa").submit;
     	} */
+    	
+    	$(document).ready(function(){
+    		
+    		$("#form-empresa").submit(function(event){
+    			
+    			var $val = 0;    			
+    			$("#nomeRepresentante").each(function(){
+    				if(($(this).val())==""){
+    					$(this).addClass("border border-danger");
+    					$val = 1;
+    				}
+    			});
+    			
+    			if($val > 0) {
+    				$.alert("Selecione o representante da empresa");
+    				event.preventDefault();
+    				return false;
+    			}
+    			
+    		});
+    		
+    	})
     	
     	$(".alert-info").hide();
     	

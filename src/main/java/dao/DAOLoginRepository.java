@@ -9,7 +9,6 @@ import java.util.List;
 
 import connection.SingleConnection;
 import dto.ModelLoginDTO;
-import models.ModelEmpresa;
 import models.ModelLogin;
 
 public class DAOLoginRepository {

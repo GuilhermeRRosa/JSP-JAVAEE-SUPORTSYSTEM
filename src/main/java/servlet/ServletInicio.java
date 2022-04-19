@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.DAOChamadoRepository;
 import dao.DAOEmpresaRepository;
 import dao.DAOLoginRepository;
 import dto.ModelLoginDTO;
@@ -14,7 +13,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import models.ModelChamado;
 import models.ModelEmpresa;
 
 @WebServlet(urlPatterns = {"/ServletInicio", "/principal/inicio"})

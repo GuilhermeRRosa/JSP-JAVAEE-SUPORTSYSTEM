@@ -1,9 +1,6 @@
 package dto;
 
 import java.io.Serializable;
-import java.util.List;
-
-import models.ModelChamado;
 
 public class ChamadoRelatorioDTO implements Serializable{
 
