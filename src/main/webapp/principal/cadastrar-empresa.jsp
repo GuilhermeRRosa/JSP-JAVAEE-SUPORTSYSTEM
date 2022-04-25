@@ -276,7 +276,7 @@
     	
     	$(document).ready(function(){
     		
-    		$("#form-empresa").submit(function(event){
+    		/* $("#form-empresa").submit(function(event){
     			
     			var $val = 0;    			
     			$("#nomeRepresentante").each(function(){
@@ -292,7 +292,7 @@
     				return false;
     			}
     			
-    		});
+    		}); */
     		
     	})
     	
