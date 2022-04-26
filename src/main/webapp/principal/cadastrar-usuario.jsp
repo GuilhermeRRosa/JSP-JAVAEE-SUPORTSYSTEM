@@ -300,6 +300,11 @@
             		$("#div-select-empresa").removeClass("d-none");
             	}
     		}	
+    		
+    		if($("#id").val() >= 0){
+    			$("#password").removeAttr("required");
+    		}
+    		
     	})
     	
     	$(".alert-info").hide();

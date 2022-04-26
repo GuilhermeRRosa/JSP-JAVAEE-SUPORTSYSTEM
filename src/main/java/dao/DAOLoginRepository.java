@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import connection.SingleConnection;
 import dto.ModelLoginDTO;
 import models.ModelLogin;
+import security.HashCodeGenerator;
 
 public class DAOLoginRepository {
 
@@ -24,10 +26,13 @@ public class DAOLoginRepository {
 	public boolean authLogin(ModelLogin modelLogin) {
 
 		try {
+			
+			String senha = HashCodeGenerator.generate(modelLogin.getPassword());
+			
 			String sql = "SELECT * FROM model_login AS ml WHERE ml.username = ? AND ml.password = ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, modelLogin.getUser());
-			statement.setString(2, modelLogin.getPassword());
+			statement.setString(2, senha);
 
 			ResultSet set = statement.executeQuery();
 
@@ -47,31 +52,54 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "INSERT INTO model_login (nome, email, username, password, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa, isadmin, dataNasc) " + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO model_login (nome, email, username, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa, isadmin, dataNasc) " + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model.getNome());
 			statement.setString(2, model.getEmail());
 			statement.setString(3, model.getUser());
-			statement.setString(4, model.getPassword());
-			statement.setString(5, model.getPerfil());
-			statement.setString(6, model.getGenero());
-			statement.setString(7, model.getUserImage());
-			statement.setString(8, model.getCep());
-			statement.setString(9, model.getLogradouro());
-			statement.setString(10, model.getBairro());
-			statement.setString(11, model.getCidade());
-			statement.setString(12, model.getUf());
-			statement.setLong(13, model.getEmpresa().getId());
-			statement.setBoolean(14, false);
-			statement.setDate(15, model.getDataNasc());
+			statement.setString(4, model.getPerfil());
+			statement.setString(5, model.getGenero());
+			statement.setString(6, model.getUserImage());
+			statement.setString(7, model.getCep());
+			statement.setString(8, model.getLogradouro());
+			statement.setString(9, model.getBairro());
+			statement.setString(10, model.getCidade());
+			statement.setString(11, model.getUf());
+			statement.setLong(12, model.getEmpresa().getId());
+			statement.setBoolean(13, false);
+			statement.setDate(14, model.getDataNasc());
 			statement.execute();
 			connection.commit();
+			
+			if(model.getPassword() != null && !model.getPassword().isEmpty()) {
+				this.savePassword(model.getPassword(), model.getUser());
+			}
 
 			return this.searchByUser(model.getUser());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public void savePassword(String senha, String username) {
+		try {
+			
+			String sql = "UPDATE model_login set password = ? WHERE username = ?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, HashCodeGenerator.generate(senha));
+			statement.setString(2, username);
+			statement.execute();
+			connection.commit();
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 
@@ -193,25 +221,28 @@ public class DAOLoginRepository {
 	public ModelLogin update(ModelLogin model) {
 		try {
 
-			String sql = "UPDATE model_login SET username=?, password=?, nome=?, email=?, perfil=?, genero=?, user_image=?, cep=?, logradouro=?, bairro=?, cidade=?, uf=?, empresa=?, dataNasc=? WHERE id = ? AND isadmin = false;";
+			String sql = "UPDATE model_login SET username=?, nome=?, email=?, perfil=?, genero=?, user_image=?, cep=?, logradouro=?, bairro=?, cidade=?, uf=?, empresa=?, dataNasc=? WHERE id = ? AND isadmin = false;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model.getUser());
-			statement.setString(2, model.getPassword());
-			statement.setString(3, model.getNome());
-			statement.setString(4, model.getEmail());
-			statement.setString(5, model.getPerfil());
-			statement.setString(6, model.getGenero());
-			statement.setString(7, model.getUserImage());
-			statement.setString(8, model.getCep());
-			statement.setString(9, model.getLogradouro());
-			statement.setString(10, model.getBairro());
-			statement.setString(11, model.getCidade());
-			statement.setString(12, model.getUf());
-			statement.setLong(13, model.getEmpresa().getId());			
-			statement.setDate(14, model.getDataNasc());
-			statement.setLong(15, model.getId());
+			statement.setString(2, model.getNome());
+			statement.setString(3, model.getEmail());
+			statement.setString(4, model.getPerfil());
+			statement.setString(5, model.getGenero());
+			statement.setString(6, model.getUserImage());
+			statement.setString(7, model.getCep());
+			statement.setString(8, model.getLogradouro());
+			statement.setString(9, model.getBairro());
+			statement.setString(10, model.getCidade());
+			statement.setString(11, model.getUf());
+			statement.setLong(12, model.getEmpresa().getId());			
+			statement.setDate(13, model.getDataNasc());
+			statement.setLong(14, model.getId());
 			statement.executeUpdate();
 			connection.commit();
+			
+			if(model.getPassword() != null && !model.getPassword().isEmpty()) {
+				this.savePassword(model.getPassword(), model.getUser());
+			}
 
 			return this.searchByUser(model.getUser());
 
@@ -304,7 +335,7 @@ public class DAOLoginRepository {
 
 		try {
 
-			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa, dataNasc FROM model_login WHERE isadmin = false";
+			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa, dataNasc FROM model_login WHERE isadmin = false AND id != 3";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet set = statement.executeQuery();
 
@@ -348,7 +379,7 @@ public class DAOLoginRepository {
 			
 		try {
 			
-			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa, dataNasc FROM model_login WHERE isadmin = false ORDER BY nome ASC offset "+(offset*pagina)+" limit 10";
+			String sql = "SELECT username, id, nome, email, perfil, genero, user_image, cep, logradouro, bairro, cidade, uf, empresa, dataNasc FROM model_login WHERE isadmin = false AND id != 3 ORDER BY nome ASC offset "+(offset*pagina)+" limit 10";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet set = statement.executeQuery();
 			
@@ -466,10 +497,10 @@ public class DAOLoginRepository {
 		try {
 			
 			String sql = " SELECT ml.username, ml.id, ml.nome, ml.email, ml.perfil, ml.genero, ml.user_image, ml.cep, ml.logradouro, ml.bairro, ml.cidade, ml.uf, ml.empresa, ml.dataNasc "
-						+" FROM model_login ml, model_empresa me WHERE isadmin = false AND me.empresa_resp = ? AND ml.empresa = me.id "
+						+" FROM model_login ml, model_empresa me WHERE isadmin = false AND ml.id != 3 AND me.empresa_resp = ? AND ml.empresa = me.id "
 						+" UNION "
 						+" SELECT ml.username, ml.id, ml.nome, ml.email, ml.perfil, ml.genero, ml.user_image, ml.cep, ml.logradouro, ml.bairro, ml.cidade, ml.uf, ml.empresa, ml.dataNasc "
-						+" FROM model_login ml, model_empresa me WHERE isadmin = false AND ml.empresa = ? ORDER BY nome ASC offset "+(offset*pagina)+" limit 10";
+						+" FROM model_login ml, model_empresa me WHERE isadmin = false AND ml.id != 3 AND ml.empresa = ? ORDER BY nome ASC offset "+(offset*pagina)+" limit 10";
 			
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setLong(1, empresaResp);
@@ -515,10 +546,10 @@ public class DAOLoginRepository {
 		try {
 			
 			String sql = " SELECT ml.username, ml.id, ml.nome, ml.email, ml.perfil, ml.genero, ml.user_image, ml.cep, ml.logradouro, ml.bairro, ml.cidade, ml.uf, ml.empresa, ml.dataNasc "
-						+" FROM model_login ml, model_empresa me WHERE isadmin = false AND me.empresa_resp = ? AND ml.empresa = me.id AND dataNasc >= ? AND dataNasc <= ? "
+						+" FROM model_login ml, model_empresa me WHERE isadmin = false AND ml.id != 3 AND me.empresa_resp = ? AND ml.empresa = me.id AND dataNasc >= ? AND dataNasc <= ? "
 						+" UNION "
 						+" SELECT ml.username, ml.id, ml.nome, ml.email, ml.perfil, ml.genero, ml.user_image, ml.cep, ml.logradouro, ml.bairro, ml.cidade, ml.uf, ml.empresa, ml.dataNasc "
-						+" FROM model_login ml, model_empresa me WHERE isadmin = false AND ml.empresa = ? AND dataNasc >= ? AND dataNasc <= ? ORDER BY nome ASC offset "+(offset*pagina)+" limit 10";
+						+" FROM model_login ml, model_empresa me WHERE isadmin = false AND ml.id != 3 AND ml.empresa = ? AND dataNasc >= ? AND dataNasc <= ? ORDER BY nome ASC offset "+(offset*pagina)+" limit 10";
 			
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setLong(1, empresaResp);
