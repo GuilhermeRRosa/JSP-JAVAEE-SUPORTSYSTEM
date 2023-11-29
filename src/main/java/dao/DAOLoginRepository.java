@@ -28,14 +28,14 @@ public class DAOLoginRepository {
 		try {
 			
 			String senha = HashCodeGenerator.generate(modelLogin.getPassword());
-			
+						
 			String sql = "SELECT * FROM model_login AS ml WHERE ml.username = ? AND ml.password = ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, modelLogin.getUser());
 			statement.setString(2, senha);
 
 			ResultSet set = statement.executeQuery();
-
+			
 			if (set.next()) {
 				return true;
 			}
